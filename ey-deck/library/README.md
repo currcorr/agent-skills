@@ -38,16 +38,17 @@ like this layout", "keep this one for next time".
    python ../scripts/slide_anatomy.py decks/<deck>.pptx <slide#> anatomy/<entry-name>.md
    ```
 
-   The script inventories every element (type, position, size, fill, line
-   style, table structure, text, grouping, z-order) and scaffolds two
-   sections to **fill in by looking at the thumbnail and the table
-   together**:
-   - **Token map** — every literal color → the kit role it plays (accent,
-     muted, border…), so the slide survives restyling through any kit.
-   - **Construction notes** — alignment grid, spacing rhythm, visual zones,
-     hierarchy, **what to preserve vs. what can flex** when reusing, and
-     why it works. The preserve/flex split is what lets a rebuild adapt
-     (more bars, different column count) without losing the craft.
+   The script writes a markdown spec (human view) **and a .json fixture**
+   (machine view, used by `spec_diff.py` to verify rebuilds). Three things
+   to **fill in by looking at the thumbnail and the table together**:
+   - **Per-element `mode` in the .json** — `preserve` (geometry verified
+     strictly on rebuild) or `flex` (may adapt; verified by invariants).
+     This is per element, not a general note — the verifier depends on it.
+   - **Token map** (in the .json) — every literal color → the kit role it
+     plays (accent, muted, border…), so the slide survives restyling
+     through any kit and the verifier can check roles, not hex.
+   - **Construction notes** (in the .md) — alignment grid, spacing rhythm,
+     visual zones, hierarchy, what to preserve vs. flex and why it works.
 
    The table is facts; the notes are the craft — both are needed for an
    agent to rebuild it well. Note the routing rule: specs drive

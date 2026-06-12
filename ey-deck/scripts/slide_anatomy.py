@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
 """Extract a slide's construction spec: every shape, its geometry, position,
-fill, and text — documenting HOW a slide is built from shapes so an agent
-can study or reproduce the construction. Stdlib only.
+fill, line, and text — documenting HOW a slide is built from shapes so an
+agent can study or reproduce the construction. Stdlib only.
 
 Usage:
     python slide_anatomy.py deck.pptx SLIDE_NUMBER [output.md]
 
-Output: markdown spec (default: <deck>-slide<N>-anatomy.md) listing elements
-in z-order with positions in inches and % of canvas.
+Outputs:
+  - <out>.md   human-readable construction spec (table + token map + notes)
+  - <out>.json machine-readable fixture for spec_diff.py, with per-element
+               "mode" ("preserve" | "flex", set at flag time) and a token
+               map (literal color -> kit role, set at flag time)
 """
 
+import json
 import re
 import sys
 import zipfile
@@ -131,14 +135,13 @@ def walk(tree_el, transform, rows, depth=0):
         geom = el.find(f".//{A}prstGeom")
         if geom is not None and tag == "sp":
             kind = geom.get("prst")
-        if ph is not None:
-            kind += f" [placeholder:{ph.get('type', 'body')}]"
+        placeholder = ph.get("type", "body") if ph is not None else ""
         row = {"depth": depth, "kind": kind, "name": name,
+               "placeholder": placeholder,
                "fill": get_fill(sp_pr), "line": get_line(sp_pr)}
         if xf:
-            ax, ay = ox + xf["x"] * sx, oy + xf["y"] * sy
-            aw, ah = xf["cx"] * sx, xf["cy"] * sy
-            row.update(x=ax, y=ay, w=aw, h=ah,
+            row.update(x=round(ox + xf["x"] * sx), y=round(oy + xf["y"] * sy),
+                       w=round(xf["cx"] * sx), h=round(xf["cy"] * sy),
                        rot=round(xf["rot"] / 60000, 1) if xf["rot"] else 0)
         tx = el.find(f"{P}txBody")
         row["text"], row["textmeta"] = get_text(tx) if tx is not None else ("", "")
@@ -160,20 +163,42 @@ def walk(tree_el, transform, rows, depth=0):
             walk(el, (gox, goy, gsx, gsy), rows, depth + 1)
 
 
-def main():
-    if len(sys.argv) < 3:
-        sys.exit(__doc__)
-    src, n = Path(sys.argv[1]), int(sys.argv[2])
-    out = Path(sys.argv[3]) if len(sys.argv) > 3 else src.with_name(f"{src.stem}-slide{n}-anatomy.md")
+def get_theme(zf):
+    """First theme's color scheme as {slot: #HEX} for resolving theme: refs."""
+    names = sorted(n for n in zf.namelist() if re.match(r"ppt/theme/theme\d+\.xml", n))
+    if not names:
+        return {}
+    root = ET.fromstring(zf.read(names[0]))
+    scheme = root.find(f".//{A}clrScheme")
+    colors = {}
+    if scheme is not None:
+        for child in scheme:
+            tag = child.tag.split("}")[1]
+            srgb = child.find(f"{A}srgbClr")
+            sysclr = child.find(f"{A}sysClr")
+            if srgb is not None:
+                colors[tag] = "#" + srgb.get("val").upper()
+            elif sysclr is not None and sysclr.get("lastClr"):
+                colors[tag] = "#" + sysclr.get("lastClr").upper()
+    # scheme refs in shapes use tx/bg aliases for dk/lt
+    for alias, slot in (("tx1", "dk1"), ("bg1", "lt1"), ("tx2", "dk2"), ("bg2", "lt2")):
+        if slot in colors:
+            colors.setdefault(alias, colors[slot])
+    return colors
 
+
+def extract(src, n):
+    """Return the spec as a dict (positions in EMU). Importable by spec_diff."""
+    src = Path(src)
     with zipfile.ZipFile(src) as zf:
+        theme = get_theme(zf)
         pres = ET.fromstring(zf.read("ppt/presentation.xml"))
         sz = pres.find(f"{P}sldSz")
         W, H = int(sz.get("cx")), int(sz.get("cy"))
         slide_name = f"ppt/slides/slide{n}.xml"
         if slide_name not in zf.namelist():
             avail = sorted(s for s in zf.namelist() if re.match(r"ppt/slides/slide\d+\.xml", s))
-            sys.exit(f"{slide_name} not found. Deck has {len(avail)} slides.")
+            raise SystemExit(f"{slide_name} not found. Deck has {len(avail)} slides.")
         root = ET.fromstring(zf.read(slide_name))
         layout = ""
         rel = f"ppt/slides/_rels/slide{n}.xml.rels"
@@ -186,17 +211,35 @@ def main():
 
     rows = []
     walk(root.find(f"{P}cSld/{P}spTree"), (0, 0, 1, 1), rows)
+    for i, r in enumerate(rows, 1):
+        r["z"] = i
+        r.setdefault("mode", "")  # set at flag time: "preserve" | "flex"
 
+    tokens = {}
+    for r in rows:
+        for val in (r["fill"], r["line"]):
+            for tok in val.split():
+                if tok.startswith("#") or tok.startswith("theme:"):
+                    tokens.setdefault(tok, "")  # role filled at flag time
+
+    return {"source": src.name, "slide": n, "layout": layout,
+            "canvas": {"w": W, "h": H}, "theme": theme,
+            "elements": rows, "token_map": tokens}
+
+
+def to_markdown(spec):
+    W, H = spec["canvas"]["w"], spec["canvas"]["h"]
+    rows = spec["elements"]
     lines = [
-        f"# Construction spec — {src.name}, slide {n}",
-        f"Canvas: {emu_in(W)} x {emu_in(H)} in · Layout: \"{layout or 'unknown'}\" · {len(rows)} elements (z-order, top to bottom of table = back to front)",
+        f"# Construction spec — {spec['source']}, slide {spec['slide']}",
+        f"Canvas: {emu_in(W)} x {emu_in(H)} in · Layout: \"{spec['layout'] or 'unknown'}\" · {len(rows)} elements (z-order, top to bottom of table = back to front)",
         "",
         "| z | Element | Name | Pos x,y (in) | Size w×h (in) | x,y (%) | Fill | Line | Text |",
         "|---|---------|------|--------------|---------------|---------|------|------|------|",
     ]
-    tokens = {}
-    for i, r in enumerate(rows, 1):
+    for r in rows:
         indent = "↳ " * r["depth"]
+        kind = r["kind"] + (f" [placeholder:{r['placeholder']}]" if r["placeholder"] else "")
         if "x" in r:
             pos = f"{r['x']/EMU_PER_IN:.2f}, {r['y']/EMU_PER_IN:.2f}"
             size = f"{r['w']/EMU_PER_IN:.2f} × {r['h']/EMU_PER_IN:.2f}"
@@ -206,28 +249,25 @@ def main():
         else:
             pos = size = pct = "—"
         text = r["text"] + (f" ({r['textmeta']})" if r["textmeta"] else "")
-        lines.append(f"| {i} | {indent}{r['kind']} | {r['name']} | {pos} | {size} | {pct} | {r['fill']} | {r['line']} | {text} |")
-        for kind, val in (("fill", r["fill"]), ("line", r["line"])):
-            for tok in val.split():
-                if tok.startswith("#") or tok.startswith("theme:"):
-                    tokens.setdefault(f"{tok} ({kind})", []).append(str(i))
+        lines.append(f"| {r['z']} | {indent}{kind} | {r['name']} | {pos} | {size} | {pct} | {r['fill']} | {r['line']} | {text} |")
 
     lines += [
         "",
-        "## Token map — literal value → kit role (fill in at flag time)",
+        "## Token map — literal value → kit role (fill in at flag time, in the .json)",
         "",
-        "| Value | Used by (z) | Kit role |",
-        "|-------|-------------|----------|",
+        "| Value | Kit role |",
+        "|-------|----------|",
     ]
-    for val, zs in tokens.items():
-        lines.append(f"| {val} | {', '.join(zs)} | |")
-    if not tokens:
-        lines.append("| _no explicit colors found (all inherited from layout/master)_ | | |")
+    for val in spec["token_map"]:
+        lines.append(f"| {val} | |")
+    if not spec["token_map"]:
+        lines.append("| _no explicit colors found (all inherited from layout/master)_ | |")
 
     lines += [
         "",
         "## Construction notes (fill in at flag time)",
         "",
+        "- **Per-element mode:** _set \"mode\" to preserve|flex for each element in the .json — the verifier depends on it_",
         "- **Alignment grid:** _column boundaries / margins everything snaps to_",
         "- **Spacing rhythm:** _the repeated gaps and padding unit_",
         "- **Visual zones:** _which elements form which zones (title / evidence / so-what…)_",
@@ -237,8 +277,20 @@ def main():
         "- **Why it works:** _the craft judgment, one or two sentences_",
         "",
     ]
-    out.write_text("\n".join(lines))
-    print(f"Wrote {out} ({len(rows)} elements)")
+    return "\n".join(lines)
+
+
+def main():
+    if len(sys.argv) < 3:
+        sys.exit(__doc__)
+    src, n = Path(sys.argv[1]), int(sys.argv[2])
+    out = Path(sys.argv[3]) if len(sys.argv) > 3 else src.with_name(f"{src.stem}-slide{n}-anatomy.md")
+    spec = extract(src, n)
+    out.write_text(to_markdown(spec))
+    json_out = out.with_suffix(".json")
+    json_out.write_text(json.dumps(spec, indent=1) + "\n")
+    print(f"Wrote {out} and {json_out} ({len(spec['elements'])} elements)")
+    print("Flag-time TODO in the .json: set per-element \"mode\" and the token_map roles.")
 
 
 if __name__ == "__main__":

@@ -81,6 +81,22 @@ Two paths, chosen by whether a client .pptx template exists:
 
 ### 5. Verify before delivering
 
+**Closed loop for rebuilt slides:** any slide rebuilt from a library
+construction spec gets verified mechanically before visual review:
+
+```bash
+python scripts/spec_diff.py library/anatomy/<entry>.json out.pptx <slide#> --kit <kit.json>
+```
+
+Tier 1 diffs geometry (strict for `preserve` elements, invariants for
+`flex`) and verifies colors by kit *role* via the spec's token map — so the
+same spec validates any client restyle. Tier 2 checks machine-checkable
+design rules (margins, accent-area ≤ ~10%, minimum text size). Fix blockers
+and re-run; cap at 3 fix iterations, then surface remaining findings to the
+user. Only when clean, do the visual pass below (tier 3: overflow, font
+substitution, balance — what XML can't express). Parametric slides have no
+target spec: tier 2 + visual pass only.
+
 - Render thumbnails (`pptx` skill's `thumbnail.py`) and inspect every slide:
   overflow, alignment, orphaned placeholders.
 - Read the action titles top to bottom — do they tell the story on their own?
