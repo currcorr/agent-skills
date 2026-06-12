@@ -24,6 +24,12 @@ Three skills that work as a system for client deliverables:
 - **excel-to-evidence** — workbook → tied-out exhibits: locate the series,
   verify it ties out, draft the so-what, render via Tufte, log provenance.
 
+Plus an imported consulting stack (researched June 2026, each folder carries
+its upstream license): `management-consulting` (42 strategy frameworks),
+`meeting-minutes`, `brand-review`, `design-critique`, `ux-copy`,
+`internal-comms`, `financial-analyst`, `senior-pm`, `startup-competitors`,
+and `refero-design-research`.
+
 Bundle all of it (plus dependency skills) for transfer with
 `python tools/build_ey_pack.py`.
 

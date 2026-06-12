@@ -29,7 +29,18 @@ SKILLS = [
     "humanizer",                  # AI writing-register detection used by the design-rules lint
     "orchestrate-tufte-vdqi",     # chart toolkit router
     "render-tufte-chart",         # chart production (SVG/HTML)
-    "assess-graphical-excellence" # chart QA
+    "assess-graphical-excellence",# chart QA
+    # Imported consulting stack (researched 2026-06; all MIT/Apache)
+    "management-consulting",      # 42 strategic frameworks, three response modes
+    "meeting-minutes",            # strict minutes schema: decisions, owners, dates
+    "brand-review",               # voice/terminology governance QA
+    "design-critique",            # general visual critique beyond decks
+    "ux-copy",                    # interface microcopy for ey-site deliverables
+    "internal-comms",             # status reports, 3P updates, leadership comms
+    "financial-analyst",          # ratios, DCF, variance, forecast tooling
+    "senior-pm",                  # portfolio/program management, RAG, stakeholder maps
+    "startup-competitors",        # three-wave competitive intelligence
+    "refero-design-research",     # evidence-based design craft guides (+optional MCP)
 ]
 
 PACK_README = f"""# EY Consulting Pack
@@ -54,6 +65,13 @@ the agent-skills repo.
 | frontend-slides | HTML presentation techniques used by ey-site |
 | humanizer | AI writing-register detection (design rule 25's authority) |
 | orchestrate-tufte-vdqi / render-tufte-chart / assess-graphical-excellence | Chart toolkit (route / build / QA) |
+| management-consulting | 42 strategic frameworks — the reasoning layer upstream of deliverables |
+| meeting-minutes | Strict minutes schema (decisions w/ rationale, owned+dated actions) |
+| brand-review / design-critique / ux-copy | Voice governance, visual critique, microcopy QA |
+| internal-comms | Status reports, 3P updates, leadership communications |
+| financial-analyst / senior-pm | Financial modeling tools; portfolio/program management |
+| startup-competitors | Three-wave competitive intelligence with confidence labels |
+| refero-design-research | Evidence-based design craft guides (optional Refero MCP) |
 
 ## Install
 
@@ -87,6 +105,11 @@ generation).
 - frontend-slides: MIT (Zara Zhang).
 - Tufte skills: see their folders; render-tufte-chart bundles MIT-licensed
   tufte-css.
+- Imported consulting stack: each folder carries its upstream LICENSE
+  (Anthropic knowledge-work-plugins, anthropics/skills, github/awesome-copilot,
+  borghei/Claude-Skills, ferdinandobons/startup-skill,
+  gcamilo/management-consulting, referodesign/refero_skill — all MIT or
+  equivalent permissive).
 
 Client templates, logos, and kits you add are confidential — keep the
 destination repo private.
