@@ -73,8 +73,20 @@ every other agent picks up the change at its next session start.
    ```
 
    For Claude Code on the web, clone the repo in the environment's setup
-   script instead — a fresh clone is always current. Give Codex the same
-   pull in its startup config or just run it in AGENTS.md instructions.
+   script instead — a fresh clone is always current.
+
+5. The reverse direction (Codex picking up Claude's pushes) uses the same
+   pull, triggered on the Codex side. Most deterministic: wrap the CLI so
+   every launch pulls first — in `~/.bashrc`/`~/.zshrc`:
+
+   ```bash
+   codex() { git -C ~/skills pull --ff-only --quiet 2>/dev/null; command codex "$@"; }
+   ```
+
+   Belt-and-suspenders: also put a line in AGENTS.md ("before using any
+   skill from ~/skills, run `git -C ~/skills pull --ff-only`") so remote or
+   non-wrapped Codex sessions self-update. The wrapper is harness-level and
+   always fires; the AGENTS.md line depends on the agent following it.
 
 **Iteration loop:** edit a skill from either tool → commit → push. New
 sessions everywhere see it. Two caveats: skill descriptions load at session
