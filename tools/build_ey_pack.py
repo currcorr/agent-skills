@@ -150,6 +150,18 @@ sessions pick it up at next start.
    codex() { git -C ~/skills pull --ff-only --quiet 2>/dev/null; command codex "$@"; }
    ```
 
+5. Cursor — generate native Project Rules that trigger like skills do
+   (one thin .mdc stub per skill, description-matched by Cursor's agent,
+   pointing at the real SKILL.md):
+
+   ```bash
+   python tools/make_cursor_rules.py            # writes ./cursor-rules/
+   mkdir -p <workspace>/.cursor/rules && cp cursor-rules/*.mdc <workspace>/.cursor/rules/
+   ```
+
+   Re-run after adding or re-describing skills. Cursor also reads AGENTS.md,
+   so the trigger index below works there as a fallback.
+
 ## How agents know when to use these skills
 
 Claude Code auto-discovers skills from their frontmatter descriptions — just
@@ -180,7 +192,7 @@ PRs — never a send.
 """
 
 # Non-skill files bundled so the pack stands alone.
-EXTRAS = ["tools/automations.md"]
+EXTRAS = ["tools/automations.md", "tools/make_cursor_rules.py"]
 
 
 def main():
