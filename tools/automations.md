@@ -39,6 +39,37 @@ Weekly template-library review:
 
 Cron: `0 7 * * 5` (Friday 07:00).
 
+## 3. Friday "what did I correct" review (weekly)
+
+Scan the week's agent session transcripts for things the user repeatedly
+fixed, re-explained, or overrode — then turn those corrections into proposed
+permanent improvements (skill edits, AGENTS.md lines, new design rules) as a
+PR for human review.
+
+```bash
+codex exec --skip-git-repo-check --sandbox workspace-write --full-auto -C ~/skills "
+Weekly correction review:
+1. git pull --ff-only.
+2. Read this week's agent session transcripts. Common locations — adjust to this machine:
+   Claude Code: ~/.claude/projects/*/  (JSONL per session, filter by mtime < 7 days)
+   Codex: ~/.codex/sessions/ or the app's session export folder.
+3. Look for correction signals: the user rephrasing the same instruction twice, 'no, I meant', 'again', manual edits to agent output, the same preference stated in multiple sessions, and skills that triggered wrongly or failed to trigger.
+4. For each recurring correction, classify the fix: (a) a skill edit (which SKILL.md, what change), (b) an AGENTS.md trigger line, (c) a new/amended design rule, or (d) not automatable - note it for the user.
+5. Apply fixes a-c on a branch, push, and open a PR titled 'Correction review: <date>'. In the PR, describe each correction pattern in general terms ONLY - never quote transcript text, client names, or engagement specifics. The analysis stays local; only the distilled rule change leaves the machine.
+6. Write a one-page digest to tools/correction-digest-<date>.md listing patterns found, fixes proposed, and the category-d items needing the user.
+" 2>/dev/null
+```
+
+Cron: `30 16 * * 5` (Friday 16:30 — end of week, while context is fresh).
+
+Notes:
+- Transcripts contain client material. This recipe reads them locally and
+  must never copy transcript content into commits, PRs, or digests — only
+  generalized patterns ("user repeatedly corrects chart palettes" not the
+  chart or the client).
+- Expect noise the first few weeks; tune the correction signals in step 3
+  to whatever your actual phrasing habits are.
+
 ## Guardrails
 
 - Automations draft; humans send. Outputs are files and PRs only.
