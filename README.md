@@ -38,3 +38,46 @@ hard-code a color or font. Scripts are Python stdlib only and the skills are
 tool-agnostic: from Codex or another agent, point it at the relevant SKILL.md
 (e.g. "follow agent-skills/ey-deck/SKILL.md") or symlink the skill folders
 into the tool's skills directory.
+
+## Keeping skills in sync across Codex and Claude
+
+The skills repo on GitHub is the single source of truth; every tool reads
+the same local clone of it. Any agent that edits a skill commits and pushes;
+every other agent picks up the change at its next session start.
+
+**Setup per machine/environment:**
+
+1. Clone this repo once, e.g. to `~/skills`.
+2. Point Claude Code at it — symlink the skill folders into
+   `~/.claude/skills/` (personal) or `<project>/.claude/skills/` (per-repo):
+
+   ```bash
+   mkdir -p ~/.claude/skills
+   for d in ~/skills/*/; do ln -sfn "$d" ~/.claude/skills/$(basename "$d"); done
+   ```
+
+3. Point Codex at the same clone (its skills directory, or an AGENTS.md
+   line: "for decks, follow ~/skills/ey-deck/SKILL.md").
+4. Auto-pull at session start so changes propagate without thinking about
+   it — in Claude Code's `settings.json`:
+
+   ```json
+   {
+     "hooks": {
+       "SessionStart": [
+         { "hooks": [ { "type": "command",
+             "command": "git -C ~/skills pull --ff-only --quiet || true" } ] }
+       ]
+     }
+   }
+   ```
+
+   For Claude Code on the web, clone the repo in the environment's setup
+   script instead — a fresh clone is always current. Give Codex the same
+   pull in its startup config or just run it in AGENTS.md instructions.
+
+**Iteration loop:** edit a skill from either tool → commit → push. New
+sessions everywhere see it. Two caveats: skill descriptions load at session
+*start*, so a running session won't see a mid-session push until restarted;
+and if more than one person starts pushing, switch from direct pushes to
+branches + PRs.
