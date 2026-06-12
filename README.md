@@ -17,6 +17,13 @@ Three skills that work as a system for client deliverables:
 - **ey-site** — zero-dependency interactive HTML deliverables (reports,
   dashboards, workshop sites) styled from the same kit, so decks and sites
   always match.
+- **ey-synthesis** — interview/workshop material → evidence-backed findings
+  → deck-ready outline (the upstream half of readout decks).
+- **ey-deck-review** — partner-style red-pen review of any finished deck:
+  storyline, design rules, AI-tells lint, chart QA, severity-ranked findings.
+
+Bundle all of it (plus dependency skills) for transfer with
+`python tools/build_ey_pack.py`.
 
 Swapping the kit restyles every deliverable — nothing outside `kits/` may
 hard-code a color or font. Scripts are Python stdlib only and the skills are

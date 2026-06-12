@@ -17,7 +17,9 @@ Dependencies (same repo): `ey-brand-kit` for styling and design rules,
 
 ### 1. Storyline first — no slides yet
 
-Read [references/storyline-guide.md](references/storyline-guide.md). Produce
+If the deck is a findings readout from interviews or workshops, run
+`ey-synthesis` first — it produces the evidence-backed outline this step
+needs. Read [references/storyline-guide.md](references/storyline-guide.md). Produce
 a one-page outline: governing thought, then one line per slide where each
 line is that slide's **action title** (a complete sentence stating the
 takeaway). Confirm the storyline with the user before building anything —
@@ -65,6 +67,8 @@ Two paths, chosen by whether a client .pptx template exists:
   filler vocabulary. Fix every hit before delivering.
 - For data slides, sanity-check charts against rules 11–14; if a chart came
   from client material, run `assess-graphical-excellence` on it.
+- For client-facing decks, finish with a full `ey-deck-review` pass — it
+  runs these checks systematically and returns severity-ranked findings.
 
 ## Restyling an existing deck for a new client
 

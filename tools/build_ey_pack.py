@@ -19,7 +19,9 @@ REPO = Path(__file__).resolve().parent.parent
 SKILLS = [
     "ey-brand-kit",
     "ey-deck",
+    "ey-deck-review",
     "ey-site",
+    "ey-synthesis",
     "pptx",                       # .pptx mechanics (unpack/edit/thumbnail/pptxgenjs)
     "frontend-slides",            # HTML presentation techniques used by ey-site
     "orchestrate-tufte-vdqi",     # chart toolkit router
@@ -40,7 +42,9 @@ the agent-skills repo.
 |-------|------|
 | ey-brand-kit | Per-client brand kits, .pptx theme extraction, kit→CSS, design rules (start here) |
 | ey-deck | Storyline-first consulting decks + pattern library + template library |
+| ey-deck-review | Partner-style red-pen review: storyline, design rules, AI tells, charts |
 | ey-site | Kit-styled zero-dependency interactive HTML deliverables |
+| ey-synthesis | Interview/workshop material → evidence-backed findings → deck outline |
 | pptx | Low-level .pptx read/edit/create machinery used by ey-deck |
 | frontend-slides | HTML presentation techniques used by ey-site |
 | orchestrate-tufte-vdqi / render-tufte-chart / assess-graphical-excellence | Chart toolkit (route / build / QA) |
