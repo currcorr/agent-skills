@@ -115,6 +115,73 @@ Client templates, logos, and kits you add are confidential — keep the
 destination repo private.
 """
 
+PACK_README += r"""
+## Keeping skills in sync across Codex and Claude
+
+Make the repo this pack was unzipped into the single source of truth; every
+tool reads the same local clone. Edits from any agent: commit → push; other
+sessions pick it up at next start.
+
+1. Clone the repo once per machine, e.g. to `~/skills`.
+2. Claude Code — symlink skills in:
+
+   ```bash
+   mkdir -p ~/.claude/skills
+   for d in ~/skills/*/; do ln -sfn "$d" ~/.claude/skills/$(basename "$d"); done
+   ```
+
+3. Auto-pull at session start (Claude Code `settings.json`):
+
+   ```json
+   {
+     "hooks": {
+       "SessionStart": [
+         { "hooks": [ { "type": "command",
+             "command": "git -C ~/skills pull --ff-only --quiet || true" } ] }
+       ]
+     }
+   }
+   ```
+
+4. Codex — pull on every launch via a shell wrapper, plus an AGENTS.md line
+   as backup:
+
+   ```bash
+   codex() { git -C ~/skills pull --ff-only --quiet 2>/dev/null; command codex "$@"; }
+   ```
+
+## How agents know when to use these skills
+
+Claude Code auto-discovers skills from their frontmatter descriptions — just
+talk ("build me a readout deck", "I like this slide — save it"). Codex needs
+a trigger index in each workspace's AGENTS.md (adjust the path):
+
+```markdown
+## Skills (~/skills) — read the matching SKILL.md BEFORE starting these tasks
+- Any deck/slides/presentation/readout → ~/skills/ey-deck/SKILL.md
+- User praises/flags a slide or deck ("save this", "I like the aesthetic/
+  headlines") → ~/skills/ey-deck/SKILL.md (template library section)
+- Client branding, extract template, restyle for client → ~/skills/ey-brand-kit/SKILL.md
+- Interactive site/dashboard/web deliverable → ~/skills/ey-site/SKILL.md
+- Review/QA/red-pen a deck → ~/skills/ey-deck-review/SKILL.md
+- Synthesize interviews/workshop notes → ~/skills/ey-synthesis/SKILL.md
+- Exhibits/charts from a workbook → ~/skills/excel-to-evidence/SKILL.md
+- Strategy frameworks/problem structuring → ~/skills/management-consulting/SKILL.md
+- Meeting notes → minutes → ~/skills/meeting-minutes/SKILL.md
+```
+
+## Automations
+
+`tools/automations.md` (bundled) has three scheduled-agent recipes with
+runnable commands: daily skills housekeeping, weekly library digest +
+rule-promotion PRs, and the Friday correction review that turns repeated
+user corrections into proposed skill/rule edits. All three end in files or
+PRs — never a send.
+"""
+
+# Non-skill files bundled so the pack stands alone.
+EXTRAS = ["tools/automations.md"]
+
 
 def main():
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else REPO / "dist" / "ey-consulting-pack.zip"
@@ -127,6 +194,8 @@ def main():
     count = 0
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zf:
         zf.writestr("ey-consulting-pack/README.md", PACK_README)
+        for extra in EXTRAS:
+            zf.write(REPO / extra, f"ey-consulting-pack/{extra}")
         for skill in SKILLS:
             for f in sorted((REPO / skill).rglob("*")):
                 if f.is_file() and "__pycache__" not in f.parts:

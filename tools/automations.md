@@ -14,7 +14,7 @@ codex exec --skip-git-repo-check --sandbox workspace-write --full-auto -C ~/skil
 Run the daily skills housekeeping:
 1. git pull --ff-only. If the pull fails, stop and write the error to tools/housekeeping-log.md.
 2. For every */SKILL.md, check the YAML frontmatter parses and has name + description. List any failures.
-3. If anything changed since the last run, rebuild the pack: python tools/build_ey_pack.py releases/ey-consulting-pack.zip
+3. If anything changed since the last run, rebuild the pack: python tools/build_ey_pack.py releases/ey-consulting-pack.zip — SKIP this step if this repo was created from the pack zip (there is no pack builder; git is the distribution).
 4. Commit and push only the rebuilt zip and the log. Do not edit skills.
 " 2>/dev/null
 ```
