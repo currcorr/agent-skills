@@ -66,7 +66,7 @@ wired up.
 - Keyboard-walk the interactions; check focus visibility.
 - Print preview: an interactive report should still print sanely to PDF.
 - Contrast-check text/background pairs from the kit (rule 15).
-- Run the AI-tells lint (design rules 20–25). Sites are the worst offenders:
+- Run the AI-tells lint (design rules 20–28). Sites are the worst offenders:
   check specifically for border-radius creep, gradient backgrounds, icon
   grids, and equal-weight card rows. The template ships square-cornered and
   flat — keep it that way.

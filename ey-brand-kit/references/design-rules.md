@@ -108,10 +108,14 @@ pre-delivery lint pass, not as taste advice.
     Same for the reflexive `callout`-with-colored-left-border: one per page
     at most, only for the statement that is genuinely the point.
 24. **Vary the rhythm.** AI layouts give every section identical weight:
-    three columns, then three columns, then three columns. Real documents
-    have asymmetry — a dense evidence page followed by a single-number page,
-    a full-bleed section divider, a wide table. If three consecutive
-    slides/sections share the same layout skeleton, redesign one.
+    three columns, then three columns, then three columns, with identical
+    padding between every section. Real documents have asymmetry — a dense
+    evidence page followed by a single-number page, a full-bleed section
+    divider, a wide table, tight spacing next to generous. If three
+    consecutive slides/sections share the same layout skeleton, redesign
+    one. On sites, the centered stack of headline + subheader + button on a
+    gradient is the canonical AI hero — lead left-aligned and asymmetric
+    instead.
 25. **Kill the AI writing register.** The `humanizer` skill (in this repo)
     is the authority — run its detection patterns over all deck and site
     copy as part of this lint. The patterns that show up most in consulting
@@ -125,7 +129,31 @@ pre-delivery lint pass, not as taste advice.
     humanizer's *detection* patterns only — its advice to add first-person
     voice and opinions suits essays, not client deliverables. The target
     register is crisp assertions in the client's own vocabulary (see the
-    storyline guide), with sentence-case headings.
+    storyline guide), with sentence-case headings. Three more patterns that
+    survive into decks: superficial "-ing" tack-ons ("…highlighting the
+    importance of"), formulaic "challenges and outlook" boilerplate that
+    asserts nothing, and knowledge-cutoff phrasing ("as of this writing,
+    details are limited") — a consulting document states what is known and
+    sources it.
+26. **No untouched defaults, and real type hierarchy.** One font at one
+    weight for everything, default-template typography (Inter everywhere),
+    or a component library's stock look (the Tailwind/shadcn fingerprint:
+    identical spacing, borders, and grays on every element) all read as
+    machine output. The kit's heading/body pairing and size scale exist to
+    be used: headings visibly heavier and 2x+ body size, weights chosen
+    deliberately.
+27. **No AI-generated imagery in client deliverables.** Malformed hands,
+    garbled embedded text, plastic skin, and impossible lighting are
+    instantly recognizable, and even a clean generation reads as filler.
+    Use client-supplied assets, licensed photography, or drawn diagrams
+    (the repo's diagram skills). If a concept needs illustrating, a labeled
+    schematic beats a decorative image every time.
+28. **Nothing dead on a site.** Buttons that link to `#`, placeholder
+    copy that survived to delivery, fine print nobody wrote, three
+    different button styles on one page. Every interactive element does
+    something real; one button hierarchy (primary filled, secondary
+    outline) sized consistently; every string read by a human before it
+    ships.
 
 ## Restyling between clients
 

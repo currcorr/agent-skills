@@ -66,7 +66,7 @@ Two paths, chosen by whether a client .pptx template exists:
 - Read the action titles top to bottom — do they tell the story on their own?
 - Check footer/page numbers/confidentiality marking on every slide.
 - Spot-check contrast pairs against design rule 15.
-- Run the AI-tells lint (design rules 20–25): no decorative icons, no
+- Run the AI-tells lint (design rules 20–28): no decorative icons, no
   rounded corners, no gradients, no grids of equal highlight boxes, no
   filler vocabulary. Fix every hit before delivering.
 - For data slides, sanity-check charts against rules 11–14; if a chart came

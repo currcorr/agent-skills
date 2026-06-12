@@ -13,7 +13,7 @@ fix is unambiguous.
 Rubric sources (read all three before reviewing):
 - `ey-deck/references/storyline-guide.md` — argument structure, action titles
 - `ey-brand-kit/references/design-rules.md` — layout, color, charts (rules
-  1–19), AI tells (rules 20–25)
+  1–19), AI tells (rules 20–28)
 - `assess-graphical-excellence` — chart-level critique
 
 The review is the deliverable. Report findings; don't edit the deck unless
@@ -52,7 +52,7 @@ color-only encoding (rule 16).
 
 ### 4. AI-tells lint
 
-Rules 20–25 explicitly: decorative icons, rounded corners, gradients/neon,
+Rules 20–28 explicitly: decorative icons, rounded corners, gradients/neon,
 highlight-box grids, uniform layout rhythm, AI writing register. For the
 writing register, run the extracted deck text through the `humanizer`
 skill's detection patterns (its 24-pattern catalog is the authority;
