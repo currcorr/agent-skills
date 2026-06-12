@@ -13,10 +13,28 @@ layouts in their PowerPoint template. Decks (`ey-deck`) and interactive sites
 Tool-agnostic: plain markdown + Python stdlib scripts. Works from Claude Code,
 Codex CLI, or any agent that can run Python.
 
+## Sources of truth (in precedence order)
+
+1. **Client's own template/guidelines** — for client-branded deliverables,
+   the extracted client .pptx always wins.
+2. **Brand-standards MCP server** — if any connected MCP server exposes
+   brand standards, design assets, or template libraries (common on EY work
+   accounts), query it before relying on anything baked into this repo. Use
+   it to populate or validate kit colors, fonts, logo assets, and approved
+   templates — and to refresh `kits/ey-default.json`, which is only a
+   placeholder built from public information.
+3. **Kits in `kits/`** — previously confirmed extractions.
+4. **`kits/ey-default.json`** — last resort.
+
+When an MCP source supplied values, record it in the kit's `meta.source` so
+provenance is auditable.
+
 ## Workflow
 
 1. **Find or create the kit.** Check `kits/` for an existing kit for this
-   client. If none exists and the user has a client .pptx template:
+   client. If a brand-standards MCP server is connected, pull authoritative
+   values from it (see precedence above). If none exists and the user has a
+   client .pptx template:
 
    ```bash
    python scripts/extract_kit.py ClientTemplate.pptx kits/client-name.json
