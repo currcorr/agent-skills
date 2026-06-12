@@ -53,7 +53,14 @@ Two paths, chosen by whether a client .pptx template exists:
   follow the `pptx` skill's editing workflow — duplicate template slides per
   the kit's `layoutMap`, replace placeholder content. This inherits masters,
   footers, and fonts exactly, which is what "matching the client template"
-  actually requires.
+  actually requires. Note that in practice most content slides use a basic
+  layout (title + body, or blank) and are **constructed freehand from
+  shapes, text boxes, and objects** — the layout supplies only the title
+  placeholder and furniture. When constructing freehand, check
+  `library/anatomy/` for construction specs of flagged slides (exact
+  positions, sizes, fills, grouping, plus craft notes); rebuilding from a
+  spec beats improvising geometry. To study how any existing slide is
+  built, run `scripts/slide_anatomy.py deck.pptx <slide#>`.
 - **From-scratch path:** follow the `pptx` skill's pptxgenjs workflow, but
   take every color and font from the kit's `colors.roles` and `typography`
   blocks. Never hard-code hex values in the generation code — define

@@ -8,6 +8,7 @@ library/
 ├── INDEX.md          # slide catalog — always start here
 ├── EXEMPLARS.md      # deck-level flags: qualities to emulate
 ├── decks/            # source .pptx files (flagged slides AND exemplar decks)
+├── anatomy/          # construction specs: how each flagged slide is built
 ├── exemplars/        # one annotation file per deck-level flag
 └── thumbnails/       # one PNG per flagged slide, named <entry-name>.png
 ```
@@ -29,14 +30,29 @@ like this layout", "keep this one for next time".
    index entry whether the stored copy is sanitized or original.
 2. **Render a thumbnail** of the flagged slide (use the `pptx` skill's
    `thumbnail.py`) into `thumbnails/<entry-name>.png`.
-3. **Add a row to INDEX.md**: short name, source deck filename, slide
+3. **Generate the construction spec** — real consulting slides are built
+   freehand from shapes on a near-blank layout, so document HOW this one is
+   constructed:
+
+   ```bash
+   python ../scripts/slide_anatomy.py decks/<deck>.pptx <slide#> anatomy/<entry-name>.md
+   ```
+
+   The script inventories every element (type, position, size, fill, text,
+   grouping, z-order). Then **fill in the "Construction notes" section by
+   looking at the thumbnail and the table together**: name the alignment
+   grid in use, the spacing rhythm, which shapes form which visual zones,
+   which kit roles the literal fills correspond to, and what makes the
+   construction work. The table is facts; the notes are the craft — both
+   are needed for an agent to rebuild it well.
+4. **Add a row to INDEX.md**: short name, source deck filename, slide
    number, closest pattern from `../references/slide-patterns.md`, kit it was
    built with, one line on *why* it earned the flag (that's the retrieval
    key), and the date.
-4. **Propose a pattern upgrade** if the slide embodies a reusable layout that
+5. **Propose a pattern upgrade** if the slide embodies a reusable layout that
    `slide-patterns.md` doesn't cover yet — ask the user, and on yes, add the
    pattern with a pointer to this entry as its exemplar.
-5. **Commit** — the library only compounds if it's pushed.
+6. **Commit** — the library only compounds if it's pushed.
 
 ## Flagging a whole deck (what the agent does on "I like how this deck does X")
 
@@ -93,11 +109,16 @@ steer choices *within* them.
 When building a new deck, scan INDEX.md for entries matching the slide's
 message (the "why" column). To reuse:
 
-- Copy the actual slide from the library deck via the `pptx` skill's editing
-  workflow (duplicate slide → replace content) — this preserves exact
-  geometry, which is the whole point of the library.
-- Then re-skin to the active brand kit: swap theme colors/fonts per the kit's
-  roles, and re-verify contrast and accent scarcity (design rules 8, 15).
+- **Same/compatible template:** copy the actual slide from the library deck
+  via the `pptx` skill's editing workflow (duplicate slide → replace
+  content) — preserves exact geometry.
+- **Different template, or building freehand:** rebuild from the entry's
+  construction spec in `anatomy/` — recreate the elements at the documented
+  positions/sizes, mapping its fills to the active kit's roles per the
+  spec's construction notes. This is the path that matters most in practice,
+  since slides are normally constructed from shapes on a near-blank layout.
+- Either way, re-skin to the active brand kit and re-verify contrast and
+  accent scarcity (design rules 8, 15).
 
 ## Hygiene
 
