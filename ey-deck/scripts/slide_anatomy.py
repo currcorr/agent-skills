@@ -215,6 +215,20 @@ def extract(src, n):
         r["z"] = i
         r.setdefault("mode", "")  # set at flag time: "preserve" | "flex"
 
+    # Snippet-reuse eligibility (v1 gate, agreed with the pattern-miner side):
+    # pure shapes/groups/connectors/text only.
+    R = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}"
+    blockers = []
+    if any(r["placeholder"] for r in rows):
+        blockers.append("contains placeholders (re-bind to destination layout instead)")
+    if any(r["kind"] == "image" for r in rows):
+        blockers.append("embedded media (r:embed parts would dangle)")
+    if any(r["kind"] in ("table", "table/chart") for r in rows):
+        blockers.append("graphicFrame content (tables/charts/SmartArt out of v1 scope)")
+    if any(a.startswith(R) for el in root.iter() for a in el.attrib):
+        blockers.append("relationship references (r:id/r:embed) in slide XML")
+    eligibility = {"eligible": not blockers, "blockers": blockers}
+
     tokens = {}
     for r in rows:
         for val in (r["fill"], r["line"]):
@@ -224,6 +238,8 @@ def extract(src, n):
 
     return {"source": src.name, "slide": n, "layout": layout,
             "canvas": {"w": W, "h": H}, "theme": theme,
+            "snippet_eligibility": eligibility,
+            "normalization_notes": [],  # known risks, filled at flag time
             "elements": rows, "token_map": tokens}
 
 
@@ -250,6 +266,18 @@ def to_markdown(spec):
             pos = size = pct = "—"
         text = r["text"] + (f" ({r['textmeta']})" if r["textmeta"] else "")
         lines.append(f"| {r['z']} | {indent}{kind} | {r['name']} | {pos} | {size} | {pct} | {r['fill']} | {r['line']} | {text} |")
+
+    el = spec.get("snippet_eligibility", {})
+    lines += [
+        "",
+        "## Snippet reuse eligibility",
+        "",
+        ("**ELIGIBLE** — pure shapes/groups/text; snippet + normalize + verify is the "
+         "preferred cross-template reuse path." if el.get("eligible") else
+         "**NOT ELIGIBLE** — reuse via spec rebuild instead. Blockers:"),
+    ]
+    for b in el.get("blockers", []):
+        lines.append(f"- {b}")
 
     lines += [
         "",

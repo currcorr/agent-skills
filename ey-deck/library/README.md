@@ -119,16 +119,29 @@ steer choices *within* them.
 When building a new deck, scan INDEX.md for entries matching the slide's
 message (the "why" column). To reuse:
 
-- **Same/compatible template:** copy the actual slide from the library deck
-  via the `pptx` skill's editing workflow (duplicate slide → replace
-  content) — preserves exact geometry.
-- **Different template, or building freehand:** rebuild from the entry's
-  construction spec in `anatomy/` — recreate the elements at the documented
-  positions/sizes, mapping its fills to the active kit's roles per the
-  spec's construction notes. This is the path that matters most in practice,
-  since slides are normally constructed from shapes on a near-blank layout.
-- Either way, re-skin to the active brand kit and re-verify contrast and
-  accent scarcity (design rules 8, 15).
+Reuse hierarchy (agreed across toolchains):
+
+1. **Same/compatible template:** copy the actual slide from the library deck
+   via the `pptx` skill's editing workflow (duplicate slide → replace
+   content) — preserves exact geometry.
+2. **Cross-template AND the fixture says `snippet_eligibility: eligible`:**
+   snippet + normalize + verify — splice the original shape XML, run the
+   normalizer (lives with the slide-pattern-miner tooling; flatten theme
+   colors → kit roles, regenerate IDs, rescale), then `spec_diff.py` against
+   the entry's fixture. Never reuse a snippet unverified.
+3. **Ineligible or no snippet path available:** rebuild from the
+   construction spec in `anatomy/` — recreate elements at documented
+   positions/sizes, fills mapped to the active kit's roles — then verify
+   with `spec_diff.py`.
+4. **Data-driven elements:** always regenerate parametrically, regardless.
+
+Storage principle: the library stores the **lossless original** (deck +
+spec + eligibility + token map + normalization notes); normalization
+happens at reuse time with full knowledge of the destination kit and
+canvas — never destructively at capture.
+
+Either way, re-skin to the active brand kit and re-verify contrast and
+accent scarcity (design rules 8, 15).
 
 ## Hygiene
 
