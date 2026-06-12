@@ -192,7 +192,7 @@ PRs — never a send.
 """
 
 # Non-skill files bundled so the pack stands alone.
-EXTRAS = ["tools/automations.md", "tools/make_cursor_rules.py"]
+EXTRAS = ["tools/automations.md", "tools/goal-loops.md", "tools/make_cursor_rules.py"]
 
 
 def main():
