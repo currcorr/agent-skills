@@ -34,8 +34,10 @@ rules bind every slide.
 
 [references/slide-patterns.md](references/slide-patterns.md) catalogs the
 consulting patterns (exec summary, 2x2, roadmap, harvey-ball comparison,
-KPI dashboard, …) with layout specs and when-to-use guidance. Annotate the
-outline with one pattern per slide.
+KPI dashboard, …) with layout specs and when-to-use guidance. Check
+[library/INDEX.md](library/INDEX.md) first — a flagged real slide that fits
+beats a pattern built from scratch. Annotate the outline with one pattern
+(or library entry) per slide.
 
 ### 4. Render
 
@@ -72,6 +74,15 @@ Two paths, chosen by whether a client .pptx template exists:
    kit.
 3. Re-verify rules 8 (accent scarcity) and 15 (contrast) — palettes break
    these silently.
+
+## Template library
+
+When the user flags a slide they like ("save this slide", "keep this layout",
+"add slide 7 to the library"), follow the capture workflow in
+[library/README.md](library/README.md): store the source deck, render a
+thumbnail, add an INDEX.md row with why it earned the flag, and offer to
+promote it to a named pattern. After delivering any deck, if a slide drew
+explicit praise during review, proactively offer to flag it.
 
 ## Speed defaults
 

@@ -79,6 +79,23 @@ the chart itself obeys design rules 11–14.
   `accent`, all others `muted`. Direct labels, no legend, no y-axis if
   labels carry the values.
 
+### Value driver tree
+- **Use:** showing where value comes from — bridging a headline KPI to the
+  initiatives that move it.
+- **Layout:** KPI at far left (e.g. EBITDA uplift), decomposed left-to-right
+  into drivers with +/× operators on the connectors; leaf nodes name the
+  initiative and its sized value. The biggest lever gets the `accent`
+  treatment; connectors in `border`.
+- **Notes:** values at each level must sum/multiply correctly — check the
+  arithmetic before rendering.
+
+### Issue / hypothesis tree
+- **Use:** structuring a problem at engagement start, or showing what's been
+  proven by readout time.
+- **Layout:** root question at left, MECE branches right across 2–3 levels.
+  In hypothesis mode, mark each leaf confirmed/refuted/testing with
+  `positive`/`negative`/`muted` plus a glyph (✓ ✗ …) per rule 16.
+
 ## Time patterns
 
 ### Roadmap / horizon plan
@@ -107,6 +124,29 @@ the chart itself obeys design rules 11–14.
 - **Layout:** chevrons left to right, ≤ 6 steps, step name + one descriptor;
   pain points or changes flagged beneath in `negative`/`accent` markers.
 
+### RACI matrix
+- **Use:** clarifying who does what in a new operating model or program.
+- **Layout:** activities as rows, roles as columns, single letters R/A/C/I in
+  cells; A cells get the `accent` treatment. Exactly one A per row — if a row
+  has zero or two, that's a finding, not a formatting problem.
+- **Notes:** ≤ 12 activities per slide; group by phase and split if longer.
+
+### Risk heatmap
+- **Use:** risk registers, steering-committee risk decisions.
+- **Layout:** likelihood × impact grid (3x3 or 5x5) with a quiet tint ramp —
+  `muted` at low, `negative` only in the top-right corner band, never a
+  traffic-light rainbow. Risks as numbered dots; a table beside the grid
+  lists number, risk, mitigation, owner. Position carries the data (rule
+  16); the tint is secondary.
+
+### Quote / voice of the customer
+- **Use:** interview or survey findings, change-readiness evidence.
+- **Layout:** 1–3 verbatim quotes in large body type with attribution by
+  role (never name), plus the pattern stat beside them ("14 of 20
+  interviewees raised this"). No giant decorative quotation-mark glyph —
+  that's an AI tell (rule 20); a thin `accent` rule above each quote is
+  enough.
+
 ### Org / governance chart
 - **Use:** target org, program governance.
 - **Layout:** boxes by level, reporting lines in `border`; new/changed roles
@@ -121,6 +161,14 @@ the chart itself obeys design rules 11–14.
 | How big / what drives a number | Waterfall or highlighted-bar |
 | How we get there | Roadmap |
 | What changes | Before/after |
-| How we'll work | Framework, process flow, governance |
+| How we'll work | Framework, process flow, governance, RACI |
 | Are we on track | KPI dashboard |
+| What's driving the problem | Issue / hypothesis tree |
+| Where the value is | Value driver tree |
+| What could go wrong | Risk heatmap |
+| What people told us | Quote / voice of the customer |
 | What we need from you | Next steps / decisions |
+
+Before reaching for a generic pattern, check the template library
+([../library/INDEX.md](../library/INDEX.md)) for a flagged real slide that
+already solves the same problem — copying a proven slide beats rebuilding it.
