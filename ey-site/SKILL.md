@@ -45,7 +45,9 @@ wired up.
 
 - **Single HTML file, no CDN dependencies.** Client IT blocks external
   resources, and deliverables get emailed. Inline all CSS/JS; charts as
-  inline SVG drawn from data in a `<script>` block.
+  inline SVG. Build charts with the `render-tufte-chart` skill — its scripts
+  emit standalone SVG that pastes straight into the page; recolor strokes/
+  fills with the kit's `--color-chart-*` variables.
 - **Only token styling.** Every color/font through `var(--color-*)` /
   `var(--font-*)`. A kit swap must restyle the site with zero markup edits.
 - **Slide patterns translate.** The `ey-deck` pattern library
@@ -64,6 +66,10 @@ wired up.
 - Keyboard-walk the interactions; check focus visibility.
 - Print preview: an interactive report should still print sanely to PDF.
 - Contrast-check text/background pairs from the kit (rule 15).
+- Run the AI-tells lint (design rules 20–25). Sites are the worst offenders:
+  check specifically for border-radius creep, gradient backgrounds, icon
+  grids, and equal-weight card rows. The template ships square-cornered and
+  flat — keep it that way.
 
 ## Restyling for a new client
 

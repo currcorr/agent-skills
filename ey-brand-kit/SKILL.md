@@ -80,7 +80,10 @@ with field-by-field notes. Summary:
 
 [references/design-rules.md](references/design-rules.md) holds the overarching
 design rules that apply to **every** deliverable regardless of client kit —
-hierarchy, density, charts, accessibility. Read it before building anything
+hierarchy, density, Tufte-grounded chart rules (backed by the
+`orchestrate-tufte-vdqi` / `render-tufte-chart` / `assess-graphical-excellence`
+skills in this repo), accessibility, and a mandatory lint for common AI
+design tells (rules 20–25). Read it before building anything
 with `ey-deck` or `ey-site`. Client kit settings override colors and fonts;
 they never override these rules.
 

@@ -39,13 +39,32 @@ changes colors, fonts, and logos; it never changes these rules.
 
 ## Charts and data
 
-11. **Chart junk dies.** No 3D, no gradients on bars, no gridline thickets,
-    no legend when direct labels fit. Maximize data-ink.
-12. **Sort to the message.** Bars sorted by value unless time or a natural
-    order applies. Highlight the bar that proves the title; gray the rest.
+Charts follow Tufte. This repo ships a full toolkit — use it rather than
+improvising: `orchestrate-tufte-vdqi` routes the request,
+`render-tufte-chart` produces the SVG/HTML (its scripts' output drops
+directly into `ey-site` pages and converts to images for slides), and
+`assess-graphical-excellence` is the QA pass for any chart inherited from a
+client or an earlier deck. The rules below are the binding summary; the
+toolkit's `references/tufte-principles.md` is the authority when they're not
+enough.
+
+11. **Chart junk dies.** No 3D, no gradients on bars, no border boxes, no
+    moiré (cross-hatching, dense patterns), no grid darker than the data, no
+    legend when direct labels fit. Maximize data-ink; default to white
+    background, range-frame axes, endpoint labels.
+12. **Sort to the message, honest proportions.** Bars sorted by value unless
+    time or a natural order applies; zero baselines for bars; encode 1-D
+    quantities with length/position, never area or volume (keep the lie
+    factor between 0.95 and 1.05). Highlight the bar that proves the title in
+    `accent`; set the rest in `muted`.
 13. **Every chart names its source and units.** Bottom-left, caption size.
-14. **Tables for lookup, charts for comparison.** If the audience will read
-    individual values, use a table.
+    Currency over multiple years gets deflated to real terms and labeled so.
+14. **Pick the genre for the data shape, not the habit.** ≤ 20 numbers →
+    table (rule: tables for lookup, charts for comparison). Many series →
+    small multiples with shared scales, never an overplotted spaghetti line.
+    Distributions → quartile plots. Chart colors come from the kit's
+    `roles.chart` in order, but Tufte wins ties: a one-series chart needs one
+    color plus `muted`, not the whole palette.
 
 ## Accessibility
 
@@ -56,6 +75,48 @@ changes colors, fonts, and logos; it never changes these rules.
     shape so the deck survives grayscale printing.
 17. **Sites:** semantic HTML, keyboard-navigable interactions, visible focus
     states, `prefers-reduced-motion` respected.
+
+## Avoiding AI design tells
+
+LLM-generated decks and sites converge on a recognizable look that reads as
+machine-made to anyone who has seen a few of them. Senior partners and
+clients increasingly *have* seen a few of them. These rules exist because
+the tells are exactly what a model produces by default — treat the list as a
+pre-delivery lint pass, not as taste advice.
+
+20. **No cartoony or decorative icons.** No emoji as bullets or headers, no
+    clip-art-style illustrations, no rocket ships/light bulbs/sparkles, no
+    icons-in-colored-circles grids. An icon is allowed only when it encodes a
+    repeated meaning (e.g. one marker for "decision required" used
+    consistently), drawn in a single-weight stroke style, in `muted` or
+    `text` — never multicolored.
+21. **Square corners by default.** Heavy border-radius on every card, button,
+    and image is the single strongest tell. Corporate consulting materials
+    are rectilinear: 0 radius unless the client's own template demonstrably
+    uses rounding, in which case match the client and record it in the kit's
+    `notes`.
+22. **No neon, no gradients.** Saturated cyan/magenta/violet palettes,
+    purple-to-blue gradient washes, gradient text, and "glassmorphism" blur
+    panels are all banned. Color comes from the kit's roles, and rule 8
+    already caps the accent at ~10% — a deliverable that looks colorful has
+    already failed.
+23. **Boxes are not structure.** The default AI layout — a grid of
+    equal-sized cards, each with a one-color top border or tinted header —
+    substitutes decoration for hierarchy. Build hierarchy with type scale,
+    weight, spacing, and alignment on the grid (rule 6). A box earns its
+    border only when grouping is the message (e.g. options in a comparison).
+    Same for the reflexive `callout`-with-colored-left-border: one per page
+    at most, only for the statement that is genuinely the point.
+24. **Vary the rhythm.** AI layouts give every section identical weight:
+    three columns, then three columns, then three columns. Real documents
+    have asymmetry — a dense evidence page followed by a single-number page,
+    a full-bleed section divider, a wide table. If three consecutive
+    slides/sections share the same layout skeleton, redesign one.
+25. **Kill the filler register.** "Delve", "leverage", "seamless",
+    "robust", "holistic", "unlock value", title-case headers on every
+    box, and bullet lists where every line is exactly one sentence of the
+    same length. Action titles (storyline guide) and the client's own
+    vocabulary are the antidote.
 
 ## Restyling between clients
 

@@ -54,6 +54,12 @@ fonts come from the active brand kit's `roles` — patterns reference tokens
 
 ## Quantitative patterns
 
+For any actual chart, use the Tufte toolkit in this repo:
+`render-tufte-chart` to build it (its scripts emit clean SVG — convert to
+PNG/EMF for slides), `assess-graphical-excellence` to QA charts inherited
+from client material. The patterns below define the slide around the chart;
+the chart itself obeys design rules 11–14.
+
 ### Waterfall
 - **Use:** bridging two numbers (cost baseline → target, EBITDA bridge).
 - **Layout:** start and end bars in `primary`, increases `positive`,
@@ -78,8 +84,8 @@ fonts come from the active brand kit's `roles` — patterns reference tokens
 ### Roadmap / horizon plan
 - **Use:** implementation plans, transformation waves.
 - **Layout:** time across the top (quarters/halves), workstreams as rows,
-  initiatives as rounded bars in `chart` colors by workstream; milestones as
-  diamonds in `accent`. "Today" as a vertical line.
+  initiatives as rectangular bars in `chart` colors by workstream; milestones
+  as diamonds in `accent`. "Today" as a vertical line.
 - **Notes:** ≤ 6 workstreams; detail plans go to appendix, not into smaller
   fonts.
 
