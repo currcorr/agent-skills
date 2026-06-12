@@ -93,3 +93,24 @@ sessions everywhere see it. Two caveats: skill descriptions load at session
 *start*, so a running session won't see a mid-session push until restarted;
 and if more than one person starts pushing, switch from direct pushes to
 branches + PRs.
+
+**How agents know when to use these skills:** Claude Code loads every
+skill's frontmatter `description` at session start and triggers on matching
+requests — no need to name a skill, just talk ("build me a readout deck",
+"I like this slide — save it"). Codex doesn't auto-discover skill
+descriptions, so its AGENTS.md must carry the trigger index. Paste this
+into engagement workspaces' AGENTS.md (adjust the path):
+
+```markdown
+## Skills (~/skills) — read the matching SKILL.md BEFORE starting these tasks
+- Any deck/slides/presentation/readout → ~/skills/ey-deck/SKILL.md
+- User praises/flags a slide or deck ("save this", "I like the aesthetic/
+  headlines") → ~/skills/ey-deck/SKILL.md (template library section)
+- Client branding, extract template, restyle for client → ~/skills/ey-brand-kit/SKILL.md
+- Interactive site/dashboard/web deliverable → ~/skills/ey-site/SKILL.md
+- Review/QA/red-pen a deck → ~/skills/ey-deck-review/SKILL.md
+- Synthesize interviews/workshop notes → ~/skills/ey-synthesis/SKILL.md
+- Exhibits/charts from a workbook → ~/skills/excel-to-evidence/SKILL.md
+- Strategy frameworks/problem structuring → ~/skills/management-consulting/SKILL.md
+- Meeting notes → minutes → ~/skills/meeting-minutes/SKILL.md
+```

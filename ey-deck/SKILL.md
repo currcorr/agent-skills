@@ -1,6 +1,6 @@
 ---
 name: ey-deck
-description: Build consulting-grade PowerPoint decks rapidly — storyline first, branded via a client kit, using a library of proven consulting slide patterns. Use whenever the user asks for a deck, slides, presentation, proposal, steering-committee pack, status report, or readout for client or internal EY work, including restyling an existing deck for a new client. Works with or without a client .pptx template.
+description: Build consulting-grade PowerPoint decks rapidly — storyline first, branded via a client kit, using a library of proven consulting slide patterns. Use whenever the user asks for a deck, slides, presentation, proposal, steering-committee pack, status report, or readout for client or internal EY work, including restyling an existing deck for a new client. ALSO use whenever the user flags or praises any slide or deck — "save this slide", "keep this layout", "I like this deck's headlines/aesthetic/messaging", "add this to my template library" — to capture it in the template library, even when no new deck is being built. Works with or without a client .pptx template.
 ---
 
 # EY Deck
