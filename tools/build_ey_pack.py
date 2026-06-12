@@ -22,6 +22,8 @@ SKILLS = [
     "ey-deck-review",
     "ey-site",
     "ey-synthesis",
+    "excel-to-evidence",
+    "xlsx",                       # workbook mechanics used by excel-to-evidence
     "pptx",                       # .pptx mechanics (unpack/edit/thumbnail/pptxgenjs)
     "frontend-slides",            # HTML presentation techniques used by ey-site
     "orchestrate-tufte-vdqi",     # chart toolkit router
@@ -45,6 +47,8 @@ the agent-skills repo.
 | ey-deck-review | Partner-style red-pen review: storyline, design rules, AI tells, charts |
 | ey-site | Kit-styled zero-dependency interactive HTML deliverables |
 | ey-synthesis | Interview/workshop material → evidence-backed findings → deck outline |
+| excel-to-evidence | Workbook → tied-out, traceable exhibits with evidence log |
+| xlsx | Spreadsheet read/edit/create machinery used by excel-to-evidence |
 | pptx | Low-level .pptx read/edit/create machinery used by ey-deck |
 | frontend-slides | HTML presentation techniques used by ey-site |
 | orchestrate-tufte-vdqi / render-tufte-chart / assess-graphical-excellence | Chart toolkit (route / build / QA) |
@@ -76,8 +80,8 @@ generation).
 ## Licenses
 
 - ey-brand-kit / ey-deck / ey-site: created for this repo, no restrictions.
-- pptx: (c) Anthropic, governed by your Anthropic agreement (see
-  pptx/LICENSE.txt) — intended for use with Anthropic services.
+- pptx / xlsx: (c) Anthropic, governed by your Anthropic agreement (see
+  their LICENSE.txt files) — intended for use with Anthropic services.
 - frontend-slides: MIT (Zara Zhang).
 - Tufte skills: see their folders; render-tufte-chart bundles MIT-licensed
   tufte-css.

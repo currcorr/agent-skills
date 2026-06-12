@@ -43,6 +43,10 @@ beats a pattern built from scratch. Annotate the outline with one pattern
 
 ### 4. Render
 
+For slides whose evidence lives in a workbook or model, build the exhibits
+with `excel-to-evidence` first — it ties numbers out to the source and
+produces the evidence log QA will want.
+
 Two paths, chosen by whether a client .pptx template exists:
 
 - **Template path (preferred when `pptx.templatePath` is set in the kit):**

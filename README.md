@@ -21,6 +21,8 @@ Three skills that work as a system for client deliverables:
   → deck-ready outline (the upstream half of readout decks).
 - **ey-deck-review** — partner-style red-pen review of any finished deck:
   storyline, design rules, AI-tells lint, chart QA, severity-ranked findings.
+- **excel-to-evidence** — workbook → tied-out exhibits: locate the series,
+  verify it ties out, draft the so-what, render via Tufte, log provenance.
 
 Bundle all of it (plus dependency skills) for transfer with
 `python tools/build_ey_pack.py`.
