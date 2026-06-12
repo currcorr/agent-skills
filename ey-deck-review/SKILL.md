@@ -53,7 +53,10 @@ color-only encoding (rule 16).
 ### 4. AI-tells lint
 
 Rules 20–25 explicitly: decorative icons, rounded corners, gradients/neon,
-highlight-box grids, uniform layout rhythm, filler vocabulary. Quote the
+highlight-box grids, uniform layout rhythm, AI writing register. For the
+writing register, run the extracted deck text through the `humanizer`
+skill's detection patterns (its 24-pattern catalog is the authority;
+skip its voice-injection guidance — design rule 25 scopes it). Quote the
 offending text/element per finding.
 
 ### 5. Chart pass

@@ -26,6 +26,7 @@ SKILLS = [
     "xlsx",                       # workbook mechanics used by excel-to-evidence
     "pptx",                       # .pptx mechanics (unpack/edit/thumbnail/pptxgenjs)
     "frontend-slides",            # HTML presentation techniques used by ey-site
+    "humanizer",                  # AI writing-register detection used by the design-rules lint
     "orchestrate-tufte-vdqi",     # chart toolkit router
     "render-tufte-chart",         # chart production (SVG/HTML)
     "assess-graphical-excellence" # chart QA
@@ -51,6 +52,7 @@ the agent-skills repo.
 | xlsx | Spreadsheet read/edit/create machinery used by excel-to-evidence |
 | pptx | Low-level .pptx read/edit/create machinery used by ey-deck |
 | frontend-slides | HTML presentation techniques used by ey-site |
+| humanizer | AI writing-register detection (design rule 25's authority) |
 | orchestrate-tufte-vdqi / render-tufte-chart / assess-graphical-excellence | Chart toolkit (route / build / QA) |
 
 ## Install

@@ -112,11 +112,20 @@ pre-delivery lint pass, not as taste advice.
     have asymmetry — a dense evidence page followed by a single-number page,
     a full-bleed section divider, a wide table. If three consecutive
     slides/sections share the same layout skeleton, redesign one.
-25. **Kill the filler register.** "Delve", "leverage", "seamless",
-    "robust", "holistic", "unlock value", title-case headers on every
-    box, and bullet lists where every line is exactly one sentence of the
-    same length. Action titles (storyline guide) and the client's own
-    vocabulary are the antidote.
+25. **Kill the AI writing register.** The `humanizer` skill (in this repo)
+    is the authority — run its detection patterns over all deck and site
+    copy as part of this lint. The patterns that show up most in consulting
+    materials: filler vocabulary ("delve", "leverage", "seamless", "robust",
+    "holistic", "unlock value"), significance inflation ("underscores",
+    "pivotal", "evolving landscape"), negative parallelisms ("it's not just
+    X, it's Y"), rule-of-three everywhere, vague attributions ("industry
+    experts agree"), em-dash density, boldface sprinkled through prose,
+    Title Case On Every Heading, hedging stacks ("could potentially help
+    enable"), and generic positive conclusions. One scope limit: apply
+    humanizer's *detection* patterns only — its advice to add first-person
+    voice and opinions suits essays, not client deliverables. The target
+    register is crisp assertions in the client's own vocabulary (see the
+    storyline guide), with sentence-case headings.
 
 ## Restyling between clients
 
