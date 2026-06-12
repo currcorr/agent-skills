@@ -5,10 +5,19 @@ their geometry can be copied exactly — not redrawn from a description.
 
 ```
 library/
-├── INDEX.md          # the catalog — always start here
-├── decks/            # source .pptx files containing flagged slides
+├── INDEX.md          # slide catalog — always start here
+├── EXEMPLARS.md      # deck-level flags: qualities to emulate
+├── decks/            # source .pptx files (flagged slides AND exemplar decks)
+├── exemplars/        # one annotation file per deck-level flag
 └── thumbnails/       # one PNG per flagged slide, named <entry-name>.png
 ```
+
+Two kinds of flag, two mechanisms:
+
+- **Slide flag** → exact geometry worth copying. Captured below.
+- **Deck flag** ("I like how this deck uses headlines", "I like this one's
+  aesthetic") → a *quality* worth emulating. Geometry copying won't transfer
+  it; distillation will. See "Flagging a whole deck".
 
 ## Flagging a slide (what the agent does when the user says "I like this one")
 
@@ -28,6 +37,56 @@ like this layout", "keep this one for next time".
    `slide-patterns.md` doesn't cover yet — ask the user, and on yes, add the
    pattern with a pointer to this entry as its exemplar.
 5. **Commit** — the library only compounds if it's pushed.
+
+## Flagging a whole deck (what the agent does on "I like how this deck does X")
+
+The user's flag names a quality dimension — if it's ambiguous, ask which:
+**messaging** (titles, wording, simplicity), **aesthetic** (color use,
+type, whitespace, motif), **structure** (flow, section rhythm),
+**density** (how much per slide), or **charts**. A deck can be flagged on
+several dimensions at once; annotate each.
+
+1. **Store the deck** in `decks/` (same confidentiality handling as slide
+   flags).
+2. **Distill — this is the step that matters.** Don't record "user likes
+   it"; extract the operative, transferable rules with evidence from the
+   deck itself:
+   - *Messaging:* pull every title, then characterize what works — e.g.
+     "verb-led assertions, 8–12 words, the key number in the title, no
+     two-line titles" — and quote 3–5 of the best as examples.
+   - *Aesthetic:* run `ey-brand-kit/scripts/extract_kit.py` on it, then
+     capture what the kit alone can't hold: density of accent use, image
+     treatment, the repeated motif, dark/light rhythm. Save or update a kit
+     and put the rest in the annotation.
+   - *Structure / density / charts:* describe the pattern concretely enough
+     that a deck for a different topic could follow it ("one full-bleed
+     divider per section, then at most three evidence slides before the
+     next breather").
+3. **Write the annotation** to `exemplars/<name>.md`:
+
+   ```markdown
+   # <name>
+   Source: decks/<file>.pptx · Kit: <kit> · Flagged: <date>
+   Flagged for: messaging | aesthetic | ...
+
+   ## What to emulate
+   <the distilled rules, with quoted/visual evidence from the deck>
+
+   ## When it applies / when it doesn't
+   <e.g. "exec audiences; not for working-team detail packs">
+   ```
+
+4. **Index it** — add a row to `EXEMPLARS.md`.
+5. **Watch for promotion.** An exemplar quality cited on two or three
+   engagements isn't a preference anymore — propose folding it into
+   `design-rules.md` or the storyline guide as a numbered rule. That's the
+   pipeline: flag → exemplar → house style.
+
+**How exemplars get used:** `ey-deck` consults `EXEMPLARS.md` at the
+storyline step (messaging/structure exemplars shape titles and flow) and at
+the render step (aesthetic exemplars shape treatment, alongside the kit).
+Exemplars never override the design rules or the active client kit — they
+steer choices *within* them.
 
 ## Reusing a flagged slide
 

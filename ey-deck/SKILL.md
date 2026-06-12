@@ -92,6 +92,14 @@ thumbnail, add an INDEX.md row with why it earned the flag, and offer to
 promote it to a named pattern. After delivering any deck, if a slide drew
 explicit praise during review, proactively offer to flag it.
 
+When the user flags a **whole deck** for a quality ("I like how this deck
+uses headlines", "I like this one's aesthetic"), that's a deck exemplar —
+follow the distillation workflow in library/README.md and index it in
+[library/EXEMPLARS.md](library/EXEMPLARS.md). Consult EXEMPLARS.md during
+step 1 (messaging/structure exemplars) and step 4 (aesthetic exemplars);
+exemplars steer choices within the design rules and active kit, never
+against them.
+
 ## Speed defaults
 
 When the user wants a deck fast and gives no contrary instruction: 16:9,
