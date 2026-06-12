@@ -1,0 +1,76 @@
+---
+name: ey-deck
+description: Build consulting-grade PowerPoint decks rapidly — storyline first, branded via a client kit, using a library of proven consulting slide patterns. Use whenever the user asks for a deck, slides, presentation, proposal, steering-committee pack, status report, or readout for client or internal EY work, including restyling an existing deck for a new client. Works with or without a client .pptx template.
+---
+
+# EY Deck
+
+Storyline → patterns → render. The deck's content is designed before any
+slide is touched, the look comes entirely from a brand kit, and the slides
+themselves are assembled from a pattern library — so the same deck can be
+restyled for a different client by swapping the kit.
+
+Dependencies (same repo): `ey-brand-kit` for styling and design rules,
+`pptx` for low-level .pptx mechanics.
+
+## Workflow
+
+### 1. Storyline first — no slides yet
+
+Read [references/storyline-guide.md](references/storyline-guide.md). Produce
+a one-page outline: governing thought, then one line per slide where each
+line is that slide's **action title** (a complete sentence stating the
+takeaway). Confirm the storyline with the user before building anything —
+revising an outline is minutes, revising a built deck is hours.
+
+### 2. Resolve the brand kit
+
+Use the `ey-brand-kit` skill. If the user supplied a client template, extract
+a kit from it; otherwise use `ey-brand-kit/kits/ey-default.json` or an
+existing client kit. Read `ey-brand-kit/references/design-rules.md` — those
+rules bind every slide.
+
+### 3. Pick a pattern per slide
+
+[references/slide-patterns.md](references/slide-patterns.md) catalogs the
+consulting patterns (exec summary, 2x2, roadmap, harvey-ball comparison,
+KPI dashboard, …) with layout specs and when-to-use guidance. Annotate the
+outline with one pattern per slide.
+
+### 4. Render
+
+Two paths, chosen by whether a client .pptx template exists:
+
+- **Template path (preferred when `pptx.templatePath` is set in the kit):**
+  follow the `pptx` skill's editing workflow — duplicate template slides per
+  the kit's `layoutMap`, replace placeholder content. This inherits masters,
+  footers, and fonts exactly, which is what "matching the client template"
+  actually requires.
+- **From-scratch path:** follow the `pptx` skill's pptxgenjs workflow, but
+  take every color and font from the kit's `colors.roles` and `typography`
+  blocks. Never hard-code hex values in the generation code — define
+  variables from the kit at the top so a kit swap restyles the deck.
+
+### 5. Verify before delivering
+
+- Render thumbnails (`pptx` skill's `thumbnail.py`) and inspect every slide:
+  overflow, alignment, orphaned placeholders.
+- Read the action titles top to bottom — do they tell the story on their own?
+- Check footer/page numbers/confidentiality marking on every slide.
+- Spot-check contrast pairs against design rule 15.
+
+## Restyling an existing deck for a new client
+
+1. Extract or load the new client's kit (`ey-brand-kit`).
+2. Template path: move slide content onto the new template's layouts via the
+   `pptx` editing workflow. From-scratch path: re-run generation with the new
+   kit.
+3. Re-verify rules 8 (accent scarcity) and 15 (contrast) — palettes break
+   these silently.
+
+## Speed defaults
+
+When the user wants a deck fast and gives no contrary instruction: 16:9,
+title + agenda + exec summary + content sections + next steps + appendix,
+EY default kit, one pattern per content slide, sources as bottom-left
+captions. Ask only about storyline substance, not formatting.

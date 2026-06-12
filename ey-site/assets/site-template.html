@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Deliverable Title — Client Name</title>
+<style>
+/* ============================================================
+   KIT VARIABLES — replace this :root block with the output of:
+   python ey-brand-kit/scripts/kit_to_css.py kits/<client>.json
+   ============================================================ */
+:root {
+  --color-primary: #2E2E38;
+  --color-accent: #FFE600;
+  --color-background: #FFFFFF;
+  --color-backgroundDark: #2E2E38;
+  --color-text: #2E2E38;
+  --color-textOnDark: #FFFFFF;
+  --color-muted: #747480;
+  --color-border: #C4C4CD;
+  --color-positive: #168736;
+  --color-negative: #B9251C;
+  --color-chart-1: #FFE600;
+  --color-chart-2: #2E2E38;
+  --color-chart-3: #747480;
+  --color-chart-4: #35A4E8;
+  --color-chart-5: #9C82D4;
+  --color-chart-6: #C4C4CD;
+  --font-heading: "EYInterstate", Arial, Helvetica, sans-serif;
+  --weight-heading: 700;
+  --font-body: "EYInterstate Light", Arial, Helvetica, sans-serif;
+  --weight-body: 400;
+  --text-title: 3.333rem;
+  --text-h1: 2.333rem;
+  --text-h2: 1.666rem;
+  --text-body: 1.166rem;
+  --text-caption: 0.833rem;
+}
+/* ============================================================
+   BASE — token-driven, do not introduce literal colors below
+   ============================================================ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+body {
+  font-family: var(--font-body);
+  font-weight: var(--weight-body);
+  font-size: var(--text-body);
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.55;
+}
+h1, h2, h3 { font-family: var(--font-heading); font-weight: var(--weight-heading); line-height: 1.2; }
+h1 { font-size: var(--text-h1); }
+h2 { font-size: var(--text-h2); }
+a { color: var(--color-text); }
+:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+
+/* Layout primitives */
+.wrap { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+section { padding: 64px 0; }
+section + section { border-top: 1px solid var(--color-border); }
+.grid { display: grid; gap: 20px; }
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+
+/* Hero — dark treatment per design rules */
+.hero { background: var(--color-backgroundDark); color: var(--color-textOnDark); padding: 96px 0; }
+.hero h1 { font-size: var(--text-title); max-width: 18ch; }
+.hero .kicker {
+  display: inline-block; background: var(--color-accent); color: var(--color-primary);
+  font-family: var(--font-heading); font-weight: var(--weight-heading);
+  font-size: var(--text-caption); text-transform: uppercase; letter-spacing: 0.08em;
+  padding: 4px 10px; margin-bottom: 20px;
+}
+
+/* Sticky section nav */
+nav.toc {
+  position: sticky; top: 0; z-index: 10;
+  background: var(--color-background); border-bottom: 1px solid var(--color-border);
+}
+nav.toc ul { display: flex; gap: 4px; list-style: none; overflow-x: auto; }
+nav.toc a {
+  display: block; padding: 14px 16px; text-decoration: none;
+  font-family: var(--font-heading); font-size: var(--text-caption);
+  border-bottom: 3px solid transparent; white-space: nowrap;
+}
+nav.toc a.active { border-bottom-color: var(--color-accent); }
+
+/* KPI card */
+.kpi { border: 1px solid var(--color-border); padding: 24px; }
+.kpi .value { font-family: var(--font-heading); font-weight: var(--weight-heading); font-size: var(--text-h1); }
+.kpi .label { color: var(--color-muted); font-size: var(--text-caption); text-transform: uppercase; letter-spacing: 0.06em; }
+.kpi .delta { font-size: var(--text-caption); }
+.kpi .delta.up { color: var(--color-positive); }
+.kpi .delta.down { color: var(--color-negative); }
+
+/* Expandable detail (drill-down) */
+details { border: 1px solid var(--color-border); margin: 8px 0; }
+details summary {
+  cursor: pointer; padding: 14px 18px; font-family: var(--font-heading);
+  font-weight: var(--weight-heading); list-style: none;
+}
+details summary::before { content: "+"; color: var(--color-muted); margin-right: 10px; }
+details[open] summary::before { content: "–"; }
+details .body { padding: 0 18px 18px; }
+
+/* Accent marker for key statements — use sparingly (design rule 8) */
+.callout { border-left: 6px solid var(--color-accent); padding: 12px 18px; background: color-mix(in srgb, var(--color-accent) 8%, var(--color-background)); }
+
+footer {
+  border-top: 1px solid var(--color-border); padding: 24px 0;
+  color: var(--color-muted); font-size: var(--text-caption);
+}
+
+@media print {
+  nav.toc { display: none; }
+  details { border: none; }
+  details summary::before { content: ""; }
+  .hero { padding: 40px 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="kicker">Confidential — Client Name</span>
+    <h1>Governing thought of the deliverable goes here as one sentence</h1>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Sections">
+  <ul class="wrap">
+    <li><a href="#summary" class="active">Summary</a></li>
+    <li><a href="#section-1">Section 1</a></li>
+    <li><a href="#section-2">Section 2</a></li>
+    <li><a href="#next-steps">Next steps</a></li>
+  </ul>
+</nav>
+
+<main>
+  <section id="summary">
+    <div class="wrap">
+      <h2>Executive summary as an assertion</h2>
+      <div class="grid grid-3" style="margin-top: 24px;">
+        <div class="kpi">
+          <div class="label">Metric label</div>
+          <div class="value">23%</div>
+          <div class="delta up">▲ 4pp vs. target</div>
+        </div>
+        <!-- more .kpi cards -->
+      </div>
+    </div>
+  </section>
+
+  <section id="section-1">
+    <div class="wrap">
+      <h2>Section action title</h2>
+      <p class="callout">Key statement worth the accent treatment.</p>
+      <details>
+        <summary>Drill-down topic — one-line takeaway</summary>
+        <div class="body"><p>Supporting detail revealed on demand.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <section id="next-steps">
+    <div class="wrap"><h2>Next steps</h2><!-- action / owner / date table --></div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    Confidential — prepared for Client Name. Sources: …
+  </div>
+</footer>
+
+<script>
+// Scroll-spy for the section nav — no external libraries.
+const links = document.querySelectorAll("nav.toc a");
+const sections = [...links].map(a => document.querySelector(a.getAttribute("href")));
+const spy = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id));
+    }
+  });
+}, { rootMargin: "-40% 0px -55% 0px" });
+sections.forEach(s => s && spy.observe(s));
+</script>
+
+</body>
+</html>

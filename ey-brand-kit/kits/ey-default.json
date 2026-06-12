@@ -1,0 +1,58 @@
+{
+  "meta": {
+    "name": "ey-default",
+    "client": "EY (internal default)",
+    "source": "EY public brand guidelines",
+    "extracted": "2026-06-12",
+    "confidential": false
+  },
+  "colors": {
+    "theme": {
+      "dk1": "#2E2E38",
+      "lt1": "#FFFFFF",
+      "dk2": "#1A1A24",
+      "lt2": "#F6F6FA",
+      "accent1": "#FFE600",
+      "accent2": "#2E2E38",
+      "accent3": "#747480",
+      "accent4": "#C4C4CD",
+      "accent5": "#35A4E8",
+      "accent6": "#9C82D4"
+    },
+    "roles": {
+      "primary": "#2E2E38",
+      "accent": "#FFE600",
+      "background": "#FFFFFF",
+      "backgroundDark": "#2E2E38",
+      "text": "#2E2E38",
+      "textOnDark": "#FFFFFF",
+      "muted": "#747480",
+      "border": "#C4C4CD",
+      "positive": "#168736",
+      "negative": "#B9251C",
+      "chart": ["#FFE600", "#2E2E38", "#747480", "#35A4E8", "#9C82D4", "#C4C4CD"]
+    }
+  },
+  "typography": {
+    "heading": { "family": "EYInterstate", "fallback": "Arial, Helvetica, sans-serif", "weight": 700 },
+    "body": { "family": "EYInterstate Light", "fallback": "Arial, Helvetica, sans-serif", "weight": 400 },
+    "scale": { "title": 40, "h1": 28, "h2": 20, "body": 14, "caption": 10 }
+  },
+  "logo": {
+    "primary": "",
+    "onDark": "",
+    "placement": "bottom-left",
+    "clearSpace": "1x logo height on all sides"
+  },
+  "pptx": {
+    "templatePath": "",
+    "slideSize": "16:9",
+    "layoutMap": {}
+  },
+  "notes": [
+    "EY yellow (#FFE600) is a marker/background block color, never a text color on white — contrast fails.",
+    "Dark slides use #2E2E38 background with white text and yellow accents.",
+    "EYInterstate is licensed; do not bundle font files, rely on the fallback stack where it is not installed.",
+    "Set pptx.templatePath to a real EY template when one is available and run extract_kit.py to fill layoutMap."
+  ]
+}
