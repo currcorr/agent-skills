@@ -38,13 +38,22 @@ like this layout", "keep this one for next time".
    python ../scripts/slide_anatomy.py decks/<deck>.pptx <slide#> anatomy/<entry-name>.md
    ```
 
-   The script inventories every element (type, position, size, fill, text,
-   grouping, z-order). Then **fill in the "Construction notes" section by
-   looking at the thumbnail and the table together**: name the alignment
-   grid in use, the spacing rhythm, which shapes form which visual zones,
-   which kit roles the literal fills correspond to, and what makes the
-   construction work. The table is facts; the notes are the craft — both
-   are needed for an agent to rebuild it well.
+   The script inventories every element (type, position, size, fill, line
+   style, table structure, text, grouping, z-order) and scaffolds two
+   sections to **fill in by looking at the thumbnail and the table
+   together**:
+   - **Token map** — every literal color → the kit role it plays (accent,
+     muted, border…), so the slide survives restyling through any kit.
+   - **Construction notes** — alignment grid, spacing rhythm, visual zones,
+     hierarchy, **what to preserve vs. what can flex** when reusing, and
+     why it works. The preserve/flex split is what lets a rebuild adapt
+     (more bars, different column count) without losing the craft.
+
+   The table is facts; the notes are the craft — both are needed for an
+   agent to rebuild it well. Note the routing rule: specs drive
+   *compositional* rebuilds; data-driven elements (charts/tables whose
+   element count varies with data) are generated parametrically instead —
+   see the render step in ../SKILL.md.
 4. **Add a row to INDEX.md**: short name, source deck filename, slide
    number, closest pattern from `../references/slide-patterns.md`, kit it was
    built with, one line on *why* it earned the flag (that's the retrieval

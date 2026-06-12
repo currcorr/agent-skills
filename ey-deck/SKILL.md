@@ -56,11 +56,24 @@ Two paths, chosen by whether a client .pptx template exists:
   actually requires. Note that in practice most content slides use a basic
   layout (title + body, or blank) and are **constructed freehand from
   shapes, text boxes, and objects** — the layout supplies only the title
-  placeholder and furniture. When constructing freehand, check
-  `library/anatomy/` for construction specs of flagged slides (exact
-  positions, sizes, fills, grouping, plus craft notes); rebuilding from a
-  spec beats improvising geometry. To study how any existing slide is
-  built, run `scripts/slide_anatomy.py deck.pptx <slide#>`.
+  placeholder and furniture.
+
+  When constructing freehand, route by slide type:
+  - **Data-driven slides** (charts, tables, timelines, dashboards — anything
+    whose element count varies with the data): generate **parametrically**
+    — Tufte scripts for charts, pptxgenjs/table generation from kit tokens.
+    An exemplar spec built for 5 bars does not adapt safely to 9; code does.
+  - **Compositional slides** (frameworks, callout layouts, comparison
+    builds, section structures): rebuild from **construction specs** in
+    `library/anatomy/` — exact positions, sizes, fills, grouping, plus
+    craft notes saying what to preserve and what can flex. Rebuilding from
+    a spec beats improvising geometry.
+  - Hybrids (a chart inside a composed layout) use both: spec for the
+    composition and zones, parametric generation for the data element
+    placed into its zone.
+
+  To study how any existing slide is built, run
+  `scripts/slide_anatomy.py deck.pptx <slide#>`.
 - **From-scratch path:** follow the `pptx` skill's pptxgenjs workflow, but
   take every color and font from the kit's `colors.roles` and `typography`
   blocks. Never hard-code hex values in the generation code — define

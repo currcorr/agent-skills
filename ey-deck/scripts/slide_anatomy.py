@@ -53,6 +53,39 @@ def get_fill(sp_pr):
     return f"theme:{scheme.get('val')}" if scheme is not None else "?"
 
 
+def get_line(sp_pr):
+    """Outline style: width(pt) color dash, or '' if none."""
+    ln = sp_pr.find(f"{A}ln") if sp_pr is not None else None
+    if ln is None:
+        return ""
+    if ln.find(f"{A}noFill") is not None:
+        return "none"
+    parts = []
+    if ln.get("w"):
+        parts.append(f"{int(ln.get('w')) / 12700:g}pt")
+    solid = ln.find(f"{A}solidFill")
+    if solid is not None:
+        srgb, scheme = solid.find(f"{A}srgbClr"), solid.find(f"{A}schemeClr")
+        if srgb is not None:
+            parts.append("#" + srgb.get("val").upper())
+        elif scheme is not None:
+            parts.append(f"theme:{scheme.get('val')}")
+    dash = ln.find(f"{A}prstDash")
+    if dash is not None:
+        parts.append(dash.get("val"))
+    return " ".join(parts) or "default"
+
+
+def get_table(frame):
+    """Summarize a graphicFrame's table: rows x cols + column widths."""
+    tbl = frame.find(f".//{A}tbl")
+    if tbl is None:
+        return None
+    cols = [emu_in(c.get("w")) for c in tbl.findall(f"{A}tblGrid/{A}gridCol")]
+    rows = len(tbl.findall(f"{A}tr"))
+    return f"{rows}r × {len(cols)}c, col widths(in): {', '.join(str(c) for c in cols)}"
+
+
 def get_text(el):
     """Concatenate runs; report dominant size/bold."""
     parts, sizes, bolds = [], [], []
@@ -100,7 +133,8 @@ def walk(tree_el, transform, rows, depth=0):
             kind = geom.get("prst")
         if ph is not None:
             kind += f" [placeholder:{ph.get('type', 'body')}]"
-        row = {"depth": depth, "kind": kind, "name": name, "fill": get_fill(sp_pr)}
+        row = {"depth": depth, "kind": kind, "name": name,
+               "fill": get_fill(sp_pr), "line": get_line(sp_pr)}
         if xf:
             ax, ay = ox + xf["x"] * sx, oy + xf["y"] * sy
             aw, ah = xf["cx"] * sx, xf["cy"] * sy
@@ -108,6 +142,10 @@ def walk(tree_el, transform, rows, depth=0):
                        rot=round(xf["rot"] / 60000, 1) if xf["rot"] else 0)
         tx = el.find(f"{P}txBody")
         row["text"], row["textmeta"] = get_text(tx) if tx is not None else ("", "")
+        if tag == "graphicFrame":
+            tbl = get_table(el)
+            if tbl:
+                row["kind"], row["text"] = "table", tbl
         rows.append(row)
         if tag == "grpSp" and xf is not None:
             choff, chext = xf["choff"], xf["chext"]
@@ -153,9 +191,10 @@ def main():
         f"# Construction spec — {src.name}, slide {n}",
         f"Canvas: {emu_in(W)} x {emu_in(H)} in · Layout: \"{layout or 'unknown'}\" · {len(rows)} elements (z-order, top to bottom of table = back to front)",
         "",
-        "| z | Element | Name | Pos x,y (in) | Size w×h (in) | x,y (%) | Fill | Text |",
-        "|---|---------|------|--------------|---------------|---------|------|------|",
+        "| z | Element | Name | Pos x,y (in) | Size w×h (in) | x,y (%) | Fill | Line | Text |",
+        "|---|---------|------|--------------|---------------|---------|------|------|------|",
     ]
+    tokens = {}
     for i, r in enumerate(rows, 1):
         indent = "↳ " * r["depth"]
         if "x" in r:
@@ -167,14 +206,35 @@ def main():
         else:
             pos = size = pct = "—"
         text = r["text"] + (f" ({r['textmeta']})" if r["textmeta"] else "")
-        lines.append(f"| {i} | {indent}{r['kind']} | {r['name']} | {pos} | {size} | {pct} | {r['fill']} | {text} |")
+        lines.append(f"| {i} | {indent}{r['kind']} | {r['name']} | {pos} | {size} | {pct} | {r['fill']} | {r['line']} | {text} |")
+        for kind, val in (("fill", r["fill"]), ("line", r["line"])):
+            for tok in val.split():
+                if tok.startswith("#") or tok.startswith("theme:"):
+                    tokens.setdefault(f"{tok} ({kind})", []).append(str(i))
 
     lines += [
         "",
-        "## Construction notes",
-        "_Filled in by the flagging agent: alignment grid in use, spacing rhythm,",
-        "which shapes form the visual zones, what makes this construction work,",
-        "and which kit roles the literal fills map to._",
+        "## Token map — literal value → kit role (fill in at flag time)",
+        "",
+        "| Value | Used by (z) | Kit role |",
+        "|-------|-------------|----------|",
+    ]
+    for val, zs in tokens.items():
+        lines.append(f"| {val} | {', '.join(zs)} | |")
+    if not tokens:
+        lines.append("| _no explicit colors found (all inherited from layout/master)_ | | |")
+
+    lines += [
+        "",
+        "## Construction notes (fill in at flag time)",
+        "",
+        "- **Alignment grid:** _column boundaries / margins everything snaps to_",
+        "- **Spacing rhythm:** _the repeated gaps and padding unit_",
+        "- **Visual zones:** _which elements form which zones (title / evidence / so-what…)_",
+        "- **Hierarchy:** _what reads first, second, third — and why_",
+        "- **Preserve:** _what must not change when reusing (proportions, zone order…)_",
+        "- **Can flex:** _what adapts safely (element counts, zone widths, text length…)_",
+        "- **Why it works:** _the craft judgment, one or two sentences_",
         "",
     ]
     out.write_text("\n".join(lines))
