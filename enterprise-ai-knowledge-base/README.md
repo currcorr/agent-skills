@@ -18,10 +18,12 @@ A comprehensive, video-series-ready treatment of production enterprise AI, writt
 | 7 | Implementation & Adoption | [`07-implementation-adoption.md`](07-implementation-adoption.md) |
 | 8 | Cutting-Edge Methodologies | [`08-cutting-edge.md`](08-cutting-edge.md) |
 | — | **Cross-cutting:** Systems of Record Integration | [`09-systems-of-record-integration.md`](09-systems-of-record-integration.md) |
+| — | Sources & verification appendix | [`SOURCES.md`](SOURCES.md) |
+| — | Review + update punch list (depth/format follow-ups) | [`REVISION-NOTES.md`](REVISION-NOTES.md) |
 
 ## Conventions
 
 - **Maturity labels:** *Established*, *Stabilizing*, *Emerging*, *Early-production* (defined in the overview).
 - **Shipped vs. roadmap:** vendor capabilities are separated into GA vs. announced/roadmap, and thin public detail is flagged.
-- **Knowledge horizon:** early 2026. Time-sensitive vendor claims (Salesforce Agentforce / Data Cloud / Revenue Cloud / Logik.ai; ServiceNow Now Assist / AI Agents / CPQ; protocol specs like MCP and A2A) should be **verified against primary vendor documentation and release notes** before recording.
+- **Knowledge horizon:** the content was drafted at an early-2026 horizon and **refreshed against the web in a mid-2026 research pass** (currency updates applied across all modules; see `REVISION-NOTES.md` for the full change log and the outstanding depth/format follow-ups). Claims flagged ⚠ in the text, and everything in `SOURCES.md`, should still be **re-verified against primary vendor/standards sources before recording** — this space moves fast. Note the critical correction applied: **Logik.ai was acquired by ServiceNow, not Salesforce.**
 - **Running enterprise examples:** CRM and CPQ, on Salesforce and ServiceNow as reference platforms.
