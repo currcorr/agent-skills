@@ -30,6 +30,7 @@
 - OpenAI fine-tuning wind-down (to ~Jan 2027): `developers.openai.com/api/docs/deprecations`. *Primary.*
 - RFT / GRPO: OpenAI RFT guide; AWS Bedrock RFT (Nova). *Primary.*
 - Eval two-tier pattern, Braintrust: vendor comparison write-ups. *Soft — directional.*
+- **Portable task adapters (emerging):** *PorTAL: Portable Task Adapters for LLMs* — Geist, B., Ramp Labs (2026), corporate research blog. Related prior art it builds on: Text-to-LoRA (Charakorn et al., ICML 2025, arXiv:2506....), Cross-LoRA (Xia et al., 2025, arXiv:2508.05232), LoRA-X (Farhadzadeh et al., 2025, arXiv:2501.16559), Platonic Representation Hypothesis (Huh et al., 2024, arXiv:2405.07987). *⚠ Soft — single-source, not peer-reviewed, narrow eval (14 MCQ tasks, small Qwen3/Gemma-3 models), self-reported; some cited references appear future-dated/unverifiable. Treat as a direction to watch, verify before relying.*
 
 ## Module 3 — RAG & Retrieval
 - Embedding models: Gemini Embedding GA (`developers.googleblog.com`), Cohere Embed v4 (AWS Bedrock docs), Voyage-3.5, Qwen3-Embedding. *Primary/Secondary.*

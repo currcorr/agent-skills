@@ -169,6 +169,8 @@ For a model to plug into software, its output must be **machine-parseable** — 
 - **Maintenance burden** — base models improve monthly; your fine-tune can become worse than next quarter's prompted base model. Fine-tunes are a *liability to maintain*, not a one-time asset.
 - **Governance** — training data may contain PII/secrets that get baked into weights (Module 6.3). Sanitize.
 
+**(e′) Emerging: portable / transferable task adapters (watch, don't build on yet).** A research direction aimed squarely at the "maintenance burden" above: learn a task adaptation **once in a base-agnostic form** and port it to each new base model by refitting only a small per-model component, instead of re-tuning from scratch per (task, model). Threads here include **hypernetwork-generated LoRA** (Text-to-LoRA — emit an adapter from a task description) and **cross-base transfer** (e.g., the *PorTAL* proposal — freeze a shared task latent + core decoder, refit only a thin per-base "converter," reporting ~94–98% of LoRA's accuracy lift on unseen bases in a narrow test). If it holds up, it would meaningfully cut the re-tune cost as model cadence accelerates (Module 8.1). **Maturity: *emerging* — largely single-source, not peer-reviewed, and evaluated only on small models and multiple-choice tasks; ⚠ unreplicated — track it, don't architect around it.**
+
 **(f) Enterprise example.** A telecom fine-tunes a small model (LoRA) to convert messy sales notes into their exact internal opportunity-summary format and tone — cheap, fast, consistent — while the *facts* (account, products, pricing) are retrieved live from the CRM. When the base model upgrades, they re-evaluate whether the fine-tune still earns its keep.
 
 ---

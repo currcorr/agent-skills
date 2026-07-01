@@ -140,6 +140,7 @@ Not every task needs a frontier model. **Small language models (SLMs)** are chea
 - **Cascades** — try a cheap model first; escalate to a bigger one only if confidence/quality is insufficient.
 - **Distillation** — a large "teacher" generates training data to fine-tune a small "student" that matches it on your distribution.
 - **Edge/on-device** — quantized SLMs on laptops/phones/private servers for privacy, latency, offline, and cost.
+- **Portable/transferable adapters (*emerging*, adjacent)** — rather than distilling or re-tuning per base, learn a task adaptation once in a base-agnostic form and refit only a thin per-model component to port it to the next base (hypernetwork-generated LoRA like Text-to-LoRA; cross-base transfer like the *PorTAL* proposal — Module 2.5). Attacks the re-tune-per-model cost as cadence accelerates. **⚠ single-source/unreplicated — watch, don't build on it yet.**
 
 **(c) Tools.** Model routing is now first-class: **GPT-5's native fast/reasoning auto-router**, **OpenRouter's Auto Router** (fronting 400+ models), RouteLLM (reports ~85% cost savings at ~95% GPT-4 quality via a sub-10ms classifier), plus gateways (LiteLLM, Portkey). Open SLMs (small variants across model families), quantization/serving (llama.cpp, Ollama, vLLM), distillation tooling. Reported production bill reductions of 40–85%.
 
