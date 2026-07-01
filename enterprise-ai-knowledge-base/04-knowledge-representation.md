@@ -92,7 +92,7 @@ Both organize concepts, but at different power levels. A **taxonomy** is a **hie
 - **Clustering/merging** — group matched records into a single canonical entity with a **golden record** and links to sources (survivorship rules decide which value wins).
 - **Identity management** — maintain stable canonical IDs and mappings so downstream joins are consistent.
 
-**(c) Tools.** Master Data Management (MDM) suites (Informatica, Reltio, Tamr); open frameworks (Zingg, Dedupe, Splink); graph-native ER; **LLM-assisted ER** for hard/edge cases (*emerging* — powerful but needs guardrails against wrong merges).
+**(c) Tools.** Master Data Management (MDM) suites (Informatica, Reltio, Tamr, Quantexa); open frameworks (Zingg — incl. on Databricks/Spark, Dedupe, Splink); cloud (AWS Entity Resolution); graph-native ER; **LLM/transformer-based ER** for hard/edge cases (now *maturing* — benchmarked and appearing in platforms; still needs guardrails against wrong merges).
 
 **(d) Decision criteria.** Invest heavily in ER when data comes from **many sources** (multiple CRMs post-acquisition, CRM + ERP + support), when duplicates cause real harm (double-counting revenue, split customer views), or when the KG's value depends on correct linkage. Match strictness to cost of error: **false merges** (two real customers merged) are usually worse than **false splits** (one customer left as two) — tune accordingly, and keep humans in the loop for uncertain merges.
 
@@ -114,11 +114,11 @@ A **graph database** stores and queries nodes/edges natively, making multi-hop t
 
 **(b) Mechanics & the landscape.**
 - **Labeled Property Graph (LPG):**
-  - **Neo4j** — the market leader; **Cypher** query language; mature tooling, vector index support (for hybrid graph+vector), and graph data science library. Also drives **GraphRAG**-style patterns.
-  - Others: **Amazon Neptune** (supports both LPG and RDF), **TigerGraph**, **Memgraph**, **ArangoDB** (multi-model), **JanusGraph**.
+  - **Neo4j** — the most widely-used enterprise graph database; **Cypher** query language; mature tooling. Now ships a **native VECTOR data type + filterable vector indexes**, **in-Cypher GraphRAG/AI procedures**, and an official **neo4j-graphrag** Python library — GA product features, not experiments.
+  - Others: **Amazon Neptune** (LPG + RDF) and **Neptune Analytics** (in-memory, native vector search in openCypher; powers Amazon **Bedrock Knowledge Bases GraphRAG**, GA 2025), **TigerGraph**, **Memgraph**, **ArangoDB** (multi-model), **JanusGraph**. The space is **consolidating** — e.g., embedded graph DB **Kùzu** was acquired by Apple and its open-source repo archived (Oct 2025), with maintenance passing to community forks; weigh vendor/project durability.
 - **RDF/triple stores:** GraphDB, Stardog, Blazegraph, Neptune — **SPARQL** queries, OWL reasoning.
 - **Query languages:**
-  - **Cypher** — pattern-matching syntax that *draws the graph in ASCII*: `MATCH (a:Account)-[:HAS_OPPORTUNITY]->(o:Opportunity) WHERE o.stage='Renewal' RETURN a,o`. Intuitive; being standardized as **GQL** (ISO), the new standard graph query language.
+  - **Cypher** — pattern-matching syntax that *draws the graph in ASCII*: `MATCH (a:Account)-[:HAS_OPPORTUNITY]->(o:Opportunity) WHERE o.stage='Renewal' RETURN a,o`. Intuitive; now standardized as **GQL (ISO/IEC 39075, published April 2024)** — the first new ISO database query language since SQL (1987); Cypher conforms to most mandatory GQL features.
   - **SPARQL** — triple-pattern queries over RDF; powerful, more verbose.
   - **Gremlin** — imperative traversal (Apache TinkerPop), cross-vendor.
 
@@ -152,9 +152,10 @@ Enterprise data is **messy**: cryptic table/column names (`acct_x2`, `opp_amt_c`
 - **Metric definitions** — governed, single-definition calculations ("ARR," "win rate") so everyone (and the agent) computes them the same way.
 - **Relationships & joins** — pre-defined so consumers don't re-derive them.
 - **Access/governance** — entitlements defined at the semantic layer, inherited by consumers (ties to 3.8, 6.3).
-- **Two flavors converging:** (1) **BI/metrics semantic layers** (dbt Semantic Layer, Cube, LookML, AtScale) — governed metrics for analytics; (2) **knowledge-graph/ontology semantic layers** — entities + relationships for reasoning. For agents, the semantic layer is what turns "text-to-SQL against a cryptic schema" (fragile) into "query well-defined business concepts" (robust).
+- **Two flavors converging:** (1) **BI/metrics semantic layers** (dbt Semantic Layer, Cube, LookML, AtScale) — governed metrics for analytics; (2) **knowledge-graph/ontology semantic layers** — entities + relationships for reasoning. For agents, the semantic layer is what turns "text-to-SQL against a cryptic schema" (fragile) into "query well-defined business concepts" (robust) — a shift now **benchmark-backed** (2026 dbt benchmarks show semantic-layer querying materially beating raw text-to-SQL on modeled projects, because the LLM picks a governed metric by name and the engine generates the query deterministically; treat exact percentages as directional).
+- **Standardization (new):** the **Open Semantic Interchange (OSI)** — a vendor-neutral open spec (Snowflake, Salesforce, dbt Labs, Cube, RelationalAI, ThoughtSpot, Atlan; announced Sept 2025) — aims to make semantic definitions portable across BI tools *and* agents, directly targeting the "semantic layer for AI/agents" need. dbt's MetricFlow is now Apache-2.0 and aligned to it.
 
-**(c) Tools.** dbt Semantic Layer, Cube, AtScale, LookML (Looker); Palantir Foundry's ontology; graph/ontology platforms; and **platform-native semantic layers** — notably **Salesforce Data Cloud** (unifies/maps customer data into a governed model) and modeling within **ServiceNow's** platform (Module 09d).
+**(c) Tools.** dbt Semantic Layer, Cube, AtScale, LookML (Looker); **Palantir Foundry/AIP**, whose Ontology has become a leading real-world instance of the ontology-as-agent-reasoning-backbone pattern (strong commercial traction); graph/ontology platforms; and **platform-native semantic layers** — notably **Salesforce Data Cloud / Data 360** (unifies/maps customer data into a governed model — a data-unification backbone; you may still layer governed metrics on top) and modeling within **ServiceNow's** platform, e.g. the CMDB / Common Service Data Model (CSDM) as its canonical model (Module 09d).
 
 **(d) Decision criteria.** Build/adopt a semantic layer when multiple consumers (BI, apps, agents) need **consistent definitions**, when schemas are too messy for direct LLM querying, or when governance/entitlements must be centralized. It's often the highest-leverage investment for making agents reliable over enterprise data — and it's reusable beyond AI.
 
@@ -173,7 +174,7 @@ The payoff: **combining LLMs (fluent reasoning) with structured knowledge (preci
 1. **Text-to-query (LLM → graph/DB).** The LLM translates a natural-language question into **Cypher/SPARQL/SQL** (against the semantic layer), executes it, and explains the result. *Guardrails required:* validate the generated query, run **read-only** with row/timeout limits, constrain to the known schema, and never expose raw destructive access. Provide the schema/ontology in the prompt so the model queries real fields (clear naming from 4.3 pays off here).
 2. **Graph-as-retriever (GraphRAG, Module 3.7 / 8.6).** Retrieve relevant subgraphs/paths (not just text passages) as context; enables multi-hop and global questions. Often **hybrid**: vector search finds entry-point entities, graph traversal expands relationships, both feed the prompt.
 3. **KG-augmented grounding & verification.** Use the graph to **fact-check** or **constrain** LLM output (does the proposed configuration satisfy the ontology's `REQUIRES`/`INCOMPATIBLE_WITH` rules?). The graph is an authoritative check on the model's fluency.
-4. **LLM-assisted graph construction.** Use LLMs to *extract* entities/relations from documents to *build/extend* the graph — accelerates KG creation but needs entity-resolution (4.4) and human review to control noise. *Emerging → stabilizing.*
+4. **LLM-assisted graph construction.** Use LLMs to *extract* entities/relations from documents to *build/extend* the graph — accelerates KG creation but needs entity-resolution (4.4) and human review to control noise. *Now production-common* (e.g., Microsoft GraphRAG 1.0 and **LazyGraphRAG**, which defers LLM cost to query time — Module 3.7), no longer merely emerging.
 5. **Ontology as agent reasoning scaffold.** The agent uses the ontology to understand valid actions/relationships before acting (Module 5 planning; Module 09e CPQ constraints).
 
 **(d) Decision criteria.** Reach for structured integration when questions are **relational/multi-hop**, when **precision and explainability** are required (a graph path is an audit trail), or when the model must respect **domain rules/constraints**. Combine with vector RAG rather than replacing it — text and structure answer different question types.
