@@ -56,10 +56,10 @@ For a model to plug into software, its output must be **machine-parseable** — 
 **(b) Mechanics — from weakest to strongest guarantee.**
 1. **Prompt-and-pray** — "respond in JSON like {…}". Works often, fails sometimes (extra prose, trailing commas, markdown fences). Not production-grade alone.
 2. **JSON mode** — the API guarantees *syntactically valid* JSON, but not that it matches *your* schema.
-3. **Schema-constrained / structured outputs** — you supply a JSON Schema; the decoder is constrained (via **constrained decoding / grammar-guided generation**) so output *must* conform to types, required fields, and enums. Offered by major vendors (OpenAI Structured Outputs, Anthropic tool-use schemas, etc.) and open-source libraries (Outlines, Guidance, `jsonformer`, `instructor`). Strongest guarantee.
+3. **Schema-constrained / structured outputs** — you supply a JSON Schema; the decoder is constrained (via **constrained decoding / grammar-guided generation**) so output *must* conform to types, required fields, and enums. Now offered natively by all major vendors: **OpenAI Structured Outputs**, **Anthropic Structured Outputs** (JSON-schema-constrained responses + `strict: true` tools; beta from Nov 2025), and **Google Gemini** (`response_json_schema`). Server-side grammar backends: **XGrammar** and Microsoft's **llguidance** (now common in open serving stacks); **Outlines** pioneered the approach. Strongest guarantee.
 4. **Function/tool schemas** (2.3) — tool calling is itself a structured-output mechanism: the model emits arguments conforming to the tool's parameter schema.
 
-**(c) Tools.** `instructor` (Python/TS, Pydantic-based validation + retries), Outlines, Guidance, vendor-native structured output modes, Pydantic/Zod for the schema definitions and post-hoc validation.
+**(c) Tools.** `instructor` (Python/TS, Pydantic-based validation + retries) remains the standard app-layer choice; vendor-native structured-output modes; server-side grammar backends **XGrammar / llguidance** (and Outlines); Pydantic/Zod for schema definitions and post-hoc validation.
 
 **(d) Decision criteria.** For anything consumed by code, use **schema-constrained** output where available; otherwise validate against a schema and **retry on failure**. Keep schemas as tight as the domain allows (enums over free strings) — this both improves reliability and doubles as a guardrail (e.g., an agent can only pick from *real* product SKUs).
 
@@ -89,7 +89,7 @@ For a model to plug into software, its output must be **machine-parseable** — 
 **Details that matter in practice.**
 - **Tool descriptions are prompts.** The model chooses tools based on their names/descriptions — write them carefully; ambiguous descriptions cause wrong tool selection.
 - **Parallel tool calls** — many models can request several tools at once (fetch three records in parallel).
-- **Too many tools degrade selection.** Beyond ~10–20 tools, models get worse at picking. Mitigate with tool grouping, retrieval-over-tools, or a router.
+- **Too many tools degrade selection.** Selection quality falls as the tool count grows; the practical threshold is model-dependent and has been rising with each model generation (newer models handle far more tools) — measure for your model rather than trusting a fixed number. Mitigate with tool grouping, retrieval-over-tools, or a router.
 
 **(c) Tools/frameworks.** Native tool calling in Anthropic, OpenAI, Google, and open models; orchestration layers (LangChain/LangGraph, LlamaIndex, CrewAI — Module 5.3) manage the loop; **MCP** (2.4) standardizes how tools are *exposed* to models.
 
@@ -109,7 +109,7 @@ For a model to plug into software, its output must be **machine-parseable** — 
 ## 2.4 The Model Context Protocol (MCP)
 
 **(a) What it is / why it matters.**
-**MCP (Model Context Protocol)** is an **open standard** (introduced by Anthropic, late 2024, and adopted broadly since) for connecting AI applications to **tools, data sources, and prompts** in a uniform way. Think of it as **"USB-C for AI integrations"**: instead of writing a bespoke integration between every model/app and every system (an N×M problem), each system exposes an **MCP server** once, and any **MCP client** (an AI app) can use it (turning N×M into N+M). *Maturity: **stabilizing** — rapid adoption and a real ecosystem, with the spec and security patterns still evolving.*
+**MCP (Model Context Protocol)** is an **open standard** for connecting AI applications to **tools, data sources, and prompts** in a uniform way. It was introduced by Anthropic (late 2024) and, in **December 2025, donated to the vendor-neutral Agentic AI Foundation under the Linux Foundation** (co-founded with Block and OpenAI; backed by Google, Microsoft, AWS, and others) — so it is no longer any single vendor's project, which materially strengthens the anti-lock-in argument below. Think of it as **"USB-C for AI integrations"**: instead of writing a bespoke integration between every model/app and every system (an N×M problem), each system exposes an **MCP server** once, and any **MCP client** (an AI app) can use it (turning N×M into N+M). *Maturity: **de facto industry standard** (adopted across OpenAI, Google, Microsoft, and the IDE ecosystem), though the spec and its security patterns are still actively evolving.* ⚠ *Fast-moving — verify the current spec revision.*
 
 **(b) Mechanics.**
 - **Architecture:** an **MCP client** (embedded in the AI app/host) talks to one or more **MCP servers** (each wrapping a data source or toolset).
@@ -117,9 +117,9 @@ For a model to plug into software, its output must be **machine-parseable** — 
   - **Tools** — callable functions (like 2.3), model-invoked.
   - **Resources** — readable data/context (files, records), application-controlled.
   - **Prompts** — reusable prompt templates, user-invoked.
-  - (Plus notifications and, in newer spec revisions, richer capabilities.)
-- **Transport:** JSON-RPC over stdio (local) or HTTP/SSE-style streaming (remote). Local servers run beside the app; remote servers run as services.
-- **Discovery:** clients query servers for their capabilities at connect time, so tools can be added without changing the client.
+  - (Plus notifications and, in newer spec revisions, richer capabilities — e.g., the `2025-11-25` stable revision and the `2026-07-28` release candidate add a stateless protocol core, an Extensions framework, **MCP Apps** (server-rendered sandboxed UIs), a Tasks extension for long-running ops, OAuth 2.0/OIDC authorization hardening, and a formal 12-month deprecation policy.)
+- **Transport:** JSON-RPC over stdio (local) or HTTP/streaming (remote). Local servers run beside the app; remote servers run as services (remote servers now require OAuth 2.1-style authorization).
+- **Discovery:** clients query servers for their capabilities at connect time, so tools can be added without changing the client. An official **MCP Registry** (launched in preview Sept 2025) aids discoverability — but it is preview-grade and confers *no* trust; still vet/allow-list servers.
 
 **(c) How it differs from plain tool calling.** Tool calling is the *model-level* mechanism (the model emits a call). MCP is the *integration-level* standard for how tools/data are **packaged, discovered, and served** to any compliant client — decoupling tool authors from app authors. An enterprise can stand up an MCP server for Salesforce or ServiceNow once and reuse it across many AI apps.
 
@@ -128,7 +128,7 @@ For a model to plug into software, its output must be **machine-parseable** — 
 - **Weigh caution** for high-sensitivity systems until your **security posture** is solid (below). For a single app with two internal APIs, direct tool calling may be simpler.
 
 **(e) Pitfalls & failure modes (the important part for enterprises).**
-- **Security is the central concern.** MCP servers can expose powerful tools and data. Threats include **prompt injection via tool results**, **over-broad permissions**, **confused-deputy** problems (the server acts with its own privileges on behalf of a manipulated model), **token/credential handling**, and **supply-chain risk** from untrusted third-party servers. Mitigations: least-privilege scoping, per-user auth propagation (the server must enforce the *user's* entitlements — Module 09b), human approval for sensitive tools, allow-listing vetted servers, sandboxing, and auditing every call. The spec has been adding stronger **authorization** guidance; verify the current revision before relying on it.
+- **Security is the central concern — with real, named incidents now on record.** MCP servers can expose powerful tools and data. Threats include **prompt injection via tool results**, **tool poisoning** (malicious instructions hidden in tool metadata — and *rug-pull* tools that mutate their definition after approval, e.g. **MCPoison/CVE-2025-54136** and **CurXecute/CVE-2025-54135**), **over-broad permissions**, **confused-deputy** problems (the server acts with its own privileges on behalf of a manipulated model), **token/credential handling** (e.g. the Supabase/Cursor service-role token-exfiltration incident), and **supply-chain risk** from untrusted third-party servers. There is now an **OWASP MCP Top 10** cataloguing these. Mitigations: least-privilege scoping, per-user auth propagation (the server must enforce the *user's* entitlements — Module 09b), human approval for sensitive tools, allow-listing vetted servers, sandboxing, and auditing every call. The spec has added OAuth 2.1/OIDC **authorization** requirements; verify the current revision before relying on it.
 - **Version drift** — the spec is young and moving; pin versions and watch release notes.
 - **"It's a standard so it's safe"** — false. The protocol standardizes *connection*, not *trust*. You still own authz and governance.
 
@@ -148,9 +148,10 @@ For a model to plug into software, its output must be **machine-parseable** — 
   - **QLoRA** — LoRA on a **quantized** (e.g., 4-bit) base model, enabling fine-tuning on modest hardware.
   - Other PEFT: prefix/prompt-tuning, adapters, (IA)³.
 - **Preference tuning (DPO/RLHF, 1.7)** — align to preferred outputs; more advanced, needs preference data.
+- **Reinforcement Fine-Tuning (RFT), via GRPO** — tune *reasoning* models against a programmable **grader / verifiable reward** (correct-answer tasks), distinct from RLHF's subjective preferences. Now an offered method (e.g., OpenAI o4-mini RFT; RFT on Amazon Bedrock for Nova). **GRPO** (group-relative, value-model-free) is the widely-used RL algorithm here, superseding vanilla PPO/DPO for verifiable-reward tasks.
 - **Distillation (Module 8.7)** — train a small model to imitate a large one; related but distinct goal (efficiency).
 
-**(c) Tools/services.** Hosted fine-tuning from major API vendors (upload data, get a tuned endpoint — simplest, but data leaves your boundary unless using an isolated/enterprise tier); open-source stacks (HuggingFace PEFT/TRL, Axolotl, Unsloth, Llama-Factory) for self-hosted LoRA/QLoRA; platform tooling on the major clouds.
+**(c) Tools/services.** Hosted fine-tuning from major API vendors (upload data, get a tuned endpoint — simplest, but data leaves your boundary unless using an isolated/enterprise tier). **Caution: these offerings are volatile — OpenAI is winding down its self-serve fine-tuning platform (ending new fine-tuning-job creation by ~Jan 2027), which reinforces (e) below that a fine-tune is a liability to maintain, not a durable asset.** Open-source stacks (HuggingFace PEFT/TRL, Axolotl, Unsloth, Llama-Factory) for self-hosted LoRA/QLoRA; platform tooling on the major clouds.
 
 **(d) Decision criteria — the ladder (do these in order).**
 1. **Prompt engineering** (2.1) — try first.
@@ -186,8 +187,8 @@ For a model to plug into software, its output must be **machine-parseable** — 
   - **Ground-truth metrics** — when there's a correct answer (classification, extraction, retrieval hit@k): accuracy, precision/recall/F1, exact match.
   - **Reference-based text metrics** — BLEU/ROUGE/embedding-similarity vs. a gold answer. Weak for open-ended generation; use cautiously.
   - **Human evaluation** — gold standard for quality/judgment; expensive and slow; use for calibration and high-stakes.
-  - **LLM-as-judge** (Module 8.8) — use a strong model to score outputs against a rubric (correctness, groundedness, helpfulness, format). Scalable and increasingly standard, but has **biases** (position bias, verbosity bias, self-preference) and must itself be validated against human labels. *Maturity: **stabilizing**.*
-  - **RAG-specific frameworks** — measure **faithfulness/groundedness** (is the answer supported by retrieved context?), **answer relevance**, and **context precision/recall** (Module 3.9). Tools: RAGAS, TruLens, promptfoo, DeepEval, vendor eval suites, LangSmith/Arize/others.
+  - **LLM-as-judge** (Module 8.8) — use a strong model to score outputs against a rubric (correctness, groundedness, helpfulness, format). Now **standard practice**, but has **biases** (position bias, verbosity bias, self-preference) and must itself be validated against human labels.
+  - **RAG-specific frameworks** — measure **faithfulness/groundedness** (is the answer supported by retrieved context?), **answer relevance**, and **context precision/recall** (Module 3.9). Tools: RAGAS, TruLens, promptfoo, DeepEval, plus observability/annotation platforms **Braintrust**, LangSmith, Arize. The 2026 consensus is a **two-tier pattern**: a CI/CD gating framework (DeepEval/RAGAS/promptfoo, incl. promptfoo's red-teaming) *paired with* an observability platform (Braintrust/LangSmith/Arize) — "you need two tools."
   - **Assertion/unit tests** — deterministic checks ("output is valid JSON," "contains a citation," "never emits a competitor's name"). Cheap, run in CI.
   - **A/B and online eval** — measure real user outcomes (task completion, thumbs up/down, deflection rate) in production.
 

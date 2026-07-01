@@ -38,9 +38,9 @@ Models don't read characters or words — they read **tokens**, sub-word units p
 **(b) Mechanics.**
 The dominant scheme is **Byte-Pair Encoding (BPE)** and its variants (WordPiece, SentencePiece, tiktoken-style byte-level BPE). BPE starts from characters/bytes and iteratively merges the most frequent adjacent pairs into a fixed vocabulary (commonly 50k–200k+ tokens). Common words become single tokens ("the", " customer"); rare words split into pieces ("Salesforce" → "Sales" + "force" perhaps); arbitrary strings fall back to bytes.
 
-Rules of thumb (English): **~4 characters per token**, or **~0.75 words per token** — so ~1,000 tokens ≈ 750 words. This ratio degrades for code, JSON, non-Latin scripts, and long numbers, which tokenize less efficiently (more tokens per visible character).
+Rules of thumb (English): **~4 characters per token**, or **~0.75 words per token** — so ~1,000 tokens ≈ 750 words. But treat this as a **tokenizer-specific, drifting** heuristic, not a law: it degrades for code, JSON, non-Latin scripts, and long numbers, and it changes when a vendor changes tokenizers. Concrete example: Anthropic's tokenizer introduced with **Claude Opus 4.7 (and later models) produces roughly 30% more tokens for the same text** than earlier Claude models — enough to blow a word-count-derived budget estimate.
 
-**(c) Tools.** Each model family has its own tokenizer; token counts are **not** interchangeable across vendors. Use the vendor's tokenizer/counter (e.g., OpenAI's `tiktoken`, Anthropic's token-counting endpoint, HuggingFace tokenizers) to estimate cost and fit.
+**(c) Tools.** Each model family has its own tokenizer; token counts are **not** interchangeable across vendors — **and not even across generations from the same vendor** (recount whenever the tokenizer changes, per the Opus 4.7 example above). Use the vendor's tokenizer/counter (e.g., OpenAI's `tiktoken`, Anthropic's token-counting endpoint, HuggingFace tokenizers) to estimate cost and fit.
 
 **(d) Decision criteria.** When estimating cost or truncation risk, always count with the *target model's* tokenizer, not a generic word count. When designing prompts that include tabular or numeric data, remember it tokenizes expensively.
 
@@ -67,7 +67,7 @@ Two distinct notions of "embedding" appear in this series:
 - **Token embeddings** — internal to the model; each token maps to a vector the transformer processes (Module 1.4).
 - **Sentence/document embeddings** — a single vector for a whole passage, produced by a dedicated embedding model, used for retrieval (Module 3.3).
 
-**(c) Tools/vendors.** OpenAI `text-embedding-3` family; Cohere Embed; Voyage AI; open models like `bge`, `e5`, `nomic-embed`, `gte`. They differ in dimensionality, max input length, multilingual quality, domain fit, and cost. Some support **Matryoshka** embeddings (truncatable dimensions for a size/quality tradeoff).
+**(c) Tools/vendors.** As of mid-2026 the leaders have shifted: **Google Gemini Embedding** and open-weight **Qwen3-Embedding** top MTEB, with **Cohere Embed v4** (multimodal, long-context) and **Voyage-3.5** strong for domain retrieval; OpenAI's `text-embedding-3` family and open models (`bge`, `e5`, `nomic`, `gte`, Jina) remain widely used. The open-vs-proprietary quality gap has largely closed. They differ in dimensionality, max input length, multilingual/multimodal quality, domain fit, and cost. Some support **Matryoshka** embeddings (truncatable dimensions for a size/quality tradeoff). *(Rankings drift monthly — verify on the current MTEB leaderboard.)*
 
 **(d) Decision criteria.** Choose an embedding model on: retrieval quality on *your* data (measure it — see 3.9), dimensionality (storage/latency cost), max input length (affects chunking), multilingual needs, and whether you can self-host for data-residency reasons. **Do not** assume the biggest model is best for retrieval; domain-tuned smaller models often win.
 
@@ -96,7 +96,7 @@ The **transformer** (Vaswani et al., *Attention Is All You Need*, 2017) is the n
 
 **Decoder-only vs. encoder-only vs. encoder-decoder.** Most generative LLMs (GPT, Claude, Llama, Gemini) are **decoder-only** — they predict the next token given all previous tokens. **Encoder-only** models (BERT-style) are used for embeddings/classification. **Encoder-decoder** (T5, original translation transformers) map an input sequence to an output sequence.
 
-**(c) Variants worth knowing.** **Mixture-of-Experts (MoE)** models (e.g., many frontier models) activate only a subset of "expert" sub-networks per token, giving large capacity at lower inference cost. **State-space / hybrid models** (Mamba and successors) are an emerging alternative aiming at cheaper long-context handling; still *emerging* in enterprise use.
+**(c) Variants worth knowing.** **Mixture-of-Experts (MoE)** models activate only a subset of "expert" sub-networks per token, giving large capacity at lower inference cost (several frontier models are believed to use MoE, though labs rarely disclose architectures). **State-space / hybrid models** (Mamba-3 and SSM-transformer hybrids like Jamba and Nemotron-H) have reached **production** for throughput- and long-context-sensitive workloads, trading some peak quality for cheaper long sequences — though transformers still dominate the frontier.
 
 **(e) Pitfalls.** Architecture is rarely something an *enterprise consumer* tunes — you consume models via API. The relevant leverage is knowing that attention cost historically scales roughly with the **square of sequence length** (1.5, 1.6), which is why long contexts are expensive and why retrieval beats "stuff everything in."
 
@@ -127,14 +127,14 @@ For each token, the model computes three vectors: a **Query** (what am I looking
 ## 1.6 Context windows
 
 **(a) What it is / why it matters.**
-The **context window** is the maximum number of tokens the model can consider at once — the prompt **plus** the generated output must fit. It is the model's working memory. It has grown from ~2k tokens (2020) to 128k–200k as a common range, with some models advertising **1M+** tokens. Context size dictates how much instruction, retrieved data, conversation history, and tool output you can supply — and it caps how big a document you can process in one shot.
+The **context window** is the maximum number of tokens the model can consider at once — the prompt **plus** the generated output must fit. It is the model's working memory. It has grown from ~2k tokens (2020) to **1M tokens now being standard** across frontier hosted models (recent Claude, Gemini, and others), with some open-weight models (e.g., Llama 4 Scout) advertising **up to 10M** — though, as below, effective recall degrades well before the advertised limit. Context size dictates how much instruction, retrieved data, conversation history, and tool output you can supply — and it caps how big a document you can process in one shot.
 
 **Analogy.** The context window is the model's desk. Anything on the desk it can use right now; anything filed away it cannot see unless you fetch it and put it on the desk. RAG (Module 3) is the process of fetching the right files onto a finite desk.
 
 **(b) Mechanics & caveats.**
 - The window covers **everything**: system prompt + tools definitions + history + retrieved docs + the model's own output.
 - **Bigger isn't free.** Cost and latency scale with tokens processed; long contexts are slower and pricier.
-- **Effective context < advertised context.** A model may *accept* 1M tokens but *use* them unevenly — the "lost in the middle" effect (1.5) and degradation on "needle-in-a-haystack-with-distractors" tasks mean that stuffing the window is not the same as reasoning well over it. **Long-context ≠ a substitute for good retrieval** — this is a *stabilizing* consensus, still debated in degree.
+- **Effective context < advertised context.** A model may *accept* 1M tokens but *use* them unevenly — the "lost in the middle" effect (1.5) and degradation on "needle-in-a-haystack-with-distractors" tasks mean that stuffing the window is not the same as reasoning well over it. **Long-context ≠ a substitute for good retrieval** — now **repeatedly confirmed** on 1M-token models by long-context benchmarks (RULER, LongBench v2, HELMET): larger windows shift the degradation further out but do not remove it.
 
 **(d) Decision criteria — long context vs. RAG.**
 - Use **long context** when the *whole* relevant corpus is small enough to fit, changes constantly, and precision of retrieval is hard (e.g., "summarize this one 200-page deposition").
@@ -207,6 +207,7 @@ A **hallucination** is a fluent, confident output that is **factually wrong or f
 4. **Stale/absent knowledge.** Anything after the training cutoff, or private to your enterprise, simply isn't in the weights.
 5. **Prompt/context pressure.** Leading questions, contradictory context, or "lost in the middle" retrieval (1.5) push the model to confabulate.
 6. **Reasoning errors.** Multi-step problems accumulate mistakes; the model may state a wrong intermediate result confidently.
+7. **Evaluation incentives reward guessing.** A widely-cited 2025 analysis (OpenAI's "Why Language Models Hallucinate," later in *Nature*, 2026) argues models bluff partly because most benchmarks score "I don't know" the same as a wrong answer (zero) and reward a lucky confident guess — so training and model selection favor confident guessing over calibrated abstention. The implied fix is to **reward calibrated uncertainty in evaluations**, not just add hallucination tests.
 
 **(c) Mitigations (each expanded in later modules).**
 - **RAG (Module 3):** ground answers in retrieved source text and require citations. The single biggest lever for factual tasks.
@@ -215,7 +216,7 @@ A **hallucination** is a fluent, confident output that is **factually wrong or f
 - **Lower temperature (1.8)** and **confidence gating via logprobs.**
 - **Prompt techniques:** "answer only from the provided context; if it's not there, say you don't know" (Module 2.1).
 - **Verification layers / LLM-as-judge (Modules 2.6, 8.8)** and **human-in-the-loop** for high-stakes outputs (Modules 5.7, 09).
-- **Reasoning models (Module 8.1)** reduce *reasoning* errors but do **not** eliminate factual fabrication.
+- **Reasoning models (Module 8.1)** reduce *reasoning/arithmetic* errors but do **not** eliminate factual fabrication — and on summarization/faithfulness tasks, extended "thinking" can *increase* hallucination (the long internal chain drifts from the source). Match mode to task: reasoning for math/logic/code, base models for grounded summarization.
 
 **(d) Decision criteria.** Match the mitigation stack to the stakes. A brainstorming assistant tolerates hallucination; an agent that writes a price into a customer quote (Module 09) needs retrieval grounding, tool-based computation, schema validation, and human approval.
 
