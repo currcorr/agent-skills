@@ -9,6 +9,13 @@ help them find it by asking: *what should the audience decide or do after
 this meeting?* The governing thought is the answer to the question that
 decision raises.
 
+**Interview technique.** When drawing the storyline out of the user, use the
+`grilling` technique: ask **one question at a time**, and give **your
+recommended answer with each one** ("I'd lead with the cost finding because
+it's what forces the decision — agree, or is timeline the real driver?").
+Reacting to a proposal surfaces the real takeaway faster than an open
+"what's your message?" Resolve one branch before opening the next.
+
 ## Pyramid structure
 
 - **Top:** governing thought (becomes the exec summary).

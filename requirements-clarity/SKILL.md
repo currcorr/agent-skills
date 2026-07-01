@@ -1,6 +1,6 @@
 ---
 name: requirements-clarity
-description: Clarify ambiguous requirements through focused dialogue before implementation. Use when requirements are unclear, features are complex (>2 days), or involve cross-team coordination. Ask two core questions - Why? (YAGNI check) and Simpler? (KISS check) - to ensure clarity before coding.
+description: Fill the GAPS in a vague or ambiguous request, turning it into a clear scored PRD before implementation. Use when a request is underspecified (missing scope, constraints, acceptance criteria) and you need to draw requirements out. Distinct from grill-me, which attacks a plan the user ALREADY has; requirements-clarity builds clarity where there wasn't any. Distinct from gepetto, which is the full multi-stage planning pipeline.
 ---
 
 # Requirements Clarity Skill

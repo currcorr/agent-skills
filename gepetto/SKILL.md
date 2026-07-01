@@ -1,6 +1,6 @@
 ---
 name: gepetto
-description: Creates detailed, sectionized implementation plans through research, stakeholder interviews, and multi-LLM review. Use when planning features that need thorough pre-implementation analysis.
+description: Full end-to-end planning PIPELINE — research → interview → spec → plan → multi-LLM external review → self-contained sections → autonomous-execution files. Use when you need a complete, thorough pre-implementation plan for a software feature, not a quick conversation. Heavyweight and file-producing; for a lightweight stress-test of an existing plan use grill-me, and to clarify a vague request use requirements-clarity.
 ---
 
 # Gepetto

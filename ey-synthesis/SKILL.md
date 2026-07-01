@@ -34,6 +34,11 @@ Each theme becomes a finding stated as an assertion (action-title-ready):
 "Field teams route around the CRM because data entry costs them selling
 time", not "CRM adoption issues".
 
+When testing a candidate finding with the user, use the `grilling`
+technique: one question at a time, each with your recommended answer ("I read
+this as a process problem, not a tooling one — agree?"). It sharpens a fuzzy
+theme into a defensible assertion faster than open-ended prompting.
+
 ### 3. Build the evidence table
 
 One row per finding:
