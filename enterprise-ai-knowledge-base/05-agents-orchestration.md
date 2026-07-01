@@ -52,6 +52,7 @@ You can build with **one agent** (one LLM loop with many tools) or **multiple ag
   - **Debate/critique** — agents critique each other to improve quality (overlaps with LLM-as-judge, 8.8).
 - **Why multi-agent can help:** separation of concerns, parallelism (fan-out research), specialized prompts/tools per role, and larger effective context (each sub-agent has its own window). Anthropic's multi-agent research system and similar report gains on **broad parallelizable search/research** tasks.
 - **Why it often hurts:** coordination overhead, error propagation between agents, higher cost/latency (many LLM calls), harder debugging, and **context-passing loss** (agents miscommunicate). A large body of practitioner experience says **most "multi-agent" needs are actually one good agent or a workflow.**
+- **The public debate (2025) that crystallized the consensus:** Cognition's *"Don't Build Multi-Agents"* (parallel subagents produce conflicting outputs without shared context — coining "context engineering") vs. Anthropic's *"How we built our multi-agent research system"* (orchestrator + parallel subagents essential for broad research). The synthesis both sides converged on: multi-agent wins for **parallelizable read/research fan-out under a single orchestrator**, not for tightly-coupled tasks with shared decisions — and even Cognition later shipped a coordinator-of-agents, converging on the orchestrator model.
 
 **(d) Decision criteria.**
 - **Start single-agent** (or a workflow). Reach for multi-agent when: the task **parallelizes** (independent subtasks — research many sources at once), needs **genuinely distinct specializations/tools**, exceeds one context's practical limit, or benefits from **independent critique**.
@@ -69,22 +70,24 @@ You can build with **one agent** (one LLM loop with many tools) or **multiple ag
 **(a) What it is / why it matters.**
 Orchestration frameworks manage the agent loop, tool calling, state, multi-step control flow, and (for some) multi-agent coordination — so you don't rebuild that plumbing. Choosing one shapes how you build, test, and operate. They differ mainly in **how much structure/control** they impose vs. how much they abstract away.
 
-**(c) Tools/frameworks and how they differ.**
-- **LangGraph** (LangChain ecosystem) — models agents as **graphs/state machines**: nodes = steps, edges = control flow, explicit **state**, support for cycles, checkpoints, human-in-the-loop pauses, and durable execution. Favored for **production** because control flow is explicit and inspectable (vs. "magic" autonomy). Pairs with **LangSmith** for observability/eval.
-- **CrewAI** — **role-based multi-agent** framework: define agents (role, goal, backstory), tasks, and processes (sequential/hierarchical). Fast to prototype crews; more opinionated/abstracted.
-- **AutoGen (Microsoft)** — conversation-centric multi-agent framework (agents message each other); research-strong, flexible; **AG2** community fork exists.
-- **OpenAI Agents SDK / Swarm-lineage** — lightweight agent + handoff primitives from OpenAI.
+**(c) Tools/frameworks and how they differ.** *This landscape churns fast; nearly every framework below hit a 1.0/GA milestone or was renamed/merged in late 2025–mid 2026. Verify current names/versions.*
+- **LangGraph** (LangChain ecosystem) — models agents as **graphs/state machines**: nodes = steps, edges = control flow, explicit **state**, cycles, checkpoints, human-in-the-loop pauses, durable execution. **LangGraph and LangChain both reached 1.0 (GA, Oct 2025)** — first stable releases, backward-compatible to 2.0 (the prebuilt ReAct agent now lives in `langchain.agents`). Favored for **production** because control flow is explicit and inspectable. Pairs with **LangSmith** for observability/eval.
+- **CrewAI** — **role-based multi-agent** framework (agents with role/goal/backstory, tasks, processes). **CrewAI 1.0** GA, with **Flows** (event-driven orchestration) and **AMP** as the enterprise control plane. Fast to prototype; more opinionated.
+- **Microsoft Agent Framework** — **the merger of AutoGen + Semantic Kernel** (public preview Oct 2025, GA ~early 2026, .NET + Python); combines AutoGen's multi-agent abstractions with Semantic Kernel's enterprise features (state, telemetry, middleware) plus graph workflows. **AutoGen and Semantic Kernel are now maintenance-only** — new work goes here.
+- **OpenAI Agents SDK + AgentKit** — the Agents SDK (GA Mar 2025, Swarm successor) plus **AgentKit** (DevDay Oct 2025): visual **Agent Builder**, **ChatKit** embeddable UI, **Connector Registry**, and **Evals for Agents**.
+- **Google ADK (Agent Development Kit)** — open-source multi-agent framework (Python/Java/Go/TS), workflow + dynamic-routing agents; powers Google's own products.
 - **LlamaIndex** — retrieval/RAG-centric, with agent/workflow features; strong when data/RAG is the core.
-- **Semantic Kernel (Microsoft)** — enterprise/.NET-friendly orchestration.
-- **Cloud/platform-native** — **AWS Bedrock Agents**, **Google Vertex AI Agent Builder / Agentspace**, **Azure AI Agent Service**; and **application-platform-native** agent layers — **Salesforce Agentforce**, **ServiceNow AI Agents** (Module 09d) — which trade openness for deep SoR integration and built-in governance.
+- **Pydantic AI** — type-safe, Pydantic-ecosystem framework (1.0, late 2025); popular for typed, testable agents.
+- **Cloud/platform-native** — **AWS Bedrock AgentCore** (GA Oct 2025 — full lifecycle: runtime, session isolation, memory, identity, observability, gateway), **Google Gemini Enterprise Agent Platform** (the rebrand of Vertex AI Agent Builder, with Agentspace merged in; Agent Engine + Memory Bank GA), **Microsoft Foundry Agent Service** (GA; "Azure AI Foundry" renamed **Microsoft Foundry**); and **application-platform-native** agent layers — **Salesforce Agentforce**, **ServiceNow AI Agents** (Module 09d) — which trade openness for deep SoR integration and built-in governance.
 - **Model-native "agentic" APIs** — vendors increasingly offer built-in tool-use loops, computer-use, and memory primitives, reducing framework dependence.
 
 **(d) Decision criteria.**
 - **Production, need control/observability/durability** → LangGraph (or a cloud-native equivalent) with explicit state and checkpoints.
-- **Fast multi-agent prototype** → CrewAI/AutoGen.
+- **Fast multi-agent prototype** → CrewAI or Microsoft Agent Framework (Python) / Google ADK.
+- **Typed, testable agents** → Pydantic AI.
 - **RAG-heavy** → LlamaIndex.
 - **Deep SoR integration + built-in governance** → platform-native (Agentforce / ServiceNow) — see Module 09d for the walled-garden vs. composable tradeoff.
-- **General principle:** favor frameworks that make **control flow and state explicit** for anything that touches money, records, or customers. Avoid lock-in where you can (MCP, Module 2.4, helps keep the tool layer portable).
+- **General principle:** favor frameworks that make **control flow and state explicit** for anything that touches money, records, or customers. Avoid lock-in where you can — **MCP** (agent↔tool) and **A2A** (agent↔agent) both help keep the tool and inter-agent layers portable (Module 2.4, 8.5).
 - **Caveat:** this space churns fast; frameworks rise and fall quarterly. Bet on **portable concepts** (loops, state, tools, checkpoints, evals) over any one framework, and keep the model/tool boundaries clean.
 
 **(e) Pitfalls.** Framework lock-in; over-abstracted "magic" that's impossible to debug or evaluate; adopting multi-agent frameworks for single-agent problems; version churn; hiding the security boundary inside framework internals you don't control.
@@ -180,7 +183,7 @@ Agents need to **remember** — within a task (working state) and, increasingly,
 
 **(b) Mechanics — patterns.**
 - **Approve/reject gates** — agent proposes, human approves before the action commits (the default for writes to SoR, payments, external comms). Requires the framework to **pause and resume** (LangGraph checkpoints, 5.3).
-- **Confidence-based escalation** — auto-handle high-confidence cases (use logprobs / eval signals, 1.8/2.6), route low-confidence to humans.
+- **Confidence-based escalation** — auto-handle high-confidence cases, route low-confidence to humans. *Caveat: token-level logprobs (1.8) are often unavailable on reasoning-model APIs and are a poor proxy for answer correctness; prefer verifier/judge scoring (8.8), self-consistency agreement, groundedness checks, or explicit uncertainty elicitation.*
 - **Human-on-the-loop (oversight)** — agent acts autonomously but humans monitor and can intervene/override; suited to lower-stakes or reversible actions.
 - **Review-and-edit** — agent drafts, human edits and sends (email, quote, summary).
 - **Feedback capture** — human decisions become **evaluation and training data** (2.6), improving the system and justifying more autonomy over time.
@@ -203,7 +206,7 @@ Agents need to **remember** — within a task (working state) and, increasingly,
 **Observability** is the ability to see what an agent did and why — every prompt, tool call, retrieval, decision, token, dollar, and latency — in development and production. Agents are **nondeterministic, multi-step, and expensive**; without observability you can't debug failures, control cost, catch regressions, prove compliance, or improve the system. It's not optional at enterprise scale. (This is the runtime half of LLMOps — Module 6.5.)
 
 **(b) Mechanics — what to capture.**
-- **Tracing** — the full execution trace of a run: each LLM call (prompt, response, tokens, latency, cost, model version), each tool call (inputs, outputs, errors), each retrieval (query, chunks, scores), state transitions, and the final outcome. **Distributed tracing** across multi-agent/multi-step flows (OpenTelemetry-based standards are emerging).
+- **Tracing** — the full execution trace of a run: each LLM call (prompt, response, tokens, latency, cost, model version), each tool call (inputs, outputs, errors), each retrieval (query, chunks, scores), state transitions, and the final outcome. **Distributed tracing** across multi-agent/multi-step flows via the now-**maturing/published OpenTelemetry GenAI semantic conventions** (standardized agent-invocation and MCP tool-call spans); major observability tools (LangSmith, Langfuse, Arize Phoenix) now ingest OTLP natively, making the layer swappable.
 - **Metrics** — latency (per step and end-to-end), token/cost per run, tool success/error rates, retrieval quality signals, task-completion rate, human-intervention rate, guardrail triggers.
 - **Evaluation integration** — run online evals (2.6/3.9) on production traffic; sample and score; alert on drift.
 - **Logging for audit** — immutable records of actions taken (esp. writes), approvals (5.7), and the data/permissions involved (Module 6.6).
@@ -222,7 +225,7 @@ Agents need to **remember** — within a task (working state) and, increasingly,
 ### Module 5 takeaways
 - An **agent** is an LLM in a **loop** with autonomy over control flow; prefer the **simplest thing that works** — often a workflow, not full autonomy.
 - **Single-agent/workflows** first; go **multi-agent** only for parallelizable or genuinely specialized work (orchestrator–worker over swarms). Multi-agent is **stabilizing**, not a default.
-- **Frameworks** (LangGraph for control/production, CrewAI/AutoGen for multi-agent prototypes, LlamaIndex for RAG, platform-native for deep SoR integration) — bet on **portable concepts**, keep the tool layer portable (MCP).
+- **Frameworks** (LangGraph 1.0 for control/production; CrewAI, Microsoft Agent Framework, or Google ADK for multi-agent; Pydantic AI for typed agents; LlamaIndex for RAG; cloud services — Bedrock AgentCore / Gemini Enterprise Agent Platform / Microsoft Foundry; platform-native for deep SoR integration) — the landscape churns fast, so bet on **portable concepts** and keep the tool/inter-agent layers portable (MCP + A2A).
 - **Planning:** encode known processes as workflows; let agents plan open-ended tasks with strict stopping conditions.
 - **Memory** is engineered around a stateless model; prefer the **SoR as durable memory of record** for business facts.
 - **Guardrails:** the LLM is **never** the security boundary; enforce entitlements and action limits in code; gate writes and high-stakes actions.
