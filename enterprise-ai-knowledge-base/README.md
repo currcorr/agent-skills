@@ -19,7 +19,10 @@ A comprehensive, video-series-ready treatment of production enterprise AI, writt
 | 8 | Cutting-Edge Methodologies | [`08-cutting-edge.md`](08-cutting-edge.md) |
 | — | **Cross-cutting:** Systems of Record Integration | [`09-systems-of-record-integration.md`](09-systems-of-record-integration.md) |
 | — | Sources & verification appendix | [`SOURCES.md`](SOURCES.md) |
-| — | Review + update punch list (depth/format follow-ups) | [`REVISION-NOTES.md`](REVISION-NOTES.md) |
+| — | Review + update punch list | [`REVISION-NOTES.md`](REVISION-NOTES.md) |
+| — | **Narration-clean variant** (for NotebookLM / audio & video) | [`narration/`](narration/) |
+
+> **Two variants of every module.** The files above are the **reader-facing** version (rich formatting, tables, cross-links). The [`narration/`](narration/) folder holds a **format-only transformation** of the same content optimized to be read aloud by NotebookLM / text-to-speech (letter-tags and cross-refs removed, tables and symbols converted to prose, each file self-contained). Same facts; different presentation. Use the reader set for skimming/reference; use `narration/` for generating audio overviews or video. Upload only one set to NotebookLM to avoid duplicate weighting.
 
 ## Conventions
 
