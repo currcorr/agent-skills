@@ -32,7 +32,7 @@ An **agent** is an LLM operating in a **loop**: it perceives a situation, reason
 
 **Spectrum of "agentic."** From **workflows** (fixed, code-defined sequences with LLM steps — predictable, testable) to **autonomous agents** (model plans its own path — flexible, less predictable). A widely-shared industry view (e.g., Anthropic's "Building Effective Agents") is: **prefer the simplest thing that works** — often a structured workflow, not a fully autonomous agent. Add autonomy only when the task's variability demands it.
 
-**(e) Pitfalls (expanded throughout module).** Runaway loops (cost/latency), **compounding errors** (each step's mistakes propagate — a 95%-reliable step run 10× is ~60% reliable end-to-end), tool misuse, and unpredictability that defeats testing. Autonomy is a cost, not a virtue.
+**(e) Pitfalls (expanded throughout module).** Runaway loops (cost/latency), **compounding errors** (each step's mistakes propagate), tool misuse, and unpredictability that defeats testing. Autonomy is a cost, not a virtue. *On the compounding-error math:* the oft-quoted "a 95%-reliable step run 10× is ~60% reliable" is just `0.95^10 ≈ 0.60` — a useful illustration but a **worst-case** model that assumes steps are **independent and non-recoverable**. Real systems break that assumption on purpose: **verification steps, retries, self-correction, and human-in-the-loop** raise the *effective* per-step reliability, which is precisely *why* those mechanisms matter. So treat the scary number as motivation for guardrails (5.6–5.7), not as a fixed law.
 
 **(f) Enterprise example.** A "renewal prep" agent: perceives the goal + account, reasons it needs the current contract → calls CRM → observes terms → checks open support issues → drafts a renewal summary → asks the rep to confirm before writing anything back. Loop, with a human gate on the write (5.7, Module 09b).
 
@@ -87,6 +87,7 @@ Orchestration frameworks manage the agent loop, tool calling, state, multi-step 
 - **Typed, testable agents** → Pydantic AI.
 - **RAG-heavy** → LlamaIndex.
 - **Deep SoR integration + built-in governance** → platform-native (Agentforce / ServiceNow) — see Module 09d for the walled-garden vs. composable tradeoff.
+- **Compare on the four axes that actually decide a governed-write deployment**, not on "vibe": (1) **control-flow model** — explicit graph/state-machine (LangGraph) vs. conversation-driven vs. role-crew; (2) **durability/resumability** — can a run checkpoint and resume for audit and recovery (LangGraph's strong suit)? (3) **native HITL** — first-class pause-for-approval-then-resume; (4) **observability/eval integration** — built-in tracing and eval hooks. For anything touching money/records/customers, weight (1), (2), and (3) heavily.
 - **General principle:** favor frameworks that make **control flow and state explicit** for anything that touches money, records, or customers. Avoid lock-in where you can — **MCP** (agent↔tool) and **A2A** (agent↔agent) both help keep the tool and inter-agent layers portable (Module 2.4, 8.5).
 - **Caveat:** this space churns fast; frameworks rise and fall quarterly. Bet on **portable concepts** (loops, state, tools, checkpoints, evals) over any one framework, and keep the model/tool boundaries clean.
 
@@ -131,6 +132,11 @@ Agents need to **remember** — within a task (working state) and, increasingly,
   - **Procedural** — learned how-to/skills.
 - **Storage** — vector store (semantic recall), key-value/profile store (structured facts/preferences), and increasingly the **SoR itself** as durable memory (write agreed facts back to CRM, don't invent a shadow store).
 - **State (for workflows/agents)** — explicit state objects (LangGraph), checkpoints for durability/resumption/audit.
+
+**(b′) The three hard mechanics (this is where "add memory" actually lives).**
+- **What to remember (write/salience policy).** You don't persist everything. Trigger a durable write on: an **explicit user statement** ("always bill us NET-60"), a **repeated** fact, or an agent inference **above a confidence gate**. A cheap "extractor" step decides what's worth keeping and discards the rest — otherwise memory bloats and drifts.
+- **Conflict resolution (when memory contradicts the SoR).** The rule "the SoR wins" needs a mechanism: mark agent-derived memories as **provisional**, and on use **re-fetch the authoritative value from the SoR** rather than trusting the cached memory (write-through or read-through). Stale/ provisional memory never overrides a live SoR read.
+- **When to retrieve it (retrieval trigger).** Two options with different cost/quality: **always-on injection** (put relevant memories in every prompt — simple, but bloats context and can mislead) vs. **tool-invoked recall** (the agent explicitly calls a "recall memory" tool when it needs it — more controlled, avoids polluting context). Tool-invoked recall is usually the better default for enterprise agents.
 
 **(d) Decision criteria.** Use **working memory + summarization** for single sessions; add **long-term memory** when cross-session continuity/personalization has clear value. **Prefer the SoR as the durable memory of record** for business facts (a customer's terms belong in CRM, not only in an agent's private memory) — this keeps one source of truth and respects entitlements. Use vector memory for softer recall (past conversations).
 

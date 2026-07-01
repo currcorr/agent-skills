@@ -114,8 +114,8 @@ This is the layer that determines whether enterprise AI is an asset or a liabili
   - **Token discipline** — trim context, rerank (Module 3.6), summarize history (Module 5.5).
   - **Batching**, and **budgets/quotas** per app/agent to prevent runaway loops (Module 5.1).
 - **Latency management** — streaming responses (perceived speed), smaller/faster models for interactive steps, parallel tool calls, caching, and minimizing agent loop depth. Interactive UX targets vs. async/batch jobs have very different budgets.
-- **Scaling** — handle concurrency and rate limits (provider quotas), load-balance across regions/providers via the **gateway**, autoscale self-hosted serving, and design for graceful degradation/fallbacks (if the primary model is down/slow, fall back).
-- **Reliability** — retries with backoff, timeouts, fallback models, circuit breakers, idempotency for actions (Module 5.6/09b).
+- **Scaling — the enterprise-hard parts (not just "autoscale").** Provider **rate limits are per-key/per-org and do *not* autoscale**, so bursts hit a hard ceiling: handle it with **request queuing + backpressure (token-bucket) at the gateway**, not naïve retries (which amplify the overload). Multi-region/multi-provider failover has a subtle trap: a **fallback model is not a drop-in** — it may not support the same tool-call schema, JSON mode, or exhibit the same behavior, so the fallback path must be **separately evaluated** (Module 2.6), not assumed equivalent. Load-balance across regions/providers via the **gateway**; autoscale self-hosted serving.
+- **Reliability** — retries with backoff, timeouts, fallback models (re-eval'd), circuit breakers, idempotency for actions (Module 5.6/09b).
 
 **(c) Tools.** Model gateways/proxies (LiteLLM — 140+ providers; Portkey, now open-source core; cloud gateways; Kong AI; TrueFoundry) — note these now also **govern MCP/agent tool traffic**, not just model calls, applying the same access control, guardrails, PII redaction, and audit (an architectural convergence with the governance layer, 6.3). Serving (**vLLM** as the de-facto open engine, usually fronted by a gateway; TGI, TensorRT-LLM). Observability/eval (LangSmith, Langfuse, Arize, Braintrust, Datadog LLM Obs — Module 5.8), experiment/prompt management (PromptLayer, W&B), CI for evals (promptfoo, DeepEval). Native prompt caching in Anthropic/OpenAI/Google APIs.
 
@@ -154,6 +154,13 @@ Regulated industries can't deploy AI on capability alone — they must satisfy *
 - **Legal** — confidentiality/privilege, and duty-of-competence concerns (the notorious fabricated-citation sanctions — Module 1.9).
 - **Public sector** — transparency, records laws, procurement rules.
 - **Telecom/CPQ/commercial** — pricing/discount governance, contract accuracy, SOX for financially-material processes, consumer-protection rules.
+
+**(c′) Regulation → concrete AI control (the mapping that makes this actionable).** A regulation isn't a checkbox; each forces a *specific* design choice:
+- **ECOA/Reg B adverse action** doesn't just want "explainability" — it needs **specific, accurate reason codes** for a denial, which black-box LLMs can't reliably produce. Net effect: the LLM is usually **barred from making the decision** and confined to drafting/explanation, with a transparent model making the actual call.
+- **SR 11-7 (model risk management)** implies a *program*: independent **model validation**, **challenger models**, ongoing performance **monitoring**, and documented lineage — not a one-time sign-off.
+- **HIPAA** forces PHI **minimization + redaction**, a **BAA** with any model provider, and (per the 2025 NPRM) inclusion of AI tools in the **risk analysis**; consumer AI without a BAA is out.
+- **EU AI Act high-risk** forces **human oversight**, technical documentation, logging, and transparency for in-scope systems.
+The pattern: for the highest-stakes regulated decisions, regulation often **forbids the LLM from being the decision-maker** (adverse action, clinical decisions) and confines it to assisting — design for that up front.
 
 **(d) Decision criteria.** Let the vertical's requirements drive architecture: high-stakes regulated decisions → **mandatory human-in-the-loop**, full audit logging, explainability (citations/paths), in-region/private model hosting, and conservative autonomy. Classify each use case by risk tier and apply proportionate controls. Engage compliance/legal **early** (Module 7.4 governance).
 

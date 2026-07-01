@@ -61,7 +61,7 @@ An **embedding** is a list of numbers (a vector, e.g. 768 or 1,536 or 3,072 dime
 **Analogy.** Imagine a vast library where books are shelved not by title but by *meaning* — cookbooks near each other, noir novels in another region, tax code in another. An embedding is the shelf coordinate. To find relevant material you don't match keywords; you go to the right neighborhood.
 
 **(b) Mechanics.**
-An embedding model (often a transformer encoder) maps text → vector such that **cosine similarity** (the angle between vectors) or dot product correlates with semantic similarity. These vectors are learned so that the geometry of the space encodes relationships. The famous (if oversimplified) illustration: `king − man + woman ≈ queen` — relationships become directions in the space.
+An embedding model (often a transformer encoder) maps text → vector such that **cosine similarity** (the angle between vectors) or dot product correlates with semantic similarity. *How does text come to have "meaningful" coordinates?* The model is trained **contrastively**: shown millions of related pairs (a question and its answer, a sentence and its paraphrase) and unrelated pairs, and tuned to **pull related pairs close together and push unrelated ones apart** in the vector space. Do that at scale and the geometry ends up encoding meaning — which is also *why* you must embed queries and documents with the **same** model (they must share one geometry) and why some models use different "query" vs. "passage" encodings (3.3). The famous (if oversimplified) illustration: the vector for "king," minus "man," plus "woman," lands near "queen" — relationships become directions in the space.
 
 Two distinct notions of "embedding" appear in this series:
 - **Token embeddings** — internal to the model; each token maps to a vector the transformer processes (Module 1.4).
@@ -88,11 +88,13 @@ The **transformer** (Vaswani et al., *Attention Is All You Need*, 2017) is the n
 **(b) Mechanics — the pipeline.**
 1. **Tokenize** input → integer IDs (1.2).
 2. **Embed** each token → vector; add **positional information** (so the model knows word order — modern models use rotary or learned relative position encodings).
-3. Pass through a stack of **transformer blocks** (dozens to ~100+). Each block has:
-   - a **multi-head self-attention** layer (each token gathers information from other tokens — 1.5), and
-   - a **feed-forward network** (per-token nonlinear transformation),
-   - with **residual connections** and **layer normalization** for trainable depth.
+3. Pass through a stack of **transformer blocks** (dozens to ~100+). Each block does two complementary things:
+   - a **multi-head self-attention** layer — the **mixing/routing step**: each token pulls in information from other tokens to build context (1.5); and
+   - a **feed-forward network (FFN)** — a per-token nonlinear transformation that is, loosely, **where much of the model's learned "knowledge" and pattern-application lives**: attention decides *what to combine*, the FFN decides *what to do with it*. (This is the mechanical hook for 1.1/1.9's "knowledge is smeared across the weights" — a lot of it sits in these FFN layers.)
+   - **Residual connections** (a "bypass lane" that adds each layer's output back to its input, so a layer only has to learn a small *correction* rather than rebuild the whole signal — this is what makes 100-layer networks trainable) and **layer normalization** (rescaling activations to keep them numerically stable).
 4. A final layer projects the top representation to a **distribution over the vocabulary** (the next-token probabilities).
+
+*What is the model actually "computing" across those layers?* Roughly: early layers resolve surface features (syntax, references), middle layers build higher-level meaning and relationships, and later layers assemble the prediction — each layer refining the representation a little (the residual "small correction" idea), until the final layer reads out the next-token distribution.
 
 **Decoder-only vs. encoder-only vs. encoder-decoder.** Most generative LLMs (GPT, Claude, Llama, Gemini) are **decoder-only** — they predict the next token given all previous tokens. **Encoder-only** models (BERT-style) are used for embeddings/classification. **Encoder-decoder** (T5, original translation transformers) map an input sequence to an output sequence.
 
@@ -118,7 +120,7 @@ For each token, the model computes three vectors: a **Query** (what am I looking
 
 **(b′) The cost problem.** Naïve attention compares every token to every other token → cost grows with the **square** of sequence length (O(n²)). This is the root of why long context is expensive. Engineering responses include **FlashAttention** (memory-efficient exact attention), **KV-caching** (reuse computed Keys/Values across generation steps — critical for inference speed and the basis of prompt caching, Module 6.5), sparse/sliding-window attention, and grouped-query attention.
 
-**(e) Pitfall — "lost in the middle."** Empirically, models attend most reliably to the **beginning and end** of a long context and can neglect material buried in the middle. Practical consequence (revisited in 1.6 and 3): placing critical instructions/data at the edges, and retrieving *less but more relevant* context, beats dumping everything in.
+**(e) Pitfall — "lost in the middle."** Empirically, models attend most reliably to the **beginning and end** of a long context and can neglect material buried in the middle. Honest framing: the **effect is robustly replicated** (across many models and long-context benchmarks); the precise **mechanism is still debated** (positional-encoding biases, primacy/recency patterns in training data) — so treat it as an empirical constraint to *engineer around*, not a settled law. Practical consequence (revisited in 1.6 and 3): placing critical instructions/data at the edges, and retrieving *less but more relevant* context, beats dumping everything in.
 
 **(f) Enterprise example.** When an agent reads a 30-page contract to answer "what's the termination notice period?", attention is what lets it connect the question to the one relevant clause. But if that clause sits in the middle of a giant stuffed context alongside 20 irrelevant documents, "lost in the middle" can cause it to miss — an argument for precise retrieval and reranking (Module 3.6).
 
@@ -154,7 +156,7 @@ A production model is built in **stages**, and knowing which stage does what tel
 **(b) The stages.**
 1. **Pretraining.** The model learns language and world patterns by predicting the next token over a massive, diverse corpus (web, books, code). This is where the bulk of "knowledge" and capability comes from. It's enormously expensive and done by frontier labs, not enterprises. Output: a **base model** — fluent but not helpful; it just continues text.
 2. **Supervised fine-tuning (SFT) / instruction-tuning.** The base model is trained on curated (instruction → good response) pairs so it learns to *follow instructions* and answer rather than merely continue. This turns a text-continuation engine into an assistant.
-3. **Alignment / preference optimization.** Techniques like **RLHF** (Reinforcement Learning from Human Feedback) and **DPO** (Direct Preference Optimization) tune the model toward responses humans prefer — helpful, harmless, honest, correctly formatted, appropriately cautious. **Constitutional AI** (Anthropic) uses a set of principles to guide this with less human labeling.
+3. **Alignment / preference optimization.** Techniques tune the model toward responses humans prefer — helpful, harmless, honest, correctly formatted, appropriately cautious. Briefly, *how each works*: **RLHF** (Reinforcement Learning from Human Feedback) — humans rank competing model outputs, a **reward model** is trained to mimic those rankings, and the LLM is then optimized to score well against that reward model. **DPO** (Direct Preference Optimization) — skips the separate reward model and optimizes the LLM *directly* on the preference pairs (cheaper and simpler, now common). **Constitutional AI** (Anthropic, Bai et al. 2022) — the model **critiques and revises its own answers against a written set of principles** ("a constitution"), generating much of its own alignment signal and reducing the need for human labels.
 4. **(Domain) fine-tuning by enterprises.** On top of an already-aligned model, an enterprise may fine-tune (often with **LoRA/PEFT**, Module 2.5) to specialize style, format, or narrow-domain behavior.
 
 **(c) Key distinction — knowledge vs. behavior.**
@@ -183,6 +185,8 @@ At generation time you control *how* the model turns its next-token probability 
 - **Seed** (where supported) — improves reproducibility but does **not** guarantee bit-identical output across infrastructure.
 
 - **Logprobs** — the model can return the **log-probability** of chosen (and alternative) tokens. This is quietly one of the most useful enterprise features: it gives you a **confidence signal**. Uses: flag low-confidence answers for human review, build classifiers/routers, detect when the model is "unsure," and power certain evaluation methods.
+
+**How the knobs combine (so you know what to actually set).** They're applied in sequence: **temperature** first reshapes the distribution (flatter = more random), then **top-p/top-k** truncate its tail. You rarely tune all three at once. Practical default for reliable enterprise tasks: **temperature ≈ 0** and leave top-p/top-k at their defaults; reach for higher temperature (and maybe top-p ≈ 0.9) only for genuinely creative generation.
 
 **(d) Decision criteria.** Default to **low temperature** for anything that must be correct or parseable. Raise it only for genuinely generative tasks. For structured outputs and tool calls, combine low temperature with schema enforcement (Module 2.2).
 

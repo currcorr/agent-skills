@@ -168,7 +168,11 @@ If you can't measure value, you can't sustain investment, prioritize, or improve
 - **Over-attribution** — crediting AI for gains driven by other changes (no holdout).
 - **Only measuring cost savings** — missing revenue/quality/experience value (or vice versa).
 
-**(f) Enterprise example.** For the CPQ assistant, the team baselines quote turnaround (avg 2 days), quote error rate, and win rate. Post-launch, an A/B holdout shows turnaround down to 4 hours, quote errors down 40%, and a modest win-rate lift on faster quotes — plus 80% rep adoption. That balanced, attributable scorecard justifies expanding from augmentation toward more autonomous quoting (with the governance from Modules 5–6 and 09).
+**(b‴) A worked ROI calculation (so "quantify it" isn't hand-waving).** For a support-deflection use case: `annual value = tickets/month × 12 × deflection_rate × fully-loaded cost/ticket − annual run cost`. Plug in 50,000 tickets/mo, 30% deflected, $8/ticket, and ~$400k/yr run cost (model spend + HITL review + maintenance): `50,000 × 12 × 0.30 × $8 = $1.44M gross − $0.4M = ~$1.04M net/yr`. The discipline is less the exact number than **forcing every term to be explicit** — especially the run costs teams forget (Module 7.1's "full cost").
+
+**(b⁗) The attribution problem is real — clean A/B is often infeasible.** You frequently *can't* run a clean per-transaction A/B for high-stakes SoR writes (you can't randomize the same rep, and deal-level randomization has tiny samples and confounds like deal size and rep skill). Practical alternatives: **rep-cohort or region holdouts**, **matched-pair** analysis, or **staggered rollout with difference-in-differences** (compare the change in treated vs not-yet-treated groups). Name the confounds explicitly; a credible directional estimate beats a falsely-precise one.
+
+**(f) Enterprise example.** For the CPQ assistant, the team baselines quote turnaround (avg 2 days), quote error rate, and win rate. Because per-deal A/B isn't clean, they use a **region-holdout / staggered rollout** and see turnaround drop to ~4 hours, quote errors down meaningfully, and a modest win-rate lift on faster quotes — plus ~80% rep adoption. *(These figures are illustrative, not benchmarks.)* That balanced, attributable scorecard justifies expanding from augmentation toward more autonomous quoting (with the governance from Modules 5–6 and 09).
 
 ---
 

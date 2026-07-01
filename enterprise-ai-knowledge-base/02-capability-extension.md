@@ -56,7 +56,7 @@ For a model to plug into software, its output must be **machine-parseable** — 
 **(b) Mechanics — from weakest to strongest guarantee.**
 1. **Prompt-and-pray** — "respond in JSON like {…}". Works often, fails sometimes (extra prose, trailing commas, markdown fences). Not production-grade alone.
 2. **JSON mode** — the API guarantees *syntactically valid* JSON, but not that it matches *your* schema.
-3. **Schema-constrained / structured outputs** — you supply a JSON Schema; the decoder is constrained (via **constrained decoding / grammar-guided generation**) so output *must* conform to types, required fields, and enums. Now offered natively by all major vendors: **OpenAI Structured Outputs**, **Anthropic Structured Outputs** (JSON-schema-constrained responses + `strict: true` tools; beta from Nov 2025), and **Google Gemini** (`response_json_schema`). Server-side grammar backends: **XGrammar** and Microsoft's **llguidance** (now common in open serving stacks); **Outlines** pioneered the approach. Strongest guarantee.
+3. **Schema-constrained / structured outputs** — you supply a JSON Schema and the decoder is **constrained** so output *must* conform to types, required fields, and enums. *How it guarantees this (the key mechanic):* at each generation step the system **masks out any token that would violate the schema/grammar** before sampling — e.g., right after `"qty":` only digit tokens are allowed — so malformed output is **impossible by construction**, not corrected after the fact. (Contrast with JSON mode, which only guarantees valid *syntax*, and prompt-and-pray, which guarantees nothing.) Now offered natively by all major vendors: **OpenAI Structured Outputs**, **Anthropic Structured Outputs** (JSON-schema-constrained responses + `strict: true` tools; beta from Nov 2025), and **Google Gemini** (`response_json_schema`). Server-side grammar backends: **XGrammar** and Microsoft's **llguidance** (now common in open serving stacks); **Outlines** pioneered the approach. Strongest guarantee.
 4. **Function/tool schemas** (2.3) — tool calling is itself a structured-output mechanism: the model emits arguments conforming to the tool's parameter schema.
 
 **(c) Tools.** `instructor` (Python/TS, Pydantic-based validation + retries) remains the standard app-layer choice; vendor-native structured-output modes; server-side grammar backends **XGrammar / llguidance** (and Outlines); Pydantic/Zod for schema definitions and post-hoc validation.
@@ -160,6 +160,7 @@ For a model to plug into software, its output must be **machine-parseable** — 
 4. **Tool calling** (2.3) — for actions/computation.
 5. **Fine-tune (LoRA)** — *only* when you need: consistent **format/style** at scale, a **narrow specialized task** done reliably, **lower latency/cost** (a small tuned model replacing a big prompted one), **domain jargon/tone**, or reduced prompt length (bake the instructions in). Prerequisites: **high-quality labeled data** (hundreds–thousands of examples), and an **evaluation harness** (2.6) to prove it helped.
 - **Combine, don't choose:** a common strong pattern is **fine-tune for behavior + RAG for knowledge** on the same model.
+- **Rough cost intuition (orders of magnitude, not quotes):** a **LoRA/QLoRA** fine-tune of a small/mid-size open model is typically **hours of a single GPU and tens of dollars**, producing a megabytes-sized adapter; a **full fine-tune** of a large model is **many GPUs, hours-to-days, and thousands-plus**, producing a full model copy. This asymmetry is exactly why LoRA is the default and full fine-tuning is rare for enterprises.
 
 **(e) Pitfalls & failure modes.**
 - **Fine-tuning to inject facts** — stale, unupdatable, hallucination-prone, un-permissionable. Use RAG.
@@ -193,6 +194,16 @@ For a model to plug into software, its output must be **machine-parseable** — 
   - **A/B and online eval** — measure real user outcomes (task completion, thumbs up/down, deflection rate) in production.
 
 **(b′) The workflow.** Curate a **representative eval set** (real queries + expected behavior, including edge cases and adversarial inputs) → run candidate system → score with a mix of the above → track over time → gate deploys on it. Grow the set from **production failures** (every incident becomes a test case).
+
+**(b″) What an eval case and a judge actually look like (concrete).** An eval "case" is a row with an input, an expected behavior, and a check type. For example:
+
+| input | expected | check |
+|---|---|---|
+| "What's ACME's renewal date?" (no record retrievable) | says it can't find it; does **not** invent a date | assertion: output contains no date + LLM-judge "abstained correctly?" |
+| "Configure 500 seats enterprise tier" | includes required premium-support add-on | assertion: `add_ons` contains `PREMIUM_SUPPORT` |
+| "Summarize this call note: …" | faithful, ≤3 sentences, no invented commitments | LLM-judge on groundedness + length assertion |
+
+An **LLM-as-judge** call is just another model call with a rubric prompt, e.g.: *"You are grading an answer. Given the SOURCE and the ANSWER, score groundedness 1–5 (5 = every claim supported by SOURCE) and return `{\"score\": n, \"reason\": \"…\"}`. SOURCE: {…} ANSWER: {…}"* — then you parse the JSON. **Set size:** start with **dozens** of hand-curated cases (enough to catch obvious regressions), grow to **hundreds** as production failures accumulate; validate any judge against ~50 human-labeled cases before trusting it.
 
 **(d) Decision criteria.** Prefer **deterministic checks** where possible (cheap, reliable), **LLM-as-judge** for scalable subjective scoring (validated against humans), and **human eval** for the highest-stakes or calibration. Always separate **component** evals (to localize failures) from **end-to-end** evals (to measure user value).
 

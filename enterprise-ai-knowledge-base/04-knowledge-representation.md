@@ -88,7 +88,7 @@ Both organize concepts, but at different power levels. A **taxonomy** is a **hie
 
 **(b) Mechanics.**
 - **Blocking** — cheaply group plausibly-matching records to avoid comparing everything to everything (O(n²) is infeasible at scale).
-- **Matching** — compare candidate pairs via deterministic rules (exact IDs, normalized names), probabilistic scoring (Fellegi–Sunter), fuzzy string similarity, or ML classifiers; increasingly **embeddings/LLMs** for semantic matching of tricky cases.
+- **Matching** — compare candidate pairs via deterministic rules (exact IDs, normalized names), **probabilistic scoring** (the classic **Fellegi–Sunter** framework — a statistical model that weighs how much each matching or mismatching field shifts the *odds* that two records are the same entity, so a shared tax ID counts far more than a shared first name), fuzzy string similarity, or ML classifiers; increasingly **embeddings/LLMs** for semantic matching of tricky cases.
 - **Clustering/merging** — group matched records into a single canonical entity with a **golden record** and links to sources (survivorship rules decide which value wins).
 - **Identity management** — maintain stable canonical IDs and mappings so downstream joins are consistent.
 
@@ -178,6 +178,8 @@ The payoff: **combining LLMs (fluent reasoning) with structured knowledge (preci
 5. **Ontology as agent reasoning scaffold.** The agent uses the ontology to understand valid actions/relationships before acting (Module 5 planning; Module 09e CPQ constraints).
 
 **(d) Decision criteria.** Reach for structured integration when questions are **relational/multi-hop**, when **precision and explainability** are required (a graph path is an audit trail), or when the model must respect **domain rules/constraints**. Combine with vector RAG rather than replacing it — text and structure answer different question types.
+
+**(d′) When sources disagree — set an authority precedence.** A real design question once you combine structured retrieval with vector RAG: if the graph/SoR and the retrieved *text* conflict (or you've stuffed both into one prompt), which wins? Make it explicit rather than leaving it to chance: **label source authority in the prompt and rank it** — authoritative **structured/SoR facts take precedence**, unstructured retrieved text is *supporting* context, and the model is instructed to prefer the SoR record and flag the conflict rather than silently blend them. (This is the generation-time complement to "anchor the graph to the SoR" below.)
 
 **(e) Pitfalls & failure modes.**
 - **Text-to-query injection/errors** — untrusted input coaxes a harmful query, or the LLM emits invalid/expensive queries. Sandbox, validate, least-privilege, read-only, limits.
