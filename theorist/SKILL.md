@@ -2,13 +2,16 @@
 name: theorist
 description: |
   Maintain a per-repo THEORY.MD as a continuously updated narrative of the
-  operating theory behind the current work. Activates EVERY session and stays
-  active throughout the session. Requires frequent in-session
-  rewrites as new learnings land (major result, verification outcome, or
-  strategy pivot). Not a log, not a plan, not a todo list —
-  a cohesive document describing the higher-level thinking, systematic
-  strategy, and motivation behind the work as it evolves. Updated end-to-end
-  (rewritten, not appended) as understanding deepens.
+  operating theory behind the current work. Use when the repo contains a
+  THEORY.MD, when the user asks to start/update an operating-theory or
+  "why" document, or when sustained multi-session work on a hard problem
+  would benefit from one. Once active in a session, stays active: rewrite
+  as new learnings land (major result, verification outcome, or strategy
+  pivot). Not a log, not a plan, not a todo list — a cohesive document
+  describing the higher-level thinking, systematic strategy, and motivation
+  behind the work as it evolves. Updated end-to-end (rewritten, not
+  appended) as understanding deepens. For guaranteed every-session
+  activation, install the SessionStart hook documented in this skill.
 version: 1.3.0
 metadata:
   author: blader
@@ -23,8 +26,31 @@ a task list. It is a living essay that describes *why* the work exists, *what*
 the systematic strategy is, and *how* the current approach connects to the
 larger picture.
 
-**This skill is always active during every session. No trigger required.**
 **Once active in a session, it stays active for the full session.**
+
+## Activation
+
+A skill description cannot force itself on every session — activation is
+the model's choice at trigger time. This skill triggers when a `THEORY.MD`
+exists, when the user asks for one, or when the work clearly warrants one.
+
+For **guaranteed** every-session activation in a repo, install a
+SessionStart hook in that repo's `.claude/settings.json` — the harness
+executes hooks deterministically:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [ { "type": "command",
+          "command": "[ -f THEORY.MD ] && echo 'THEORY.MD exists in this repo. Read it now to orient yourself, and maintain it per the theorist skill: rewrite holistically whenever the operating theory changes.'" } ] }
+    ]
+  }
+}
+```
+
+The hook's output is injected into the session context at start, which
+reliably pulls this skill in whenever a THEORY.MD is present.
 
 ## What THEORY.MD Is
 

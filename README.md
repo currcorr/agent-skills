@@ -30,6 +30,12 @@ its upstream license): `management-consulting` (42 strategy frameworks),
 `internal-comms`, `financial-analyst`, `senior-pm`, `startup-competitors`,
 and `refero-design-research`.
 
+Also imported: `canvas-design` (Anthropic, July 2026) — static poster/art
+pieces (PNG/PDF) with 54 bundled OFL fonts; pairs with `ey-brand-kit` for
+client-styled one-pagers and cover art. New in-house: `deep-research` —
+decision-grade, multi-source, adversarially verified research reports with
+citations (quick lookups stay with `perplexity`/`last30days`).
+
 Bundle all of it (plus dependency skills) for transfer with
 `python tools/build_ey_pack.py`.
 
