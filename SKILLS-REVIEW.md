@@ -176,6 +176,50 @@ Ranked by expected payoff. "Custom" = spec and build with `skill-creator`;
     Doubles as the fix for issue #5 above — one skill that decides by output
     format, audience, and whether a client kit is active.
 
+## Appendix — slide-skill routing decision (2026-07-02)
+
+Recorded for reuse (e.g., comparing against reworked presentation skills in
+other environments).
+
+**Problem.** A bare "make me a presentation" matched four skills — `ey-deck`
+(consulting .pptx, storyline-first, kit-branded), `pptx` (file mechanics,
+but its description also claimed deck creation), `marp-slide`
+(markdown→slides via external Marp CLI, 7 canned themes), and
+`frontend-slides` (animated zero-dependency HTML decks + PPTX→web). Which
+fired was model roulette across wildly different output formats.
+
+**Options weighed.**
+
+1. *Narrow descriptions only* — cheapest, no added context, same mechanism
+   that fixed the diagram cluster; but routing knowledge is scattered
+   across four description strings.
+2. *Router skill* (mirroring `orchestrate-tufte-vdqi`) — routing logic in
+   one place; but a router only works if downstream descriptions are ALSO
+   narrowed (else the model bypasses it), so it includes option 1's work
+   plus a context hop per request plus permanent sync discipline. A stale
+   router is worse than none.
+3. *Both* — most deterministic, most maintenance.
+4. *Shrink the cluster* — marp-slide needs an external CLI, its outputs are
+   covered by frontend-slides (HTML) and ey-deck (PPTX), and its canned
+   themes cut against brand-kit discipline.
+
+**Decision: option 1 + marp demotion, router deferred.** Implemented as:
+
+- `ey-deck` — declared DEFAULT for deck requests; carries a short "Routing
+  check" section in its body (the shared decision tree at zero trigger
+  cost): native .pptx/consulting → stay; browser talk → frontend-slides;
+  explicit Marp → marp-slide; site/dashboard → ey-site; static poster →
+  canvas-design; file surgery → pptx.
+- `pptx` — retreated to file mechanics; deck *design* explicitly deferred
+  to ey-deck.
+- `frontend-slides` — owns browser-presented talks/pitches and PPTX→web
+  conversion; defers native-.pptx deliverables to ey-deck.
+- `marp-slide` — explicit-mention only; Marp CLI dependency stated.
+
+**Escalation trigger:** if misroutes still occur in real use after the
+narrowing, build the `deck-orchestrator` router (option 3). Until observed,
+the router solves a theoretical problem at permanent maintenance cost.
+
 ### Deliberately not recommended
 
 - More dev-stack skills (Docker/Terraform/deploy): no signal in the repo that

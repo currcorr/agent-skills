@@ -1,6 +1,6 @@
 ---
 name: marp-slide
-description: Create professional Marp presentation slides with 7 beautiful themes (default, minimal, colorful, dark, gradient, tech, business). Use when users request slide creation, presentations, or Marp documents. Supports custom themes, image layouts, and "make it look good" requests with automatic quality improvements.
+description: Create Marp markdown presentation slides with 7 built-in themes (default, minimal, colorful, dark, gradient, tech, business). Use ONLY when the user explicitly mentions Marp or asks for markdown-source slides. For general deck/presentation requests use ey-deck (native .pptx) or frontend-slides (web/HTML). Requires the Marp CLI installed to render output — if marp is not on PATH, say so instead of attempting.
 ---
 
 # Marp Slide Creator

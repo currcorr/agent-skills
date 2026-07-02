@@ -1,6 +1,6 @@
 ---
 name: ey-deck
-description: Build consulting-grade PowerPoint decks rapidly — storyline first, branded via a client kit, using a library of proven consulting slide patterns. Use whenever the user asks for a deck, slides, presentation, proposal, steering-committee pack, status report, or readout for client or internal EY work, including restyling an existing deck for a new client. ALSO use whenever the user flags or praises any slide or deck — "save this slide", "keep this layout", "I like this deck's headlines/aesthetic/messaging", "add this to my template library" — to capture it in the template library, even when no new deck is being built. Works with or without a client .pptx template.
+description: DEFAULT skill for deck/slides/presentation requests. Build consulting-grade PowerPoint decks rapidly — storyline first, branded via a client kit, using a library of proven consulting slide patterns. Use whenever the user asks for a deck, slides, presentation, proposal, steering-committee pack, status report, or readout — for client or internal EY work, and for any deck request that doesn't clearly call for another format (browser-presented talk/pitch → frontend-slides; explicit Marp/markdown slides → marp-slide; raw .pptx file surgery → pptx). ALSO use whenever the user flags or praises any slide or deck — "save this slide", "keep this layout", "I like this deck's headlines/aesthetic/messaging", "add this to my template library" — to capture it in the template library, even when no new deck is being built. Works with or without a client .pptx template.
 ---
 
 # EY Deck
@@ -12,6 +12,22 @@ restyled for a different client by swapping the kit.
 
 Dependencies (same repo): `ey-brand-kit` for styling and design rules,
 `pptx` for low-level .pptx mechanics.
+
+## Routing check (before building)
+
+This skill is the default for deck requests, but confirm the output format
+fits before investing in a storyline:
+
+- Deliverable a client will open/edit in PowerPoint, or any consulting
+  readout/proposal/status pack → **stay here** (native .pptx via `pptx`).
+- Presented from a browser — conference talk, pitch site, animated
+  keynote-style delivery → hand off to `frontend-slides`.
+- User explicitly wants Marp / markdown-source slides → `marp-slide`
+  (requires the Marp CLI).
+- Not really a deck: interactive report/dashboard/workshop site →
+  `ey-site`; single static poster/one-pager → `canvas-design`.
+- Pure file surgery on an existing .pptx (extract, merge, split, fix) with
+  no design work → `pptx` directly.
 
 ## Workflow
 
