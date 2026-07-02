@@ -1,6 +1,6 @@
 ---
 name: gemini
-description: Use when the user asks to run Gemini CLI for code review, plan review, or big context (>200k) processing. Ideal for comprehensive analysis requiring large context windows. Uses Gemini 3 Pro by default for state-of-the-art reasoning and coding.
+description: Use when the user asks to run Gemini CLI for code review, plan review, or big context (>200k) processing. Ideal for comprehensive analysis requiring large context windows. Uses Gemini 3 Pro by default for state-of-the-art reasoning and coding. Requires the gemini CLI installed and authenticated on this machine — if gemini is not on PATH (e.g. remote/web sessions), say so instead of attempting.
 ---
 
 # Gemini Skill Guide

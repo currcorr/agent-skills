@@ -53,7 +53,9 @@ every other agent picks up the change at its next session start.
 
    ```bash
    mkdir -p ~/.claude/skills
-   for d in ~/skills/*/; do ln -sfn "$d" ~/.claude/skills/$(basename "$d"); done
+   for d in ~/skills/*/; do
+     [ -f "$d/SKILL.md" ] && ln -sfn "$d" ~/.claude/skills/$(basename "$d")
+   done
    ```
 
 3. Point Codex at the same clone (its skills directory, or an AGENTS.md

@@ -1,6 +1,6 @@
 ---
 name: draw-io
-description: draw.io diagram creation, editing, and review. Use for .drawio XML editing, PNG conversion, layout adjustment, and AWS icon usage.
+description: draw.io diagram creation, editing, and review. Use ONLY when the user explicitly mentions draw.io or a .drawio file is involved — .drawio XML editing, PNG conversion, layout adjustment, and AWS icon usage. For generic diagram requests, use mermaid-diagrams instead.
 ---
 
 # draw.io Diagram Skill

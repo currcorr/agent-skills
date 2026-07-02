@@ -1,23 +1,24 @@
 ---
 name: last30days
 version: "2.8"
-source: https://github.com/mvanhorn/last30days-skill
 description: "Research any topic from the last 30 days across Reddit, X, YouTube, TikTok, Instagram, Hacker News, Polymarket, and the web. Surface what people are actually discussing, recommending, betting on, and debating right now."
 argument-hint: 'last30 AI video tools, last30 best project management tools'
 allowed-tools: Bash, Read, Write, AskUserQuestion, WebSearch
 user-invocable: true
-install: git submodule or copy from mvanhorn/last30days-skill
-security-review: 2026-03-04
-security-status: approved-with-notes
-tags:
-  - research
-  - reddit
-  - x
-  - youtube
-  - tiktok
-  - hackernews
-  - trends
-  - prompts
+metadata:
+  source: https://github.com/mvanhorn/last30days-skill
+  install: git submodule or copy from mvanhorn/last30days-skill
+  security-review: 2026-03-04
+  security-status: approved-with-notes
+  tags:
+    - research
+    - reddit
+    - x
+    - youtube
+    - tiktok
+    - hackernews
+    - trends
+    - prompts
 ---
 
 # last30days

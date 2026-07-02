@@ -1,8 +1,13 @@
 ---
 name: financial-analyst
 description: >
-  Performs financial ratio analysis, DCF valuation, budget variance analysis,
-  and rolling forecast construction for strategic decision-making
+  Financial analysis toolkit: ratio analysis, DCF valuation, budget variance
+  analysis, and rolling forecast construction. Use when the user asks to
+  analyze financial statements or ratios, value a company/asset (DCF, WACC,
+  terminal value), explain budget-vs-actual variances, build or update a
+  rolling forecast, or wants finance-grade quantitative support for a
+  strategic decision. Pairs with xlsx for workbook mechanics and
+  excel-to-evidence for turning results into deck exhibits.
 license: MIT + Commons Clause
 metadata:
   version: 1.0.0

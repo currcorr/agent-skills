@@ -24,7 +24,9 @@ previous version was a brittle keyword function and it is gone.
   `quartile_plot.py` (C1), `range_frame.py` (C2, optional C3 dot-dash
   marginals), plus `wrap_html.py` for a tufte-css HTML page. The only skill
   that outputs a chart.
-- `references/tufte-principles.md` (mirrored into both skills) — the canonical
+- `tufte-principles.md` (mirrored into both skills:
+  `../assess-graphical-excellence/references/tufte-principles.md` and
+  `../render-tufte-chart/references/tufte-principles.md`) — the canonical
   Tufte knowledge, source-grounded to VDQI with page citations: Part A nine
   criteria with numeric anchors, Part B seven remedies, Part C ten chart
   genres with construction recipes, Part D chartjunk taxonomy, Part E

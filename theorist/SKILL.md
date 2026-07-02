@@ -9,9 +9,10 @@ description: |
   a cohesive document describing the higher-level thinking, systematic
   strategy, and motivation behind the work as it evolves. Updated end-to-end
   (rewritten, not appended) as understanding deepens.
-author: blader
 version: 1.3.0
-date: 2026-02-28
+metadata:
+  author: blader
+  date: 2026-02-28
 ---
 
 # Theorist
