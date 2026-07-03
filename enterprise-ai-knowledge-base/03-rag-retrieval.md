@@ -92,7 +92,7 @@ The embedding model (Module 1.3) decides what "similar" means for your corpus. I
 
 **(e) Pitfalls.** Query/document embedded with different models (breaks geometry — 1.3); ignoring instruction prefixes the model expects; assuming biggest = best; forgetting that **changing the model means re-indexing everything**.
 
-**(f) Enterprise example.** A pharma company finds a general embedding model conflates drug names; a domain-tuned biomedical embedding model lifts retrieval hit-rate on their eval set from 71% → 89%, and they self-host it to keep documents on-prem.
+**(f) Enterprise example.** A pharma company finds a general embedding model conflates drug names; a domain-tuned biomedical embedding model lifts retrieval hit-rate on their eval set from 71% → 89% *(illustrative figures, not a benchmark)*, and they self-host it to keep documents on-prem.
 
 ---
 
@@ -195,7 +195,7 @@ Before embedding each chunk, prepend a short, LLM-generated description of the c
 
 **GraphRAG (Stabilizing; cost barrier now largely solved).**
 Instead of (or alongside) vector search over text, build a **knowledge graph** (Module 4) from the corpus and retrieve over *entities and relationships*. *How it answers a "global" question (the mechanic that makes it different):* Microsoft's **GraphRAG** extracts entities/relations from the whole corpus, runs **community detection** to cluster related entities into groups, and **pre-generates a summary of each community**. A global question like "what themes span all our incident reports?" is then answered by **map-reducing over those community summaries** — aggregating across the entire corpus — whereas vector RAG can only fetch the top-k *local* passages and literally never sees the whole picture. Also strong for multi-hop reasoning over structured relationships.
-*Tradeoffs:* classic GraphRAG's up-front graph construction is expensive and can be noisy (entity-resolution errors — Module 4.5). But **LazyGraphRAG** (Microsoft, open-source) defers summarization to query time using cheap noun-phrase co-occurrence, cutting indexing cost to roughly that of vector RAG (~0.1% of full GraphRAG) while keeping strong global-question quality — largely removing the adoption blocker. Usually combined with vector RAG (**hybrid GraphRAG**, routed by query type) rather than replacing it. Deep integration is covered in Module 4 and its evolution in Module 8.6.
+*Tradeoffs:* classic GraphRAG's up-front graph construction is expensive and can be noisy (entity-resolution errors — Module 4.4). But **LazyGraphRAG** (Microsoft, open-source) defers summarization to query time using cheap noun-phrase co-occurrence, cutting indexing cost to roughly that of vector RAG (~0.1% of full GraphRAG) while keeping strong global-question quality — largely removing the adoption blocker. Usually combined with vector RAG (**hybrid GraphRAG**, routed by query type) rather than replacing it. Deep integration is covered in Module 4 and its evolution in Module 8.6.
 
 **Other patterns worth naming.** **Self-RAG / corrective RAG (CRAG)** — the model critiques retrieved context and re-retrieves or abstains if it's insufficient (reduces answering from irrelevant context). **Fusion retrieval** — multiple query variants + result fusion.
 

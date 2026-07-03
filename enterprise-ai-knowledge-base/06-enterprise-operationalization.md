@@ -6,9 +6,9 @@
 6.1 Reference architecture & the modern AI stack
 6.2 Data pipelines & the data backbone
 6.3 Security, access control, PII & data governance
-6.4 (folded into 6.3/6.5) — see cross-references
 6.5 LLMOps: deployment, monitoring, versioning, cost, latency, caching, scaling
 6.6 Compliance & auditability by vertical
+*(Section numbering skips 6.4 — governance content was consolidated into 6.3 and 6.5.)*
 
 ---
 
@@ -129,7 +129,7 @@ This is the layer that determines whether enterprise AI is an asset or a liabili
 - **Vendor lock-in / single point of failure** — no gateway, no fallback; provider outage takes you down.
 - **Un-versioned prompts** — "someone changed the prompt and quality dropped, and we can't tell what changed."
 
-**(f) Enterprise example.** A support copilot cuts cost ~60% by (1) routing simple FAQ deflections to a small model and only escalating hard cases to a frontier model (Module 8.7), (2) prompt-caching the large static system prompt + policy docs, and (3) capping agent loop depth. A model gateway tracks per-team spend, pins versions, and fails over to a secondary provider during an outage — all monitored with online eval that flags a quality dip the day a provider silently updated a model.
+**(f) Enterprise example.** A support copilot cuts cost ~60% *(illustrative, not a benchmark)* by (1) routing simple FAQ deflections to a small model and only escalating hard cases to a frontier model (Module 8.7), (2) prompt-caching the large static system prompt + policy docs, and (3) capping agent loop depth. A model gateway tracks per-team spend, pins versions, and fails over to a secondary provider during an outage — all monitored with online eval that flags a quality dip the day a provider silently updated a model.
 
 ---
 

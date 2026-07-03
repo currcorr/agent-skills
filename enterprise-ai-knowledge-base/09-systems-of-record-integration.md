@@ -2,7 +2,7 @@
 
 > **Why this module exists:** This is the connective tissue between "AI research" and "AI that runs your business." It consolidates the Systems-of-Record (SoR) integration theme woven through Modules 3–7 into one place — the durable pattern, the read/write distinction, the semantic layer, the platform-native-vs-composable tradeoff, and a concrete CPQ walkthrough. Running examples: **CRM and CPQ**, on two reference platforms, **Salesforce** and **ServiceNow**.
 >
-> **Vendor-accuracy caveat (read first):** Vendor capabilities in this space move *fast* and marketing often blurs shipped vs. roadmap. This module reflects an **early-2026 knowledge horizon**. Every vendor-specific claim below — GA status, feature names, CPQ specifics — should be **verified against the vendor's current documentation, release notes, and trust portal** before you record it. Where public detail is genuinely thin, it is **flagged explicitly**. Treat "roadmap"/"announced" items as pointers to check, not facts.
+> **Vendor-accuracy caveat (read first):** Vendor capabilities in this space move *fast* and marketing often blurs shipped vs. roadmap. This module was **drafted at an early-2026 horizon and refreshed in a mid-2026 research pass**. Every vendor-specific claim below — GA status, feature names, CPQ specifics — should be **verified against the vendor's current documentation, release notes, and trust portal** before you record it. Where public detail is genuinely thin, it is **flagged explicitly**. Treat "roadmap"/"announced" items as pointers to check, not facts.
 
 **Module map**
 09.a The core pattern — AI as interaction layer, SoR as system of record
@@ -154,7 +154,7 @@ A defining enterprise decision: use the **AI embedded in the SoR platform you al
 
 > **CPQ = Configure, Price, Quote:** the process of configuring a valid product/service bundle, pricing it (with discounts/approvals), and generating a formal quote. It's a perfect stress test for SoR-integrated agents because it moves from open-ended conversation to **high-stakes, financially-material writes** — and the SoR boundary and governance shift at each step.
 >
-> **Detail caveat:** the *agentic-CPQ* specifics of both Salesforce (Revenue Cloud / Logik.ai direction) and ServiceNow (CPQ within order-to-cash) are **partly roadmap and unevenly documented publicly**. The walkthrough below is the **durable pattern** — where the SoR boundary sits and what governance applies at each step — with vendor specifics flagged as *established* vs. *roadmap/thin* where relevant. Verify vendor capabilities before recording.
+> **Detail caveat:** the *agentic-CPQ* specifics of both Salesforce (Revenue Cloud Advanced direction) and ServiceNow (Logik.ai / CPQ within order-to-cash) are **partly roadmap and unevenly documented publicly**. The walkthrough below is the **durable pattern** — where the SoR boundary sits and what governance applies at each step — with vendor specifics flagged as *established* vs. *roadmap/thin* where relevant. Verify vendor capabilities before recording.
 
 **The agent moves through four stages. At each, note the SoR boundary and the governance.**
 

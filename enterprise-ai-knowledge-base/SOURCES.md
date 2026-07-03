@@ -23,14 +23,14 @@
 
 ## Module 2 — Capability Extension
 - **MCP → Linux Foundation / Agentic AI Foundation (Dec 9, 2025):** `linuxfoundation.org` press release; `blog.modelcontextprotocol.io/posts/2025-12-09-...`; Anthropic announcement. *Primary.*
-- MCP spec `2025-11-25` (stable) + `2026-07-28` RC (stateless core, MCP Apps, Tasks, OAuth/OIDC): `modelcontextprotocol.io/specification/...`; `blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/`. *Primary.*
+- MCP spec `2025-11-25` (stable) + a release candidate with target date `2026-07-28` (stateless core, MCP Apps, Tasks, OAuth/OIDC): `modelcontextprotocol.io/specification/...`; `blog.modelcontextprotocol.io/posts/2026-07-28-release-candidate/`. *⚠ The RC date is slightly in the future relative to this pass — verify it has published before citing as shipped.*
 - MCP Registry (preview, Sept 8 2025): `blog.modelcontextprotocol.io/posts/2025-09-08-mcp-registry-preview/`. *Primary.*
 - MCP security (Tool Poisoning; MCPoison CVE-2025-54136; CurXecute CVE-2025-54135; OWASP MCP Top 10): `owasp.org/www-project-mcp-top-10/`. *Primary/Secondary.*
 - Anthropic native Structured Outputs (beta, Nov 2025): `platform.claude.com/docs/en/build-with-claude/structured-outputs`. *Primary.*
 - OpenAI fine-tuning wind-down (to ~Jan 2027): `developers.openai.com/api/docs/deprecations`. *Primary.*
 - RFT / GRPO: OpenAI RFT guide; AWS Bedrock RFT (Nova). *Primary.*
 - Eval two-tier pattern, Braintrust: vendor comparison write-ups. *Soft — directional.*
-- **Portable task adapters (emerging):** *PorTAL: Portable Task Adapters for LLMs* — Geist, B., Ramp Labs (2026), corporate research blog. Related prior art it builds on: Text-to-LoRA (Charakorn et al., ICML 2025, arXiv:2506....), Cross-LoRA (Xia et al., 2025, arXiv:2508.05232), LoRA-X (Farhadzadeh et al., 2025, arXiv:2501.16559), Platonic Representation Hypothesis (Huh et al., 2024, arXiv:2405.07987). *⚠ Soft — single-source, not peer-reviewed, narrow eval (14 MCQ tasks, small Qwen3/Gemma-3 models), self-reported; some cited references appear future-dated/unverifiable. Treat as a direction to watch, verify before relying.*
+- **Portable task adapters (emerging):** *PorTAL: Portable Task Adapters for LLMs* — Geist, B., Ramp Labs (2026), corporate research blog. Related prior art it builds on: Text-to-LoRA (Charakorn et al., ICML 2025, `openreview.net/forum?id=zWskCdu3QA`), Cross-LoRA (Xia et al., 2025, arXiv:2508.05232), LoRA-X (Farhadzadeh et al., 2025, arXiv:2501.16559), Platonic Representation Hypothesis (Huh et al., 2024, arXiv:2405.07987). *⚠ Soft — single-source, not peer-reviewed, narrow eval (14 MCQ tasks, small Qwen3/Gemma-3 models), self-reported; some cited references appear future-dated/unverifiable. Treat as a direction to watch, verify before relying.*
 
 ## Module 3 — RAG & Retrieval
 - Embedding models: Gemini Embedding GA (`developers.googleblog.com`), Cohere Embed v4 (AWS Bedrock docs), Voyage-3.5, Qwen3-Embedding. *Primary/Secondary.*

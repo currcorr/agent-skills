@@ -44,7 +44,7 @@ The prompt that commissioned this asks for a hard distinction between shipped, g
 
 Durable concepts, such as transformers, attention, RAG, chunking, knowledge graphs, and agent loops, are stable and are stated with confidence.
 
-Vendor capabilities move fast. These include Salesforce Agentforce, Data Cloud, Revenue Cloud, and Logik.ai; ServiceNow Now Assist, AI Agents, and CPQ; and protocol specs like MCP and A2A. This knowledge base reflects understanding as of an early-2026 knowledge horizon. Before you record vendor-specific claims, such as pricing, GA dates, exact feature availability, and security certifications, verify against the vendor's primary documentation and release notes. Treat anything here labeled roadmap or announced as a pointer to check, not a settled fact.
+Vendor capabilities move fast. These include Salesforce Agentforce, Data Cloud, and Revenue Cloud; ServiceNow Now Assist, AI Agents, CPQ, and Logik.ai; and protocol specs like MCP and A2A. This knowledge base was drafted at an early-2026 horizon and refreshed against the web in a mid-2026 research pass. Before you record vendor-specific claims, such as pricing, GA dates, exact feature availability, and security certifications, verify against the vendor's primary documentation and release notes. Treat anything here labeled roadmap or announced as a pointer to check, not a settled fact.
 
 Where a claim is a matter of contested expert opinion, for example how much reasoning current models really do, or when multi-agent beats single-agent, that is called out rather than presented as consensus.
 

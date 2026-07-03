@@ -1,6 +1,6 @@
 # Module 8 — Cutting-Edge Methodologies (the next wave of enterprise adoption)
 
-> **Why this module exists:** The prior modules describe what's dependable today. This module looks at what's arriving — the methods poised to reshape enterprise AI over the next adoption wave. For each, it labels **maturity** (*emerging* / *stabilizing* / *early-production*) and states **what would need to be true for mainstream enterprise adoption**. Treat this as a radar, not a shopping list — and verify time-sensitive vendor/capability claims against primary sources (knowledge horizon: early 2026).
+> **Why this module exists:** The prior modules describe what's dependable today. This module looks at what's arriving — the methods poised to reshape enterprise AI over the next adoption wave. For each, it labels **maturity** (*emerging* / *stabilizing* / *early-production*) and states **what would need to be true for mainstream enterprise adoption**. Treat this as a radar, not a shopping list — and verify time-sensitive vendor/capability claims against primary sources (drafted early-2026, refreshed mid-2026; maturity labels reflect the mid-2026 view).
 
 **Module map**
 8.1 Reasoning models & inference-time compute
@@ -150,7 +150,7 @@ Not every task needs a frontier model. **Small language models (SLMs)** are chea
 
 **What must be true for mainstream adoption.** Largely here for cost-sensitive high-volume workloads. Broader adoption needs mature routing/eval tooling and confidence that right-sizing won't silently degrade quality. **Expect this to be one of the most impactful near-term enterprise practices.**
 
-**(f) Example.** The support copilot (Module 6.5) routes ~80% of queries to a cheap SLM, cascades the uncertain ones to a frontier model, and runs a distilled classifier on-device for PII redaction — cutting cost ~60% with no measured quality loss (proven by the eval harness).
+**(f) Example.** The support copilot (Module 6.5) routes ~80% of queries to a cheap SLM, cascades the uncertain ones to a frontier model, and runs a distilled classifier on-device for PII redaction — cutting cost ~60% with no measured quality loss (proven by the eval harness). *(Illustrative figures, not a benchmark.)*
 
 ---
 

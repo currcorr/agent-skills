@@ -117,7 +117,7 @@ For a model to plug into software, its output must be **machine-parseable** — 
   - **Tools** — callable functions (like 2.3), model-invoked.
   - **Resources** — readable data/context (files, records), application-controlled.
   - **Prompts** — reusable prompt templates, user-invoked.
-  - (Plus notifications and, in newer spec revisions, richer capabilities — e.g., the `2025-11-25` stable revision and the `2026-07-28` release candidate add a stateless protocol core, an Extensions framework, **MCP Apps** (server-rendered sandboxed UIs), a Tasks extension for long-running ops, OAuth 2.0/OIDC authorization hardening, and a formal 12-month deprecation policy.)
+  - (Plus notifications and, in newer spec revisions, richer capabilities — e.g., the `2025-11-25` stable revision and a subsequent release candidate (target date `2026-07-28`, ⚠ verify it has published) add a stateless protocol core, an Extensions framework, **MCP Apps** (server-rendered sandboxed UIs), a Tasks extension for long-running ops, OAuth 2.0/OIDC authorization hardening, and a formal 12-month deprecation policy.)
 - **Transport:** JSON-RPC over stdio (local) or HTTP/streaming (remote). Local servers run beside the app; remote servers run as services (remote servers now require OAuth 2.1-style authorization).
 - **Discovery:** clients query servers for their capabilities at connect time, so tools can be added without changing the client. An official **MCP Registry** (launched in preview Sept 2025) aids discoverability — but it is preview-grade and confers *no* trust; still vet/allow-list servers.
 
@@ -224,7 +224,7 @@ An **LLM-as-judge** call is just another model call with a rubric prompt, e.g.: 
 - **Prompting** (few-shot, CoT, ReAct) is the cheapest lever; get it right before anything heavier. ReAct is the seed of agents.
 - **Structured outputs** make the model a software component; constrain with schemas, then still validate.
 - **Tool calling** gives the model current facts and the ability to act — the model *requests*, your code *executes and authorizes*.
-- **MCP** standardizes how tools/data are exposed ("USB-C for AI"); powerful and stabilizing, but **security/authz is on you**.
+- **MCP** standardizes how tools/data are exposed ("USB-C for AI"); now a **de facto standard** (Linux-Foundation-governed, though the spec is still evolving), but **security/authz is on you**.
 - **Fine-tuning (LoRA/PEFT)** is for behavior/style, not knowledge; climb the ladder (prompt → few-shot → RAG → tools → fine-tune) and combine fine-tune-for-behavior with retrieve-for-knowledge.
 - **Evaluation** is the discipline that makes all of the above real. Build the eval set first; grow it from production failures.
 

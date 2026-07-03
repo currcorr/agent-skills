@@ -201,4 +201,4 @@ The payoff: **combining LLMs (fluent reasoning) with structured knowledge (preci
 - **The semantic layer** turns messy schemas into governed business concepts an agent can reason over — often the highest-leverage investment for reliable SoR-grounded AI (theme c).
 - **LLM + structured knowledge** = fluent reasoning + precise, connected, explainable truth: text-to-query, GraphRAG, verification/constraint-checking, and LLM-assisted construction — combined with, not instead of, vector RAG.
 
-*Proceed to `05-agents-orchestration.md` (Pass 2).*
+*Proceed to `05-agents-orchestration.md`.*

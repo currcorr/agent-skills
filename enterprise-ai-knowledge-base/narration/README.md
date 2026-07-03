@@ -1,6 +1,6 @@
 # Narration-Clean Variant (for NotebookLM / audio & video)
 
-These files are a **format-only transformation** of the reader-facing modules in the parent directory, optimized to be **read aloud** by tools that generate audio overviews and video (e.g., NotebookLM). **The content, facts, figures, dates, vendor names, maturity labels, and ⚠ verify-flags are identical** to the reader versions — only the presentation changed.
+These files are a **format-only transformation** of the reader-facing modules in the parent directory, optimized to be **read aloud** by tools that generate audio overviews and video (e.g., NotebookLM). **The substance is preserved** — the same content, facts, figures, dates, vendor names, maturity labels, and verify-warnings as the reader versions; only the presentation changed. (The reader set marks things to double-check with a ⚠ glyph; the narration set carries the same warnings in spoken words like "verify" instead, since the glyph doesn't narrate.)
 
 ## What's different from the reader version
 - **Letter-tag scaffolding removed** — `(a)/(b)/(c)/(d)/(e)/(f)` (and `(b′)`, `(c/d)` variants) became plain spoken sub-headings like **Why it matters**, **How it works**, **Where it goes wrong**, **A concrete example**.
