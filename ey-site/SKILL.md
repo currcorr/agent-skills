@@ -69,7 +69,10 @@ wired up.
 - Run the AI-tells lint (design rules 20–28). Sites are the worst offenders:
   check specifically for border-radius creep, gradient backgrounds, icon
   grids, and equal-weight card rows. The template ships square-cornered and
-  flat — keep it that way.
+  flat — keep it that way, or run `adversarial-design-review` for a full
+  fresh-adversary pass.
+
+If the artifact collects the reader's reactions back, use `interactive-brief`.
 
 ## Restyling for a new client
 

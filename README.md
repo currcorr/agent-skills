@@ -36,6 +36,18 @@ client-styled one-pagers and cover art. New in-house: `deep-research` —
 decision-grade, multi-source, adversarially verified research reports with
 citations (quick lookups stay with `perplexity`/`last30days`).
 
+Design-build gate (in-house):
+
+- **adversarial-design-review** — fresh-adversary gate for any rendered design
+  (HTML page, site, artifact): hunts 23 AI design tells, verifies content +
+  functional accuracy (runs the JS), applies measured gates (computed contrast,
+  375px signature test, crescendo check). The mandatory final pass after
+  `frontend-design`/`ey-site`/`canvas-design`/`interactive-brief`.
+- **interactive-brief** — self-contained interactive HTML artifacts consumed on
+  a phone from an attachment that collect the reader's structured reactions and
+  send them back via pre-filled iMessage or clipboard (briefs, review decks,
+  decision cards).
+
 Bundle all of it (plus dependency skills) for transfer with
 `python tools/build_ey_pack.py`.
 
