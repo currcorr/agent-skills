@@ -1,0 +1,47 @@
+# Brand tokens — Stripe (ripped from stripe.com, 2026-07-06)
+# Extracted from the live site's shipped CSS (b.stripecdn.com _next/static/css,
+# Stripe "HDS" design-system custom properties). Values below are Stripe's own
+# hexes, not approximations; fonts are honest system-stack approximations.
+
+name: Stripe
+meta:
+  source: "stripe.com homepage CSS, fetched 2026-07-06 — HDS tokens (--hds-color-core-*)"
+  created: 2026-07-06
+  extraction-notes: >
+    Brand accent is HDS core-brand-600 #533AFD (the current blurple; the classic
+    #635BFF survives in their CSS only as a focus-border token). Structural navy
+    #0A2540 is Stripe's long-standing headline/ink color. Neutrals are Stripe's
+    cool blue-slate scale (neutral-100 #D4DEE9 rules, #F6F9FC light ground).
+    Site typeface is sohne-var (Sohne, Klim Type) with "SF Pro Display" fallback
+    in their own stack — approximated here by the system SF/Helvetica stack.
+    Logo is a text placeholder; Stripe's wordmark asset was not ripped.
+
+palette:
+  primary: "#0A2540"    # Stripe navy — dividers, structure, logo slot
+  ink: "#0A2540"        # Stripe sets headlines and primary text in the navy
+  paper: "#FFFFFF"
+  accent: "#533AFD"     # HDS core-brand-600 blurple — kept scarce per house rules
+  muted: "#425466"      # Stripe's secondary-text slate
+  rule: "#D4DEE9"       # HDS core-neutral-100
+  tint: "#F6F9FC"       # Stripe's light section ground, used for row striping
+  # series colors, all HDS core tokens (re-fetched from the shipped CSS 2026-07-06)
+  chart:
+    1: "#533AFD"        # core-brand-600 — lead series
+    2: "#0A2540"        # the navy — second series
+    3: "#A51D85"        # core-magenta-600
+    4: "#D04900"        # core-orange-500
+  positive: "#006F3A"   # HDS core-success-600 — 6.3:1 on paper
+  negative: "#A01400"   # HDS core-error-600 — 8.1:1 on paper
+
+type:
+  display: "-apple-system, 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+  body: "-apple-system, 'SF Pro Text', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+  mono: "'SF Mono', 'Source Code Pro', Menlo, monospace"
+
+logo:
+  text: "Stripe"
+
+rules:
+  accent-usage: "Blurple #533AFD only on the tag, takeaway label, and one highlighted element; Stripe's own site spends it this sparingly outside heroes."
+  radius: "0 — deck discipline overrides Stripe's web rounding; record if a client template demands otherwise"
+  notes: "All-sans brand: display weight/scale does the hierarchy work the default brand does with a serif. Navy is the ink, not black — that is the strongest Stripe signal."

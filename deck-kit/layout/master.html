@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1280">
+<title>{{TITLE}}</title>
+<style>
+{{FONTS}}:root {
+{{TOKENS}}
+}
+{{CSS}}
+</style>
+</head>
+<body class="deck">
+{{SLIDES}}
+<div id="overflow-report" hidden></div>
+<script>
+/* arrow: re-anchor from real geometry — marker's label end -> lower-middle of the
+   destination quadrant, clear of both text blocks (static % values are the fallback) */
+document.querySelectorAll('.fw-arrow[data-src]').forEach(function(ar){
+  var grid=ar.closest('.fw-grid'); if(!grid) return;
+  var cells=grid.querySelectorAll('.fw-cell');
+  var srcCell=cells[+ar.dataset.src], dstCell=cells[+ar.dataset.dst]; if(!srcCell||!dstCell) return;
+  var g=grid.getBoundingClientRect(), plot=srcCell.querySelector('.fw-plot');
+  var s; if(plot){var lab=plot.lastElementChild||plot; var pr=lab.getBoundingClientRect(); s={x:pr.right+14-g.left,y:pr.top+pr.height/2-g.top};}
+  else {var sr=srcCell.getBoundingClientRect(); s={x:sr.left+sr.width*0.5-g.left,y:sr.top+sr.height*0.5-g.top};}
+  var d=dstCell.getBoundingClientRect();
+  var e={x:d.left+d.width*0.72-g.left,y:d.top+d.height*0.94-g.top};
+  var dx=e.x-s.x,dy=e.y-s.y;
+  ar.style.left=s.x+'px'; ar.style.top=s.y+'px'; ar.style.width=Math.hypot(dx,dy)+'px';
+  ar.style.marginLeft='0'; ar.style.transformOrigin='left center';
+  ar.style.transform='rotate('+(Math.atan2(dy,dx)*180/Math.PI).toFixed(1)+'deg)';
+});
+
+// Deterministic layout check: flags any slide whose content overflows its
+// 1280x720 frame or whose zones collide. Read the report with:
+//   chrome --headless=new --dump-dom <file> | grep overflow-report
+(function () {
+  var problems = [];
+  var slides = document.querySelectorAll('.slide');
+  slides.forEach(function (slide, i) {
+    var n = i + 1;
+    if (slide.scrollWidth > slide.clientWidth + 1 ||
+        slide.scrollHeight > slide.clientHeight + 1) {
+      problems.push('slide ' + n + ': frame overflow (' +
+        slide.scrollWidth + 'x' + slide.scrollHeight + ')');
+    }
+    slide.querySelectorAll('.slide-head, .slide-body').forEach(function (zone) {
+      if (zone.scrollHeight > zone.clientHeight + 2 ||
+          zone.scrollWidth > zone.clientWidth + 2) {
+        problems.push('slide ' + n + ': ' + zone.className.split(' ')[0] +
+          ' clipped (' + zone.scrollHeight + ' > ' + zone.clientHeight + ')');
+      }
+    });
+  });
+  var report = document.getElementById('overflow-report');
+  report.textContent = problems.length
+    ? 'LAYOUT-FAIL ' + problems.join(' | ')
+    : 'LAYOUT-OK ' + slides.length + ' slides';
+})();
+</script>
+</body>
+</html>

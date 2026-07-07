@@ -1,0 +1,49 @@
+# Brand tokens — default (neutral premium)
+# House look for decks with no client brand: paper ground, near-black ink,
+# deep slate structure, one dark-brick accent spent sparingly.
+
+name: Default
+meta:
+  source: "House design — built 2026-07-06, not extracted from any site"
+  created: 2026-07-06
+
+palette:
+  primary: "#1F3B54"    # deep slate — section dividers, logo mark, structural color
+  ink: "#1A1D21"        # body text, headlines, baselines
+  paper: "#FFFFFF"      # slide ground
+  accent: "#8E3728"     # dark brick — tag, takeaway label, one highlight per slide
+  muted: "#5C6670"      # secondary text, sources, default bar fills
+  rule: "#C9CED4"       # hairline rules, table row separators
+  tint: "#F2F4F6"       # table row striping only
+  # Optional tokens, deliberately unset here so the renderer's fallbacks fire
+  # (this file doubles as the backward-compat proof — old brand files without
+  # these keys keep working):
+  #   chart:            # series 1..4; fallback = accent + muted derivatives
+  #     1: "#8E3728"
+  #   positive: / negative:   # semantic deltas; fallback = restrained green/
+  #                           # red pair picked by brand temperature (warm here
+  #                           # -> #2F6B44 / #9E3A2B, both >4.5:1 on paper)
+  #   accent-2:               # second brand color slot; fallback = accent
+  #   divider-ground: / divider-ink:  # section-divider ground/type;
+  #                                   # fallback = primary / paper
+
+type:
+  display: "Georgia, 'Times New Roman', serif"          # action titles, big numbers
+  body: "'Helvetica Neue', Helvetica, Arial, sans-serif" # everything else
+  mono: "'SF Mono', Menlo, Consolas, monospace"
+  # files:                                # optional @font-face for licensed faces;
+  #   "Söhne": assets/fonts/soehne.woff2  # referenced by file:// URI — output is
+  #                                       # only self-contained when unset; put the
+  #                                       # family name in the stacks above
+
+logo:
+  text: "EY"            # rendered as text in the footer slot; override per deck
+                        # with 'logo:' in the deck frontmatter
+  # image: assets/logos/client.svg   # optional asset (svg/png/jpg/webp),
+  #                                  # base64-embedded into the logo slots;
+  #                                  # falls back to the text logo
+
+rules:
+  accent-usage: "Accent appears only on the tag, the takeaway label, one highlighted bar/phase, and the quote attribution rule. Never backgrounds, never body text."
+  radius: "0 everywhere — corporate materials are rectilinear"
+  notes: "Typography carries the design: serif display against sans body, hairline rules for structure. No gradients, no shadows, no icons. Serif+brick is deliberate: white ground not cream, oxblood #8E3728 not terracotta — stays clear of slop-cluster (a)."
