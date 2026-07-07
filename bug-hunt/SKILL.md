@@ -9,6 +9,13 @@ disable-model-invocation: true
 
 Run a 3-agent adversarial bug hunt on your codebase. Each agent runs in isolation.
 
+Why isolation is load-bearing: *whatever builds never grades*. The Skeptic and
+Referee are fresh-context verifiers with structured rubrics (the injected
+findings format) precisely so no agent reviews a trajectory it produced —
+same-context self-review polishes instead of catching. Do not collapse the
+three roles into one session to save tokens; the early stop for the clean case
+is Step 2b, not merged roles.
+
 ## Target
 
 The scan target is: $ARGUMENTS

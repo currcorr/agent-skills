@@ -24,6 +24,15 @@ the executable gate for anything rendered.
   faithfulness) and a cross-model adversary (correctness, edge cases, the
   send-back mechanism). Different blind spots — both missed a bordered callout
   box on the Masters sample; running both narrows the gap.
+- **Fresh context, explicit rubric, defined stop.** The general law is
+  *whatever builds never grades*: same-context self-review only polishes the
+  existing trajectory, so run the reviewer in a fresh context against this
+  skill's checklists (the rubric), never against memory of building the thing.
+  Set the stop condition before round 1: ship on all-pass; cap fix rounds
+  (house norm: 4 — this gate's own system took 4 to clean); if a round fixes
+  nothing new or the same failure signature repeats, stop iterating and
+  escalate — a repeated signature means the *system* (doctrine, kit, skill)
+  needs the fix, not the instance.
 
 ## Three passes — any FAIL blocks the ship
 
