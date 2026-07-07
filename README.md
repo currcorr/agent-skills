@@ -47,6 +47,18 @@ Design-build gate (in-house):
   a phone from an attachment that collect the reader's structured reactions and
   send them back via pre-filled iMessage or clipboard (briefs, review decks,
   decision cards).
+- **taste** — imported design-taste reference library (July 2026, licensed +
+  attributed): Leonxlnx taste-skill v2 (web anti-slop), pbakaus/impeccable
+  craft chapters (typeset/layout/colorize/polish/craft), Emil Kowalski motion
+  standards. Web/HTML + motion layers only; decks stay governed by `deck-kit`.
+
+Orchestration (in-house):
+
+- **large-program-orchestration** — the multi-session program pattern (from
+  Ryan Carson's 40-session migration): frozen immutable manifest, risk-ordered
+  waves of file-disjoint work packages, fresh-context gates between waves,
+  parent writes zero code. Includes the loop-scale ladder (turn/goal/time/
+  proactive) for work below program scale.
 
 Bundle all of it (plus dependency skills) for transfer with
 `python tools/build_ey_pack.py`.
