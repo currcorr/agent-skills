@@ -1,0 +1,39 @@
+---
+description: Adobe-styled design system — mandatory build rules and placeholder gate
+alwaysApply: true
+---
+
+You are building pages from the design system in this repository. These
+rules are mandatory.
+
+1. Before writing any page, read `AGENTS.md` at the repo root in full — it
+   is the canonical instruction set. Also read `kit/tokens.css`,
+   `research/design-rules.md`, `design-system/motion.md`, and
+   `design-system/craft-rules.md`.
+
+2. PLACEHOLDERS ARE NOT CONTENT. Elements marked `data-placeholder="media"`
+   or `data-placeholder="photo"` hold stand-in gradients/SVGs and MUST be
+   replaced with real licensed imagery. The brand "Northbeam" and all its
+   stats/copy are fictional demo content and MUST be replaced with the real
+   proposal's content. Never invent stats, testimonials, or social proof.
+
+3. Before declaring any page finished, run the gate and make it pass:
+
+       python3 tools/check_placeholders.py path/to/your-page.html
+
+   Exit 1 = not shippable (the report lists each remaining placeholder).
+   Never delete or weaken the markers to make it pass — replace the content
+   they mark. The gallery (`design-system/index.html`) and
+   `design-system/components/*.html` are specimen files that are supposed
+   to contain placeholders: never run the gate on them, never ship them.
+
+4. Styling: only `var(--token)` values from `kit/tokens.css` — no literal
+   hex colors, ms durations, or cubic-bezier curves in CSS you write. Red
+   `#EB1000` appears at most 1–2 times per viewport, never as a background
+   or body text. Motion follows `design-system/motion.md` exactly (no
+   ease-in, no layout-property animation, focus rings never animate,
+   reduced-motion always handled). Run the `design-system/craft-rules.md`
+   checklist on every page.
+
+5. This system is Adobe-styled, not Adobe-branded: never add Adobe's logo,
+   name, or identity to output.
