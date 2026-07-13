@@ -88,6 +88,11 @@
   /* Overlays on imagery — theme-independent */
   --color-scrim:         rgba(0, 0, 0, 0.35);
   --color-text-on-media: #FFFFFF;
+  /* Scrims for text over photography (photo sections). Text on photos always
+     sits on one of these — never directly on the image. */
+  --scrim-photo:        linear-gradient(180deg, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.60) 100%);
+  --scrim-photo-strong: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.78) 100%);
+  --scrim-photo-left:   linear-gradient(90deg, rgba(0, 0, 0, 0.70) 0%, rgba(0, 0, 0, 0.30) 55%, rgba(0, 0, 0, 0) 100%);
 
   /* ---- Focus (instant, never animated) --------------------------------- */
   --focus-ring-color: var(--blue-900);
@@ -820,6 +825,103 @@ h1, h2, h3, h4, p { margin: 0; }
 }
 
 /* ==========================================================================
+   6.5. Photo backdrop — full-bleed pinned "brand moment"
+   Pin technique: the section gets position:relative + clip-path:inset(0).
+   clip-path establishes a NEW CONTAINING BLOCK for position:fixed
+   descendants (same property family as transform/filter/will-change), so
+   .adb-photosec__media (position:fixed; inset:0) is clipped to this
+   section's own box instead of the whole viewport — it reads as pinned
+   while the section scrolls through view, then releases cleanly once the
+   section scrolls past. No background-attachment:fixed (mobile jank), no
+   JS/IntersectionObserver required — the pin is pure CSS. (The gallery's
+   photo.html fragment additionally ships a position:sticky
+   `.adb-photosec--in-frame` modifier for its boxed, scrollable demo frame;
+   this is a real page, so it uses only the fixed technique above.)
+   ========================================================================== */
+.adb-photosec { position: relative; }
+.adb-photosec--pinned {
+  position: relative;
+  clip-path: inset(0);
+  overflow: hidden;
+  min-height: 90vh;
+}
+.adb-photosec__media {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background-image: var(--photo, none);
+  background-size: cover;
+  background-position: center;
+}
+.adb-photosec__img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.adb-photosec__placeholder { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; }
+.adb-photosec__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: var(--scrim-photo);
+}
+.adb-photosec__tag {
+  position: absolute;
+  right: var(--space-300);
+  bottom: var(--space-300);
+  z-index: 2;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-detail);
+  text-transform: uppercase;
+  padding: var(--space-50) var(--space-200);
+  border-radius: var(--radius-pill);
+  background: var(--color-scrim);
+  color: var(--color-text-on-media);
+}
+.adb-photosec__content {
+  position: relative;
+  z-index: 1;
+  min-height: 90vh;
+  display: flex;
+  align-items: flex-end;
+  padding-block: var(--space-800);
+}
+.adb-photosec__inner { max-width: var(--container-text); }
+.adb-photosec__eyebrow {
+  margin: 0 0 var(--space-200);
+  font-size: var(--text-detail);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-detail);
+  text-transform: uppercase;
+  color: var(--color-text-on-media);
+}
+.adb-photosec__heading {
+  margin: 0 0 var(--space-300);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: var(--tracking-h2);
+  line-height: var(--leading-heading);
+  color: var(--color-text-on-media);
+}
+.adb-photosec__line {
+  margin: 0;
+  max-width: 42ch;
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-text-on-media);
+}
+@media (prefers-reduced-motion: reduce) {
+  .adb-photosec__media { position: absolute !important; }
+}
+
+/* ==========================================================================
    7. Dark comparison — before/after slider
    ========================================================================== */
 .adb-compare { display: grid; grid-template-columns: 1fr; gap: var(--space-600); align-items: center; }
@@ -1190,6 +1292,36 @@ h1, h2, h3, h4, p { margin: 0; }
           <p class="adb-step-item__eyebrow">Phase 04 &mdash; Optimize &amp; scale</p>
           <h3 class="adb-step-item__title">Decommission the legacy core</h3>
           <p class="adb-step-item__desc">Retire the monolith, right-size infrastructure spend, and hand the operating runbook to your platform team.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= PHOTO BACKDROP (brand moment) ============================= -->
+  <section class="adb-photosec adb-photosec--pinned" id="brand-moment" aria-labelledby="brand-moment-heading">
+    <div class="adb-photosec__media" aria-hidden="true">
+      <svg class="adb-photosec__placeholder" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <defs>
+          <filter id="photosec-blur-landing" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="38"></feGaussianBlur>
+          </filter>
+        </defs>
+        <rect width="800" height="600" style="fill: var(--gray-900);"></rect>
+        <g style="filter: url(#photosec-blur-landing);">
+          <ellipse cx="180" cy="180" rx="260" ry="200" style="fill: var(--blue-1000); opacity: 0.65;"></ellipse>
+          <ellipse cx="620" cy="120" rx="220" ry="170" style="fill: var(--blue-800); opacity: 0.5;"></ellipse>
+          <ellipse cx="520" cy="460" rx="300" ry="220" style="fill: var(--gray-700); opacity: 0.55;"></ellipse>
+          <ellipse cx="120" cy="480" rx="200" ry="160" style="fill: var(--blue-900); opacity: 0.4;"></ellipse>
+        </g>
+      </svg>
+      <span class="adb-photosec__tag">Placeholder — swap for licensed photography</span>
+    </div>
+    <div class="adb-photosec__content">
+      <div class="adb-container">
+        <div class="adb-photosec__inner">
+          <p class="adb-photosec__eyebrow">The team behind the cutover</p>
+          <h2 id="brand-moment-heading" class="adb-photosec__heading">Shipping continues while the platform changes underneath it.</h2>
+          <p class="adb-photosec__line">Every region keeps releasing on its normal cadence &mdash; the migration runs alongside the team's existing work, not instead of it.</p>
         </div>
       </div>
     </div>

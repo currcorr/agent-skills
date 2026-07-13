@@ -22,6 +22,7 @@ FRAGMENTS = [
     "navigation.html",
     "data.html",
     "interactive.html",
+    "photo.html",
 ]
 
 CHROME_CSS = """
