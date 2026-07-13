@@ -1,0 +1,1556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Northbeam — Platform Modernization Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600;700;800;900&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   inlined from kit/tokens.css — the kit file is the source of truth
+   ========================================================================== */
+:root {
+  /* ---- Brand ---------------------------------------------------------- */
+  --brand-red:        #EB1000;
+  --brand-red-hover:  #C50E00; /* derived: brand red darkened ~15% */
+  --brand-red-press:  #A80C00; /* derived: brand red darkened ~28% */
+  --brand-on-red:     #FFFFFF; /* white on #EB1000 = 4.6:1 — AA normal, use bold ≥16px */
+
+  /* ---- Gray ramp (Spectrum 2, light set) ------------------------------ */
+  --gray-25:   #FFFFFF;
+  --gray-50:   #F8F8F8;
+  --gray-75:   #F3F3F3;
+  --gray-100:  #E9E9E9;
+  --gray-200:  #E1E1E1;
+  --gray-300:  #DADADA;
+  --gray-400:  #C6C6C6;
+  --gray-500:  #8F8F8F;
+  --gray-600:  #717171;
+  --gray-700:  #505050;
+  --gray-800:  #292929;
+  --gray-900:  #131313;
+  --gray-1000: #000000;
+
+  /* ---- Accent / informative blue (Spectrum blue, light set) ----------- */
+  --blue-800:  #4B75FF;
+  --blue-900:  #3B63FB;
+  --blue-1000: #274DEA;
+
+  /* ---- Spectrum UI red (semantic negative — NOT the brand red) -------- */
+  --red-800:   #F03823;
+  --red-900:   #D73220;
+
+  /* ---- Semantic colors (Spectrum -800 step, light) --------------------- */
+  --color-positive:    #079355;
+  --color-negative:    #F03823;
+  --color-notice:      #D45B00;
+  --color-informative: #4B75FF;
+  --color-positive-subtle-bg:    #D7F7E1;
+  --color-negative-subtle-bg:    #FFEBE8;
+  --color-notice-subtle-bg:      #FFECCF;
+  --color-informative-subtle-bg: #E5F0FE;
+  /* Text ON subtle backgrounds — Spectrum -1000 step, ≥4.5:1 on the pair above */
+  --color-positive-on-subtle:    #036E45;
+  --color-negative-on-subtle:    #B72818;
+  --color-notice-on-subtle:      #A73E00;
+  --color-informative-on-subtle: #274DEA;
+
+  /* ---- Surfaces (Spectrum background layers) --------------------------- */
+  --color-bg-base:     var(--gray-25);
+  --color-bg-layer-1:  var(--gray-50);   /* subtle section differentiation */
+  --color-bg-layer-2:  var(--gray-75);
+  --color-bg-elevated: #FFFFFF;          /* cards, popovers */
+  --color-bg-dark-section: #0A0A0A;      /* deliberate dark sections + footer */
+
+  /* ---- Text ------------------------------------------------------------ */
+  --color-text-heading:   var(--gray-900);
+  --color-text-body:      var(--gray-800);
+  --color-text-secondary: var(--gray-700);
+  --color-text-tertiary:  var(--gray-600);
+  --color-text-disabled:  var(--gray-500);
+  --color-text-on-dark:          #F2F2F2;
+  --color-text-on-dark-secondary:#AFAFAF;
+  --color-link:        var(--blue-900);
+  --color-link-hover:  var(--blue-1000);
+
+  /* ---- Borders / dividers ---------------------------------------------- */
+  --color-border:        var(--gray-200);
+  --color-border-strong: var(--gray-300);
+  --color-divider:       var(--gray-100);
+  /* For permanently-dark surfaces (footer, dark sections) — theme-independent */
+  --color-border-on-dark:        rgba(255, 255, 255, 0.16);
+  --color-border-on-dark-strong: rgba(255, 255, 255, 0.40);
+  --color-divider-on-dark:       rgba(255, 255, 255, 0.08);
+  --color-bg-on-dark-hover:      rgba(255, 255, 255, 0.14);
+  --color-bg-on-dark-press:      rgba(255, 255, 255, 0.22);
+  /* Overlays on imagery — theme-independent */
+  --color-scrim:         rgba(0, 0, 0, 0.35);
+  --color-text-on-media: #FFFFFF;
+
+  /* ---- Focus (instant, never animated) --------------------------------- */
+  --focus-ring-color: var(--blue-900);
+  --focus-ring: 0 0 0 2px var(--color-bg-base), 0 0 0 4px var(--focus-ring-color);
+
+  /* ---- Typography ------------------------------------------------------- */
+  --font-sans: "Source Sans 3", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --weight-regular:   400;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+  --weight-extrabold: 800; /* default heading weight (Spectrum: extra-bold) */
+  --weight-black:     900; /* hero / heavy variant */
+
+  /* Fluid marketing scale (research/design-rules.md §1) */
+  --text-hero:    clamp(2.75rem, 4.5vw + 1rem, 4.5rem);  /* 44 → 72px */
+  --text-display: clamp(3.25rem, 6vw + 1rem, 5.5rem);    /* 52 → 88px, campaign heroes only */
+  --text-h2:      clamp(1.75rem, 2.5vw + 1rem, 2.75rem); /* 28 → 44px */
+  --text-h3:      clamp(1.25rem, 1vw + 1rem, 1.75rem);   /* 20 → 28px */
+  --text-h4:      1.25rem;                                /* 20px */
+  --text-lede:    1.25rem;   /* 20px — opening paragraph under a hero */
+  --text-body:    1.125rem;  /* 18px marketing body */
+  --text-body-s:  1rem;      /* 16px */
+  --text-detail:  0.875rem;  /* 14px — eyebrows/meta; pair with --tracking-detail + uppercase */
+  --text-caption: 0.75rem;   /* 12px */
+
+  --leading-hero:    1.08; /* display type sits tight */
+  --leading-heading: 1.15;
+  --leading-sub:     1.3;  /* Spectrum heading line-height */
+  --leading-body:    1.5;  /* Spectrum body line-height */
+
+  --tracking-hero:   -0.02em; /* negative tracking only ≥ ~20px */
+  --tracking-h2:     -0.01em;
+  --tracking-body:    0;
+  --tracking-detail:  0.06em; /* Spectrum detail-letter-spacing */
+
+  /* ---- Spacing (Spectrum scale) ----------------------------------------- */
+  --space-25:  1px;
+  --space-50:  2px;
+  --space-75:  4px;
+  --space-100: 8px;
+  --space-200: 12px;
+  --space-300: 16px;
+  --space-400: 24px;
+  --space-500: 32px;
+  --space-600: 40px;
+  --space-700: 48px;
+  --space-800: 64px;
+  --space-900: 80px;
+  --space-1000: 96px;
+
+  /* Layout rhythm (research/design-rules.md §3) */
+  --space-section:   clamp(3.5rem, 9vw, 7.5rem); /* 56 → 120px section pad */
+  --container-max:   1280px;
+  --container-wide:  1440px; /* hero/visual sections only */
+  --container-text:  42rem;  /* 672px — body copy column cap */
+  --gutter:          clamp(1rem, 3vw, 2rem);
+
+  /* ---- Corner radius (Spectrum 2 scale + marketing media tier) --------- */
+  --radius-s:    4px;
+  --radius-m:    8px;
+  --radius-l:    10px;
+  --radius-xl:   16px;   /* cards, media */
+  --radius-xxl:  24px;   /* large hero media */
+  --radius-pill: 999px;  /* primary CTAs — the Spectrum 2 signature */
+
+  /* ---- Elevation (Spectrum geometry + light opacities) ------------------ */
+  --shadow-resting:  0 1px 6px rgba(0, 0, 0, 0.12);
+  --shadow-elevated: 0 2px 8px rgba(0, 0, 0, 0.16);
+  --shadow-dragged:  0 6px 16px rgba(0, 0, 0, 0.20);
+  /* Marketing-tier card shadows (derived: softer resting, bloomed hover) */
+  --shadow-card:       0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.14);
+
+  /* ---- Motion (design-system/motion.md §1 — use these names ONLY) ------- */
+  --motion-duration-instant: 0ms;
+  --motion-duration-100: 130ms;  /* press feedback, button hover, tooltips */
+  --motion-duration-200: 160ms;  /* hover color/border/shadow, tag, tray exit */
+  --motion-duration-300: 190ms;  /* menu close, scrim exit */
+  --motion-duration-400: 220ms;  /* dropdown open, popover, card hover lift */
+  --motion-duration-500: 250ms;  /* panel entry, accordion expand */
+  --motion-duration-600: 300ms;  /* UI ceiling — nothing interactive exceeds this */
+  --motion-duration-900: 450ms;  /* modal open/close */
+  --motion-duration-1000: 500ms; /* absolute overlay ceiling */
+  --motion-duration-scroll-reveal: 550ms;
+  --motion-duration-loop: 1000ms;
+
+  --motion-ease-linear:     cubic-bezier(0, 0, 1, 1);
+  --motion-ease-in-out:     cubic-bezier(0.45, 0, 0.4, 1);
+  --motion-ease-out:        cubic-bezier(0, 0, 0.4, 1);      /* small component motion */
+  --motion-ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);  /* hero / scroll-reveal scale */
+  --motion-ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1); /* micro-interactions only */
+  --motion-ease-drawer:     cubic-bezier(0.32, 0.72, 0, 1);
+  /* NOTE: no ease-in token exists, by design. Exits use ease-out, shorter
+     duration than the matching entrance. See motion.md §1.3. */
+
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   Dark theme — media-query default, [data-theme] wins in both directions
+   ========================================================================== */
+
+:root[data-theme="dark"] { color-scheme: dark; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; }
+}
+
+/* Shared dark values, applied under both selectors below */
+:root[data-theme="dark"] {
+  --gray-25:   #111111; --gray-50:  #1B1B1B; --gray-75:  #222222;
+  --gray-100:  #2C2C2C; --gray-200: #323232; --gray-300: #393939;
+  --gray-400:  #444444; --gray-500: #6D6D6D; --gray-600: #8A8A8A;
+  --gray-700:  #AFAFAF; --gray-800: #DBDBDB; --gray-900: #F2F2F2;
+  --gray-1000: #FFFFFF;
+
+  --blue-800: #4069FD; --blue-900: #5681FF; --blue-1000: #6995FE;
+  --red-800:  #DF3422; --red-900:  #FC432E;
+
+  --color-positive:    #068850;
+  --color-negative:    #DF3422;
+  --color-notice:      #C75200;
+  --color-informative: #4069FD;
+  --color-positive-subtle-bg:    #003326;
+  --color-negative-subtle-bg:    #571107;
+  --color-notice-subtle-bg:      #501B00;
+  --color-informative-subtle-bg: #0C2175;
+  --color-positive-on-subtle:    #0EAF62;
+  --color-negative-on-subtle:    #FF6756;
+  --color-notice-on-subtle:      #F37500;
+  --color-informative-on-subtle: #6995FE;
+
+  --color-bg-elevated: #222222;
+  --color-bg-dark-section: #060606;
+  --color-text-on-dark: #F2F2F2;
+  --color-text-on-dark-secondary: #AFAFAF;
+
+  --shadow-resting:  0 1px 6px rgba(0, 0, 0, 0.36);
+  --shadow-elevated: 0 2px 8px rgba(0, 0, 0, 0.48);
+  --shadow-dragged:  0 6px 16px rgba(0, 0, 0, 0.60);
+  --shadow-card:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --gray-25:   #111111; --gray-50:  #1B1B1B; --gray-75:  #222222;
+    --gray-100:  #2C2C2C; --gray-200: #323232; --gray-300: #393939;
+    --gray-400:  #444444; --gray-500: #6D6D6D; --gray-600: #8A8A8A;
+    --gray-700:  #AFAFAF; --gray-800: #DBDBDB; --gray-900: #F2F2F2;
+    --gray-1000: #FFFFFF;
+
+    --blue-800: #4069FD; --blue-900: #5681FF; --blue-1000: #6995FE;
+    --red-800:  #DF3422; --red-900:  #FC432E;
+
+    --color-positive:    #068850;
+    --color-negative:    #DF3422;
+    --color-notice:      #C75200;
+    --color-informative: #4069FD;
+    --color-positive-subtle-bg:    #003326;
+    --color-negative-subtle-bg:    #571107;
+    --color-notice-subtle-bg:      #501B00;
+    --color-informative-subtle-bg: #0C2175;
+    --color-positive-on-subtle:    #0EAF62;
+    --color-negative-on-subtle:    #FF6756;
+    --color-notice-on-subtle:      #F37500;
+    --color-informative-on-subtle: #6995FE;
+
+    --color-bg-elevated: #222222;
+    --color-bg-dark-section: #060606;
+    --color-text-on-dark: #F2F2F2;
+    --color-text-on-dark-secondary: #AFAFAF;
+
+    --shadow-resting:  0 1px 6px rgba(0, 0, 0, 0.36);
+    --shadow-elevated: 0 2px 8px rgba(0, 0, 0, 0.48);
+    --shadow-dragged:  0 6px 16px rgba(0, 0, 0, 0.60);
+    --shadow-card:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — durations collapse to 1ms (not 0: transitionend must
+   still fire). Components additionally follow motion.md §6 (JS observers
+   short-circuit; transform-based movement removed).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-100: 1ms;  --motion-duration-200: 1ms;
+    --motion-duration-300: 1ms;  --motion-duration-400: 1ms;
+    --motion-duration-500: 1ms;  --motion-duration-600: 1ms;
+    --motion-duration-900: 1ms;  --motion-duration-1000: 1ms;
+    --motion-duration-scroll-reveal: 1ms;
+    --motion-duration-loop: 1ms;
+  }
+}
+</style>
+<style>
+/* ==========================================================================
+   Northbeam landing page — built from the design system's component
+   fragments (navigation.html, hero.html, cards.html, data.html,
+   buttons.html, interactive.html). Class names and token usage are lifted
+   directly from those fragments so this page stays in lockstep with the kit.
+   ========================================================================== */
+
+/* ---- 0. Reset & base --------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 88px; }
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-bg-base);
+  color: var(--color-text-body);
+  -webkit-font-smoothing: antialiased;
+}
+img, svg { display: block; max-width: 100%; }
+h1, h2, h3, h4, p { margin: 0; }
+
+/* ---- 1. Layout shells --------------------------------------------------- */
+.adb-container { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--gutter); }
+.adb-container--wide { max-width: var(--container-wide); }
+.adb-container--text { max-width: var(--container-text); }
+
+.adb-section { background: var(--color-bg-base); padding-block: var(--space-section); }
+.adb-section--subtle { background: var(--color-bg-layer-1); }
+.adb-section--dark {
+  background: var(--color-bg-dark-section);
+  color: var(--color-text-on-dark);
+}
+.adb-section--dark .adb-section__eyebrow { color: var(--color-text-on-dark-secondary); }
+.adb-section--dark .adb-section__heading { color: var(--color-text-on-dark); }
+.adb-section--dark .adb-section__body { color: var(--color-text-on-dark-secondary); }
+
+.adb-section__eyebrow {
+  font-size: var(--text-detail);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-detail);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  margin: 0 0 var(--space-200);
+}
+.adb-section__heading {
+  font-size: var(--text-h2);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: var(--tracking-h2);
+  line-height: var(--leading-heading);
+  color: var(--color-text-heading);
+  margin: 0 0 var(--space-300);
+  max-width: 26ch;
+}
+.adb-section__body {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+  max-width: var(--container-text);
+  margin: 0 0 var(--space-700);
+}
+
+/* ---- shared pill button system (buttons.html) --------------------------- */
+.adb-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-100);
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-body-s);
+  line-height: 1;
+  border: var(--space-50) solid transparent;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  background: transparent;
+  transition: background var(--motion-duration-100) var(--motion-ease-out),
+              border-color var(--motion-duration-100) var(--motion-ease-out),
+              color var(--motion-duration-100) var(--motion-ease-out),
+              transform var(--motion-duration-100) var(--motion-ease-out);
+}
+.adb-btn:focus-visible { box-shadow: var(--focus-ring); outline: none; transition: none; }
+.adb-btn-md { padding: calc(var(--space-200) - var(--space-50)) calc(var(--space-400) - var(--space-50)); }
+.adb-btn-lg { padding: calc(var(--space-300) - var(--space-50)) calc(var(--space-500) - var(--space-50)); }
+
+.adb-btn-primary { background: var(--brand-red); border-color: transparent; color: var(--brand-on-red); }
+@media (hover: hover) and (pointer: fine) {
+  .adb-btn-primary:hover:not(:disabled) { background: var(--brand-red-hover); }
+}
+.adb-btn-primary:active:not(:disabled) { background: var(--brand-red-press); transform: scale(0.98); }
+
+.adb-btn-quiet {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-text-heading);
+  font-weight: var(--weight-semibold);
+}
+@media (hover: hover) and (pointer: fine) {
+  .adb-btn-quiet:hover:not(:disabled) { color: var(--color-link-hover); }
+}
+.adb-btn-quiet:active:not(:disabled) { transform: scale(0.98); }
+
+.adb-btn-icon-trail { display: inline-flex; width: 1em; height: 1em; transition: transform var(--motion-duration-200) var(--motion-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .adb-btn-quiet:hover .adb-btn-icon-trail { transform: translateX(var(--space-75)); }
+}
+
+/* ==========================================================================
+   2. Sticky nav — truly page-level (position: sticky on the real header)
+   ========================================================================== */
+.adb-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: var(--space-400);
+  height: 64px;
+  padding-inline: var(--gutter);
+  background: var(--color-bg-base);
+  border-bottom: var(--space-25) solid transparent;
+  box-shadow: none;
+  transition: border-color var(--motion-duration-400) var(--motion-ease-out),
+              box-shadow var(--motion-duration-400) var(--motion-ease-out),
+              background var(--motion-duration-400) var(--motion-ease-out);
+}
+.adb-nav__wordmark {
+  font-weight: var(--weight-extrabold);
+  letter-spacing: var(--tracking-h2);
+  font-size: var(--text-h4);
+  color: var(--color-text-heading);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.adb-nav__brand, .adb-nav__links, .adb-nav__actions {
+  transition: transform var(--motion-duration-400) var(--motion-ease-out);
+  transform-origin: left center;
+}
+.adb-nav__actions { transform-origin: right center; }
+.adb-nav.is-scrolled {
+  border-bottom-color: var(--color-border);
+  box-shadow: var(--shadow-resting);
+}
+.adb-nav.is-scrolled .adb-nav__brand,
+.adb-nav.is-scrolled .adb-nav__links,
+.adb-nav.is-scrolled .adb-nav__actions {
+  transform: scale(0.92);
+}
+.adb-nav__brand { display: flex; align-items: center; margin-inline-end: var(--space-200); }
+.adb-nav__links { display: flex; align-items: center; gap: var(--space-400); margin: 0; padding: 0; list-style: none; }
+.adb-nav__link {
+  position: relative;
+  display: inline-block;
+  padding-block: var(--space-100);
+  font-size: var(--text-body-s);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-body);
+  text-decoration: none;
+}
+.adb-nav__link::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: 0;
+  height: var(--space-25);
+  width: 100%;
+  background: var(--color-text-heading);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-duration-100) var(--motion-ease-in-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .adb-nav__link:hover { color: var(--color-text-heading); }
+  .adb-nav__link:hover::after { transform: scaleX(1); }
+}
+.adb-nav__link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-s); transition: none; }
+.adb-nav__spacer { flex: 1 1 auto; }
+.adb-nav__cluster { display: flex; align-items: center; gap: var(--space-300); }
+.adb-nav__burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-text-heading);
+  border-radius: var(--radius-s);
+  cursor: pointer;
+}
+.adb-nav__burger:focus-visible { outline: none; box-shadow: var(--focus-ring); transition: none; }
+.adb-nav__panel {
+  order: 10;
+  flex-basis: 100%;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--motion-duration-500) var(--motion-ease-out);
+}
+.adb-nav__panel-inner { overflow: hidden; min-height: 0; }
+.adb-nav[data-open="true"] .adb-nav__panel { grid-template-rows: 1fr; }
+.adb-nav__panel-list { list-style: none; margin: 0; padding: var(--space-300) 0 var(--space-400); display: flex; flex-direction: column; gap: var(--space-100); border-top: var(--space-25) solid var(--color-divider); }
+.adb-nav__panel-link {
+  display: block;
+  padding: var(--space-200) var(--space-100);
+  border-radius: var(--radius-s);
+  font-size: var(--text-body-s);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-body);
+  text-decoration: none;
+  transition: color var(--motion-duration-100) var(--motion-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .adb-nav__panel-link:hover { color: var(--color-text-heading); background: var(--color-bg-layer-1); }
+}
+.adb-nav__panel-link:focus-visible { outline: none; box-shadow: var(--focus-ring); transition: none; }
+
+@media (max-width: 760px) {
+  .adb-nav__links { display: none; }
+  .adb-nav__burger { display: inline-flex; }
+}
+
+/* ==========================================================================
+   3. Hero (split, light) + entrance choreography + motion graphic
+   ========================================================================== */
+.adb-hero {
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding: var(--space-section) var(--gutter) var(--space-800);
+}
+.adb-hero--split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-600);
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .adb-hero--split { grid-template-columns: 1.05fr 1fr; gap: var(--space-800); }
+}
+.adb-hero__eyebrow {
+  margin: 0 0 var(--space-300);
+  font-size: var(--text-detail);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-detail);
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+.adb-hero__heading {
+  margin: 0 0 var(--space-400);
+  font-size: var(--text-hero);
+  font-weight: var(--weight-black);
+  letter-spacing: var(--tracking-hero);
+  line-height: var(--leading-hero);
+  color: var(--color-text-heading);
+}
+.adb-hero__emphasis { color: var(--brand-red); }
+.adb-hero__lede {
+  margin: 0 0 var(--space-500);
+  max-width: var(--container-text);
+  font-size: var(--text-lede);
+  line-height: var(--leading-body);
+  color: var(--color-text-secondary);
+}
+.adb-hero__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-400); }
+
+.adb-hero__media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-xxl);
+  background: radial-gradient(140% 140% at 18% 16%,
+    var(--blue-800) 0%, var(--blue-1000) 42%, var(--color-bg-dark-section) 100%);
+}
+.adb-graphic__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.adb-hero__reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong),
+              transform var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong);
+  transition-delay: calc(var(--reveal-index, 0) * var(--motion-duration-100));
+}
+.adb-hero__reveal.is-revealed { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  .adb-hero__reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ---- motion graphic: nodes ---- */
+.adb-graphic__node {
+  opacity: 0;
+  transform: scale(0.6);
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  transition: opacity var(--motion-duration-400) var(--motion-ease-spring),
+              transform var(--motion-duration-400) var(--motion-ease-spring);
+}
+.adb-graphic__node.is-in { opacity: 1; transform: scale(1); }
+.adb-graphic__node.is-floating {
+  animation-name: adb-graphic-float;
+  animation-duration: calc(var(--motion-duration-loop) * 6);
+  animation-timing-function: var(--motion-ease-in-out);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-delay: calc(var(--motion-duration-loop) * var(--float-index, 0) * 0.4);
+}
+@keyframes adb-graphic-float {
+  from { transform: translateY(-3px); }
+  to   { transform: translateY(3px); }
+}
+.adb-graphic__node-rect {
+  fill: var(--color-bg-on-dark-hover);
+  stroke: var(--color-border-on-dark-strong);
+  stroke-width: 1.5;
+}
+.adb-graphic__node-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--color-text-on-dark);
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+/* ---- motion graphic: connecting paths ---- */
+.adb-graphic__path {
+  fill: none;
+  stroke: var(--color-border-on-dark-strong);
+  stroke-width: 2;
+  stroke-linecap: round;
+  transition: stroke-dashoffset calc(var(--motion-duration-scroll-reveal) * 1.5) var(--motion-ease-out-strong);
+}
+
+/* ---- motion graphic: ambient data pulses (off until .is-active) ---- */
+.adb-graphic__pulse { fill: var(--color-text-on-dark); opacity: 0; }
+.adb-graphic__pulses.is-active .adb-graphic__pulse {
+  animation-name: adb-graphic-pulse-move;
+  animation-timing-function: var(--motion-ease-linear);
+  animation-iteration-count: infinite;
+  animation-duration: calc(var(--motion-duration-loop) * 3);
+}
+.adb-graphic__pulses.is-active .adb-graphic__pulse:nth-of-type(2) {
+  animation-duration: calc(var(--motion-duration-loop) * 3.4);
+  animation-delay: calc(var(--motion-duration-loop) * 0.6);
+}
+.adb-graphic__pulses.is-active .adb-graphic__pulse:nth-of-type(3) {
+  animation-duration: calc(var(--motion-duration-loop) * 3.8);
+  animation-delay: calc(var(--motion-duration-loop) * 1.2);
+}
+@keyframes adb-graphic-pulse-move {
+  0%   { offset-distance: 0%;   opacity: 0; }
+  8%   { opacity: 0.9; }
+  92%  { opacity: 0.9; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .adb-graphic__node { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; }
+  .adb-graphic__path { transition: none !important; }
+  .adb-graphic__pulse { opacity: 0 !important; animation: none !important; }
+}
+
+/* ==========================================================================
+   4. Stat band
+   ========================================================================== */
+.adb-stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: var(--space-500); }
+.adb-stat {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-500);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-200);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong),
+              transform var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong);
+  transition-delay: calc(var(--stat-index, 0) * 80ms);
+}
+.adb-stat.is-revealed { opacity: 1; transform: translateY(0); }
+.adb-stat__value {
+  font-size: var(--text-h2);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: var(--tracking-h2);
+  line-height: var(--leading-heading);
+  color: var(--color-text-heading);
+  font-variant-numeric: tabular-nums;
+}
+.adb-stat__label {
+  font-size: var(--text-detail);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-detail);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.adb-stat__delta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-75);
+  width: fit-content;
+  font-size: var(--text-caption);
+  font-weight: var(--weight-semibold);
+  padding: var(--space-50) var(--space-200);
+  border-radius: var(--radius-pill);
+}
+.adb-stat__delta svg { width: 12px; height: 12px; flex: none; }
+.adb-stat__delta--up { color: var(--color-positive-on-subtle); background: var(--color-positive-subtle-bg); }
+.adb-stat__delta--down { color: var(--color-negative-on-subtle); background: var(--color-negative-subtle-bg); }
+@media (prefers-reduced-motion: reduce) {
+  .adb-stat { opacity: 1; transform: none; transition: none; }
+}
+
+/* ==========================================================================
+   5. Cards — "What we build"
+   ========================================================================== */
+.adb-card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-400); }
+@media (max-width: 900px) { .adb-card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .adb-card-grid { grid-template-columns: 1fr; } }
+
+.adb-card {
+  font-family: var(--font-sans);
+  background: var(--color-bg-elevated);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+.adb-card-content {
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--motion-duration-400) var(--motion-ease-out),
+              box-shadow var(--motion-duration-400) var(--motion-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .adb-card-content:hover { transform: translateY(-4px); box-shadow: var(--shadow-card-hover); }
+}
+.adb-card-media { aspect-ratio: 16 / 9; width: 100%; }
+.adb-card-media--hue-a { background: linear-gradient(135deg, var(--blue-800), var(--blue-1000)); }
+.adb-card-media--hue-b { background: linear-gradient(135deg, var(--gray-700), var(--gray-900)); }
+.adb-card-media--hue-c { background: linear-gradient(135deg, var(--blue-900), var(--gray-800)); }
+.adb-card-body { display: flex; flex-direction: column; gap: var(--space-200); padding: var(--space-400); }
+.adb-card-eyebrow {
+  margin: 0;
+  font-size: var(--text-detail);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-detail);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+.adb-card-title { margin: 0; font-size: var(--text-h4); line-height: var(--leading-heading); font-weight: var(--weight-extrabold); color: var(--color-text-heading); }
+.adb-card-text { margin: 0; font-size: var(--text-body-s); line-height: var(--leading-body); color: var(--color-text-secondary); }
+.adb-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-100);
+  margin-top: var(--space-100);
+  font-size: var(--text-body-s);
+  font-weight: var(--weight-semibold);
+  color: var(--color-link);
+  text-decoration: none;
+  width: fit-content;
+  transition: color var(--motion-duration-100) var(--motion-ease-in-out);
+}
+.adb-card-link-icon { width: 1em; height: 1em; flex: none; transition: transform var(--motion-duration-100) var(--motion-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .adb-card-link:hover { color: var(--color-link-hover); }
+  .adb-card-link:hover .adb-card-link-icon { transform: translateX(var(--space-50)); }
+}
+.adb-card-link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-s); transition: none; }
+
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong),
+              transform var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong);
+  transition-delay: calc(var(--reveal-index, 0) * 100ms);
+}
+[data-reveal].is-revealed { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { transform: none !important; }
+}
+
+/* ==========================================================================
+   6. Timeline — "How we get there"
+   ========================================================================== */
+.adb-timeline { position: relative; display: flex; flex-direction: column; gap: var(--space-600); padding-left: var(--space-600); max-width: var(--container-text); }
+.adb-timeline__rail {
+  position: absolute;
+  left: 7px; top: 6px; bottom: 6px; width: 2px;
+  background: var(--color-border-strong);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform calc(var(--motion-duration-scroll-reveal) * 2) var(--motion-ease-out-strong);
+}
+.adb-timeline.is-revealed .adb-timeline__rail { transform: scaleY(1); }
+.adb-step-item { position: relative; }
+.adb-step-item__dot {
+  position: absolute;
+  left: calc(var(--space-600) * -1 + 1px);
+  top: 2px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--blue-900);
+  border: 2px solid var(--color-bg-base);
+  box-shadow: 0 0 0 2px var(--blue-900);
+  transform: scale(0);
+  transition: transform var(--motion-duration-400) var(--motion-ease-spring);
+  transition-delay: calc(var(--stagger-index, 0) * var(--motion-duration-100));
+}
+.adb-timeline.is-revealed .adb-step-item__dot { transform: scale(1); }
+.adb-step-item__eyebrow { font-size: var(--text-detail); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-detail); text-transform: uppercase; color: var(--color-link); margin: 0 0 var(--space-75); }
+.adb-step-item__title { font-size: var(--text-h4); font-weight: var(--weight-extrabold); color: var(--color-text-heading); margin: 0 0 var(--space-75); }
+.adb-step-item__desc { font-size: var(--text-body-s); line-height: var(--leading-body); color: var(--color-text-secondary); margin: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .adb-timeline__rail { transform: scaleY(1); transition: none; }
+  .adb-step-item__dot { transform: scale(1); transition: none; }
+}
+
+/* ==========================================================================
+   7. Dark comparison — before/after slider
+   ========================================================================== */
+.adb-compare { display: grid; grid-template-columns: 1fr; gap: var(--space-600); align-items: center; }
+@media (min-width: 900px) { .adb-compare { grid-template-columns: 1fr 1fr; gap: var(--space-800); } }
+.adb-compare__facts { display: flex; flex-direction: column; gap: var(--space-400); margin-top: var(--space-500); }
+.adb-compare__fact { display: flex; flex-direction: column; gap: var(--space-75); padding-block: var(--space-300); border-top: var(--space-25) solid var(--color-divider-on-dark); }
+.adb-compare__fact-label { font-size: var(--text-detail); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-detail); text-transform: uppercase; color: var(--color-text-on-dark-secondary); }
+.adb-compare__fact-value { font-size: var(--text-body); color: var(--color-text-on-dark); }
+
+.adb-ba {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-elevated);
+  --ba-pos: 50%;
+}
+.adb-ba__layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+.adb-ba__layer--before { background: linear-gradient(135deg, var(--gray-700), var(--gray-900)); }
+.adb-ba__layer--after { background: linear-gradient(135deg, var(--blue-1000), var(--blue-800)); clip-path: inset(0 0 0 var(--ba-pos)); }
+.adb-ba__layer svg { width: 55%; height: 55%; color: var(--gray-25); opacity: 0.85; }
+.adb-ba__layer--before svg { color: var(--gray-400); opacity: 0.7; }
+.adb-ba__divider { position: absolute; top: 0; bottom: 0; left: var(--ba-pos); width: 2px; background: var(--gray-25); transform: translateX(-1px); pointer-events: none; box-shadow: var(--shadow-resting); }
+.adb-ba__grip {
+  position: absolute; top: 50%; left: var(--ba-pos);
+  width: 40px; height: 40px;
+  border-radius: var(--radius-pill);
+  background: var(--gray-25);
+  color: var(--gray-800);
+  display: flex; align-items: center; justify-content: center;
+  transform: translate(-50%, -50%);
+  box-shadow: var(--shadow-elevated);
+  pointer-events: none;
+}
+.adb-ba__grip svg { width: 18px; height: 18px; }
+.adb-ba__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; appearance: none; background: transparent; cursor: grab; opacity: 0; }
+.adb-ba__range:active { cursor: grabbing; }
+.adb-ba__range::-webkit-slider-thumb { appearance: none; width: 40px; height: 40px; }
+.adb-ba__range::-moz-range-thumb { width: 40px; height: 40px; border: none; background: transparent; }
+.adb-ba__range:focus-visible ~ .adb-ba__grip { box-shadow: var(--focus-ring), var(--shadow-elevated); transition: none; }
+.adb-ba__tag {
+  position: absolute; top: var(--space-200);
+  font-size: var(--text-caption); font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-detail); text-transform: uppercase;
+  padding: var(--space-50) var(--space-200);
+  border-radius: var(--radius-pill);
+  background: var(--color-scrim);
+  color: var(--color-text-on-media);
+  pointer-events: none;
+}
+.adb-ba__tag--before { left: var(--space-200); }
+.adb-ba__tag--after { right: var(--space-200); }
+
+/* ==========================================================================
+   8. CTA band (light)
+   ========================================================================== */
+.adb-ctaband { background: var(--color-bg-layer-1); padding: var(--space-800) var(--gutter); }
+.adb-ctaband__inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-600);
+}
+.adb-ctaband__heading {
+  margin: 0;
+  max-width: var(--container-text);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-extrabold);
+  letter-spacing: var(--tracking-h2);
+  line-height: var(--leading-heading);
+  color: var(--color-text-heading);
+}
+@media (max-width: 720px) { .adb-ctaband__inner { flex-direction: column; align-items: flex-start; } }
+
+/* ==========================================================================
+   9. Footer
+   ========================================================================== */
+.adb-footer { background: var(--color-bg-dark-section); color: var(--color-text-on-dark-secondary); padding-block: var(--space-800) var(--space-500); }
+.adb-footer__wordmark { font-weight: var(--weight-extrabold); letter-spacing: var(--tracking-h2); font-size: var(--text-h4); color: var(--color-text-on-dark); text-decoration: none; white-space: nowrap; }
+.adb-footer__top { display: flex; flex-wrap: wrap; gap: var(--space-700); margin-bottom: var(--space-700); }
+.adb-footer__brand-col { flex: 1 1 200px; min-width: 180px; }
+.adb-footer__tagline { margin: var(--space-200) 0 0; font-size: var(--text-body-s); color: var(--color-text-on-dark-secondary); max-width: 26ch; line-height: var(--leading-body); }
+.adb-footer__columns { flex: 3 1 480px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-500); }
+.adb-footer__col-title { font-size: var(--text-detail); font-weight: var(--weight-semibold); letter-spacing: var(--tracking-detail); text-transform: uppercase; color: var(--color-text-on-dark); margin: 0 0 var(--space-300); }
+.adb-footer__col-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-200); }
+.adb-footer__link { font-size: var(--text-body-s); color: var(--color-text-on-dark-secondary); text-decoration: none; transition: color var(--motion-duration-100) var(--motion-ease-in-out); }
+@media (hover: hover) and (pointer: fine) { .adb-footer__link:hover { color: var(--color-text-on-dark); } }
+.adb-footer__link:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-s); transition: none; }
+.adb-footer__divider { border: none; border-top: var(--space-25) solid var(--color-border-on-dark); margin: 0 0 var(--space-400); }
+.adb-footer__bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-300); }
+.adb-footer__copyright { font-size: var(--text-caption); color: var(--color-text-on-dark-secondary); margin: 0; }
+.adb-footer__socials { display: flex; gap: var(--space-200); margin: 0; padding: 0; list-style: none; }
+.adb-footer__social-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: var(--radius-pill);
+  border: var(--space-25) solid var(--color-border-on-dark);
+  background: transparent;
+  color: var(--color-text-on-dark-secondary);
+  cursor: pointer;
+  transition: transform var(--motion-duration-100) var(--motion-ease-out),
+              color var(--motion-duration-100) var(--motion-ease-out),
+              border-color var(--motion-duration-100) var(--motion-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .adb-footer__social-btn:hover { transform: translateY(-2px); color: var(--color-text-on-dark); border-color: var(--color-border-on-dark-strong); }
+}
+.adb-footer__social-btn:active { transform: scale(0.97); }
+.adb-footer__social-btn:focus-visible { outline: none; box-shadow: var(--focus-ring); transition: none; }
+.adb-footer__social-btn svg { display: block; }
+
+@media (max-width: 860px) {
+  .adb-footer__top { flex-direction: column; }
+  .adb-footer__columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 480px) {
+  .adb-footer__columns { grid-template-columns: 1fr; }
+  .adb-footer__bottom { flex-direction: column; align-items: flex-start; }
+}
+
+/* ==========================================================================
+   10. Reduced motion — global belt-and-suspenders (motion.md §6)
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---- screen-reader-only utility ---- */
+.adb-sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<header class="adb-nav" data-nav-header>
+  <a class="adb-nav__brand adb-nav__wordmark" href="#top">Northbeam</a>
+  <ul class="adb-nav__links">
+    <li><a class="adb-nav__link" href="#impact">Impact</a></li>
+    <li><a class="adb-nav__link" href="#build">What we build</a></li>
+    <li><a class="adb-nav__link" href="#roadmap">Roadmap</a></li>
+    <li><a class="adb-nav__link" href="#comparison">Before / after</a></li>
+  </ul>
+  <span class="adb-nav__spacer"></span>
+  <div class="adb-nav__cluster">
+    <a class="adb-btn adb-btn-primary adb-btn-md" href="#comparison">Request the plan</a>
+    <button class="adb-nav__burger" type="button" data-nav-burger aria-expanded="false" aria-controls="nav-mobile-panel" aria-label="Toggle navigation menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <div class="adb-nav__panel" id="nav-mobile-panel">
+    <div class="adb-nav__panel-inner">
+      <ul class="adb-nav__panel-list">
+        <li><a class="adb-nav__panel-link" href="#impact">Impact</a></li>
+        <li><a class="adb-nav__panel-link" href="#build">What we build</a></li>
+        <li><a class="adb-nav__panel-link" href="#roadmap">Roadmap</a></li>
+        <li><a class="adb-nav__panel-link" href="#comparison">Before / after</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============================= HERO ============================= -->
+  <section class="adb-hero adb-hero--split" data-hero-reveal aria-labelledby="hero-heading">
+    <div class="adb-hero__content">
+      <p class="adb-hero__eyebrow adb-hero__reveal" style="--reveal-index:0">Platform Modernization &middot; FY26 Proposal</p>
+      <h1 id="hero-heading" class="adb-hero__heading adb-hero__reveal" style="--reveal-index:1">
+        Retire the legacy stack without retiring your <span class="adb-hero__emphasis">roadmap</span>.
+      </h1>
+      <p class="adb-hero__lede adb-hero__reveal" style="--reveal-index:2">
+        Northbeam re-platforms Northbeam's core transaction systems onto a resilient, API-first
+        architecture &mdash; cutting release cycles from weeks to hours without a single
+        day of customer-facing downtime.
+      </p>
+      <div class="adb-hero__ctas adb-hero__reveal" style="--reveal-index:3">
+        <a href="#comparison" class="adb-btn adb-btn-primary adb-btn-lg">Request the migration plan</a>
+        <a href="#build" class="adb-btn adb-btn-quiet adb-btn-md">
+          See the architecture
+          <span class="adb-btn-icon-trail" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+
+    <div class="adb-hero__media adb-hero__reveal" style="--reveal-index:4" role="img" aria-label="Live diagram of the Northbeam platform architecture: client apps flow through an API gateway to an auth service, an event bus, a ledger service, and analytics.">
+      <svg class="adb-graphic__svg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true" data-graphic-root>
+        <g class="adb-graphic__paths">
+          <path class="adb-graphic__path" data-after-node="1" d="M120,60 C138,60 132,45 150,45"></path>
+          <path class="adb-graphic__path" data-after-node="2" d="M260,45 C278,45 272,60 290,60"></path>
+          <path class="adb-graphic__path" data-after-node="3" d="M190,65 C190,100 145,100 145,140"></path>
+          <path class="adb-graphic__path" data-after-node="4" d="M225,65 C225,100 290,100 290,140"></path>
+          <path class="adb-graphic__path" data-after-node="4" d="M200,160 L230,160"></path>
+          <path class="adb-graphic__path" data-after-node="5" d="M145,180 C145,205 180,205 180,230"></path>
+          <path class="adb-graphic__path" data-after-node="5" d="M290,180 C290,205 230,205 230,230"></path>
+        </g>
+        <g class="adb-graphic__nodes">
+          <g class="adb-graphic__node" data-node-index="0" style="--float-index:0">
+            <rect class="adb-graphic__node-rect" x="20" y="40" width="100" height="40" rx="10"></rect>
+            <text class="adb-graphic__node-label" x="70" y="61">Client Apps</text>
+          </g>
+          <g class="adb-graphic__node" data-node-index="1" style="--float-index:1">
+            <rect class="adb-graphic__node-rect" x="150" y="25" width="110" height="40" rx="10"></rect>
+            <text class="adb-graphic__node-label" x="205" y="46">API Gateway</text>
+          </g>
+          <g class="adb-graphic__node" data-node-index="2" style="--float-index:2">
+            <rect class="adb-graphic__node-rect" x="290" y="40" width="100" height="40" rx="10"></rect>
+            <text class="adb-graphic__node-label" x="340" y="61">Auth Service</text>
+          </g>
+          <g class="adb-graphic__node" data-node-index="3" style="--float-index:3">
+            <rect class="adb-graphic__node-rect" x="90" y="140" width="110" height="40" rx="10"></rect>
+            <text class="adb-graphic__node-label" x="145" y="161">Event Bus</text>
+          </g>
+          <g class="adb-graphic__node" data-node-index="4" style="--float-index:4">
+            <rect class="adb-graphic__node-rect" x="230" y="140" width="120" height="40" rx="10"></rect>
+            <text class="adb-graphic__node-label" x="290" y="161">Ledger Service</text>
+          </g>
+          <g class="adb-graphic__node" data-node-index="5" style="--float-index:5">
+            <rect class="adb-graphic__node-rect" x="150" y="230" width="110" height="40" rx="10"></rect>
+            <text class="adb-graphic__node-label" x="205" y="251">Analytics</text>
+          </g>
+        </g>
+        <g class="adb-graphic__pulses" aria-hidden="true">
+          <circle class="adb-graphic__pulse" data-pulse-index="0" r="4"></circle>
+          <circle class="adb-graphic__pulse" data-pulse-index="1" r="4"></circle>
+          <circle class="adb-graphic__pulse" data-pulse-index="2" r="4"></circle>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ============================= STATS ============================= -->
+  <section class="adb-section adb-section--subtle" id="impact" aria-labelledby="impact-heading">
+    <div class="adb-container">
+      <p class="adb-section__eyebrow">Program impact</p>
+      <h2 id="impact-heading" class="adb-section__heading">What modernization is already delivering</h2>
+      <p class="adb-section__body">Early migration phases are already compounding &mdash; here's what shipped before the full cutover even begins.</p>
+
+      <div class="adb-stat-row">
+        <div class="adb-stat" data-count data-target="40" data-suffix="%" data-decimals="0" style="--stat-index:0">
+          <span class="adb-stat__value" data-value>0%</span>
+          <span class="adb-stat__label">Faster release cycles</span>
+          <span class="adb-stat__delta adb-stat__delta--up">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 10V2M6 2L2.5 5.5M6 2l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            vs. baseline
+          </span>
+        </div>
+        <div class="adb-stat" data-count data-target="1.2" data-prefix="$" data-suffix="M" data-decimals="1" style="--stat-index:1">
+          <span class="adb-stat__value" data-value>$0.0M</span>
+          <span class="adb-stat__label">Annual infra savings</span>
+          <span class="adb-stat__delta adb-stat__delta--up">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 10V2M6 2L2.5 5.5M6 2l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            run-rate
+          </span>
+        </div>
+        <div class="adb-stat" data-count data-target="3" data-suffix="&times;" data-decimals="0" style="--stat-index:2">
+          <span class="adb-stat__value" data-value>0&times;</span>
+          <span class="adb-stat__label">Deployment frequency</span>
+        </div>
+        <div class="adb-stat" data-count data-target="12" data-suffix="%" data-decimals="0" style="--stat-index:3">
+          <span class="adb-stat__value" data-value>0%</span>
+          <span class="adb-stat__label">Support ticket rate</span>
+          <span class="adb-stat__delta adb-stat__delta--down">
+            <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 2v8M6 10l3.5-3.5M6 10 2.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            vs. baseline
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CARDS ============================= -->
+  <section class="adb-section" id="build" aria-labelledby="build-heading">
+    <div class="adb-container">
+      <p class="adb-section__eyebrow">Platform capabilities</p>
+      <h2 id="build-heading" class="adb-section__heading">What we build</h2>
+      <p class="adb-section__body">Three workstreams run in parallel so the migration compounds instead of stalling on a single critical path.</p>
+
+      <div class="adb-card-grid">
+        <article class="adb-card adb-card-content" data-reveal style="--reveal-index:0">
+          <div class="adb-card-media adb-card-media--hue-a" aria-hidden="true"></div>
+          <div class="adb-card-body">
+            <p class="adb-card-eyebrow">Architecture</p>
+            <h3 class="adb-card-title">Event-driven core services</h3>
+            <p class="adb-card-text">Replace the monolithic ledger with independently deployable services connected over a versioned event bus &mdash; no more coordinated release trains.</p>
+            <a class="adb-card-link" href="#roadmap">
+              See the architecture
+              <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="adb-card adb-card-content" data-reveal style="--reveal-index:1">
+          <div class="adb-card-media adb-card-media--hue-c" aria-hidden="true"></div>
+          <div class="adb-card-body">
+            <p class="adb-card-eyebrow">Migration</p>
+            <h3 class="adb-card-title">Zero-downtime cutover tooling</h3>
+            <p class="adb-card-text">Dual-write adapters and shadow-traffic replay let every region cut over on its own schedule, with instant rollback if metrics drift.</p>
+            <a class="adb-card-link" href="#roadmap">
+              See the migration plan
+              <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="adb-card adb-card-content" data-reveal style="--reveal-index:2">
+          <div class="adb-card-media adb-card-media--hue-b" aria-hidden="true"></div>
+          <div class="adb-card-body">
+            <p class="adb-card-eyebrow">Operations</p>
+            <h3 class="adb-card-title">Observability from day one</h3>
+            <p class="adb-card-text">Structured logs, traces, and SLO dashboards ship with every service &mdash; so on-call engineers aren't debugging blind during cutover week.</p>
+            <a class="adb-card-link" href="#roadmap">
+              See the runbook
+              <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= TIMELINE ============================= -->
+  <section class="adb-section adb-section--subtle" id="roadmap" aria-labelledby="roadmap-heading">
+    <div class="adb-container">
+      <p class="adb-section__eyebrow">Delivery roadmap</p>
+      <h2 id="roadmap-heading" class="adb-section__heading">How we get there</h2>
+      <p class="adb-section__body">Four phases, each with a working system at the end of it &mdash; not a big-bang cutover on the last day.</p>
+
+      <div class="adb-timeline">
+        <div class="adb-timeline__rail" aria-hidden="true"></div>
+
+        <div class="adb-step-item" style="--stagger-index: 0">
+          <span class="adb-step-item__dot" aria-hidden="true"></span>
+          <p class="adb-step-item__eyebrow">Phase 01 &mdash; Discovery</p>
+          <h3 class="adb-step-item__title">Audit &amp; dependency mapping</h3>
+          <p class="adb-step-item__desc">Traced every service, cron job, and hidden dependency in the legacy ledger before writing a line of migration code.</p>
+        </div>
+
+        <div class="adb-step-item" style="--stagger-index: 1">
+          <span class="adb-step-item__dot" aria-hidden="true"></span>
+          <p class="adb-step-item__eyebrow">Phase 02 &mdash; Foundation</p>
+          <h3 class="adb-step-item__title">Event bus &amp; auth service live</h3>
+          <p class="adb-step-item__desc">Stood up the core event bus and unified auth service behind the existing monolith, running in shadow mode against production traffic.</p>
+        </div>
+
+        <div class="adb-step-item" style="--stagger-index: 2">
+          <span class="adb-step-item__dot" aria-hidden="true"></span>
+          <p class="adb-step-item__eyebrow">Phase 03 &mdash; Migration &amp; cutover</p>
+          <h3 class="adb-step-item__title">Region-by-region cutover</h3>
+          <p class="adb-step-item__desc">Each region cuts over independently using dual-write adapters, with automatic rollback if error budgets are breached.</p>
+        </div>
+
+        <div class="adb-step-item" style="--stagger-index: 3">
+          <span class="adb-step-item__dot" aria-hidden="true"></span>
+          <p class="adb-step-item__eyebrow">Phase 04 &mdash; Optimize &amp; scale</p>
+          <h3 class="adb-step-item__title">Decommission the legacy core</h3>
+          <p class="adb-step-item__desc">Retire the monolith, right-size infrastructure spend, and hand the operating runbook to your platform team.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= DARK COMPARISON ============================= -->
+  <section class="adb-section adb-section--dark" id="comparison" aria-labelledby="comparison-heading">
+    <div class="adb-container">
+      <div class="adb-compare">
+        <div>
+          <p class="adb-section__eyebrow">Before / after</p>
+          <h2 id="comparison-heading" class="adb-section__heading">The platform, before and after</h2>
+          <p class="adb-section__body">Drag the slider &mdash; this is the same transaction volume, running on two different architectures.</p>
+
+          <div class="adb-compare__facts">
+            <div class="adb-compare__fact">
+              <span class="adb-compare__fact-label">Release cadence</span>
+              <span class="adb-compare__fact-value">6-week release trains &rarr; same-day releases</span>
+            </div>
+            <div class="adb-compare__fact">
+              <span class="adb-compare__fact-label">Incident response</span>
+              <span class="adb-compare__fact-value">Manual log spelunking &rarr; traced, alerted, and dashboarded</span>
+            </div>
+            <div class="adb-compare__fact">
+              <span class="adb-compare__fact-label">Regional rollout</span>
+              <span class="adb-compare__fact-value">One global cutover window &rarr; independent, reversible per region</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="adb-ba" id="beforeAfter">
+          <div class="adb-ba__layer adb-ba__layer--before" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="10" width="48" height="34" rx="3" stroke="currentColor" stroke-width="2"/><path d="M14 38l10-10 8 8 10-14 8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="52" r="2" fill="currentColor"/></svg>
+          </div>
+          <span class="adb-ba__tag adb-ba__tag--before">Before</span>
+          <div class="adb-ba__layer adb-ba__layer--after" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="10" width="48" height="34" rx="3" stroke="currentColor" stroke-width="2"/><path d="M14 34l8-8 8 6 12-16 8 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="20" r="3" fill="currentColor"/></svg>
+          </div>
+          <span class="adb-ba__tag adb-ba__tag--after">After</span>
+          <div class="adb-ba__divider" aria-hidden="true"></div>
+          <div class="adb-ba__grip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M9 6v12M15 6v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          </div>
+          <input class="adb-ba__range" id="beforeAfterRange" type="range" min="0" max="100" value="50" step="1" aria-label="Reveal amount, before to after">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================= CTA BAND ============================= -->
+  <section class="adb-ctaband" aria-labelledby="ctaband-heading">
+    <div class="adb-ctaband__inner">
+      <h2 id="ctaband-heading" class="adb-ctaband__heading">Ready to see Northbeam on your data?</h2>
+      <a href="#top" class="adb-btn adb-btn-primary adb-btn-lg">Book a working session</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="adb-footer">
+  <div class="adb-container">
+    <div class="adb-footer__top">
+      <div class="adb-footer__brand-col">
+        <span class="adb-footer__wordmark">Northbeam</span>
+        <p class="adb-footer__tagline">Tools for teams who ship every day.</p>
+      </div>
+      <div class="adb-footer__columns">
+        <div class="adb-footer__col">
+          <p class="adb-footer__col-title">Products</p>
+          <ul class="adb-footer__col-list">
+            <li><a class="adb-footer__link" href="#">Studio</a></li>
+            <li><a class="adb-footer__link" href="#">Canvas</a></li>
+            <li><a class="adb-footer__link" href="#">Flows</a></li>
+            <li><a class="adb-footer__link" href="#">Analytics</a></li>
+            <li><a class="adb-footer__link" href="#">Integrations</a></li>
+          </ul>
+        </div>
+        <div class="adb-footer__col">
+          <p class="adb-footer__col-title">Resources</p>
+          <ul class="adb-footer__col-list">
+            <li><a class="adb-footer__link" href="#">Documentation</a></li>
+            <li><a class="adb-footer__link" href="#">Guides</a></li>
+            <li><a class="adb-footer__link" href="#">API reference</a></li>
+            <li><a class="adb-footer__link" href="#">Community</a></li>
+            <li><a class="adb-footer__link" href="#">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="adb-footer__col">
+          <p class="adb-footer__col-title">Company</p>
+          <ul class="adb-footer__col-list">
+            <li><a class="adb-footer__link" href="#">About</a></li>
+            <li><a class="adb-footer__link" href="#">Careers</a></li>
+            <li><a class="adb-footer__link" href="#">Blog</a></li>
+            <li><a class="adb-footer__link" href="#">Press</a></li>
+          </ul>
+        </div>
+        <div class="adb-footer__col">
+          <p class="adb-footer__col-title">Legal</p>
+          <ul class="adb-footer__col-list">
+            <li><a class="adb-footer__link" href="#">Privacy</a></li>
+            <li><a class="adb-footer__link" href="#">Terms</a></li>
+            <li><a class="adb-footer__link" href="#">Cookie preferences</a></li>
+            <li><a class="adb-footer__link" href="#">Security</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <hr class="adb-footer__divider">
+    <div class="adb-footer__bottom">
+      <p class="adb-footer__copyright">&copy; 2026 Northbeam. All rights reserved.</p>
+      <ul class="adb-footer__socials">
+        <li>
+          <a class="adb-footer__social-btn" href="#" aria-label="Northbeam on X">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M1 1L15 15M15 1L1 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+          </a>
+        </li>
+        <li>
+          <a class="adb-footer__social-btn" href="#" aria-label="Northbeam on LinkedIn">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="5.5" width="2.6" height="9" rx="0.4" fill="currentColor"/><circle cx="2.8" cy="2.2" r="1.4" fill="currentColor"/><path d="M6.6 5.5H9v1.3c.5-.9 1.5-1.5 2.7-1.5 2.1 0 3.3 1.4 3.3 3.9V14.5h-2.6V9.6c0-1.1-.4-1.9-1.5-1.9-.8 0-1.3.6-1.5 1.1-.1.2-.1.5-.1.8v4.9H6.6V5.5Z" fill="currentColor"/></svg>
+          </a>
+        </li>
+        <li>
+          <a class="adb-footer__social-btn" href="#" aria-label="Northbeam on GitHub">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1a7 7 0 0 0-2.2 13.6c.35.06.48-.15.48-.34v-1.2c-1.95.42-2.36-.94-2.36-.94-.32-.8-.78-1.02-.78-1.02-.64-.44.05-.43.05-.43.7.05 1.07.72 1.07.72.63 1.07 1.64.76 2.04.58.06-.46.24-.76.44-.94-1.56-.18-3.2-.78-3.2-3.47 0-.77.27-1.4.72-1.89-.07-.18-.31-.9.07-1.87 0 0 .59-.19 1.94.72a6.7 6.7 0 0 1 3.53 0c1.35-.91 1.94-.72 1.94-.72.38.97.14 1.69.07 1.87.45.49.72 1.12.72 1.89 0 2.7-1.64 3.29-3.21 3.46.25.22.48.65.48 1.3v1.93c0 .19.13.4.49.34A7 7 0 0 0 8 1Z" fill="currentColor"/></svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function readMs(varName, fallback) {
+    var raw = getComputedStyle(document.documentElement).getPropertyValue(varName).trim();
+    var n = parseFloat(raw);
+    if (isNaN(n)) return fallback;
+    return raw.indexOf('ms') !== -1 ? n : n * 1000;
+  }
+
+  /* ---- 1. Sticky nav scroll condense (transform-only) ---- */
+  var navHeader = document.querySelector('[data-nav-header]');
+  if (navHeader) {
+    var onScroll = function () {
+      if (window.scrollY > 8) navHeader.classList.add('is-scrolled');
+      else navHeader.classList.remove('is-scrolled');
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* ---- 2. Mobile nav burger ---- */
+  var burger = document.querySelector('[data-nav-burger]');
+  if (burger && navHeader) {
+    burger.addEventListener('click', function () {
+      var isOpen = navHeader.getAttribute('data-open') === 'true';
+      var next = !isOpen;
+      navHeader.setAttribute('data-open', String(next));
+      burger.setAttribute('aria-expanded', String(next));
+    });
+  }
+
+  /* ---- 3. Hero text entrance choreography (once-only) ---- */
+  var splitHero = document.querySelector('[data-hero-reveal]');
+  var heroRevealItems = splitHero ? Array.prototype.slice.call(splitHero.querySelectorAll('.adb-hero__reveal')) : [];
+  var showHero = function () {
+    heroRevealItems.forEach(function (el) { el.classList.add('is-revealed'); });
+  };
+  var heroObserver = null;
+  if (splitHero) {
+    if (prefersReducedMotion.matches) {
+      showHero();
+    } else {
+      heroObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          heroRevealItems.forEach(function (el) {
+            el.style.willChange = 'opacity, transform';
+            el.classList.add('is-revealed');
+            el.addEventListener('transitionend', function handler() {
+              el.style.willChange = '';
+              el.removeEventListener('transitionend', handler);
+            }, { once: true });
+          });
+          heroObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.2, rootMargin: '-80px 0px' });
+      heroObserver.observe(splitHero);
+    }
+  }
+
+  /* ---- 4. Motion graphic: self-drawing platform architecture diagram ---- */
+  var graphicRoot = document.querySelector('[data-graphic-root]');
+  if (graphicRoot) {
+    var nodes = Array.prototype.slice.call(graphicRoot.querySelectorAll('.adb-graphic__node'));
+    var paths = Array.prototype.slice.call(graphicRoot.querySelectorAll('.adb-graphic__path'));
+    var pulsesGroup = graphicRoot.querySelector('.adb-graphic__pulses');
+    var pulses = Array.prototype.slice.call(graphicRoot.querySelectorAll('.adb-graphic__pulse'));
+    var pulsePathIndexes = [0, 3, 6]; // client->gateway, gateway->ledger, ledger->analytics
+
+    // Precompute dash lengths for every path so it can draw itself.
+    paths.forEach(function (p) {
+      var len = p.getTotalLength();
+      p.style.strokeDasharray = len + ' ' + len;
+      p.style.strokeDashoffset = String(len);
+    });
+    pulsePathIndexes.forEach(function (pathIndex, i) {
+      var d = paths[pathIndex] && paths[pathIndex].getAttribute('d');
+      if (d && pulses[i]) pulses[i].style.offsetPath = 'path(\'' + d + '\')';
+    });
+
+    var setGraphicStatic = function () {
+      nodes.forEach(function (n) { n.classList.add('is-in'); });
+      paths.forEach(function (p) { p.style.strokeDashoffset = '0'; });
+      // no pulses, no float under reduced motion
+    };
+
+    var runGraphicSequence = function () {
+      var nodeStagger = readMs('--motion-duration-100', 130);
+      var nodeDuration = readMs('--motion-duration-400', 220);
+      var scrollReveal = readMs('--motion-duration-scroll-reveal', 550);
+      var pathDuration = scrollReveal * 1.5;
+      var heroSettle = 4 * nodeStagger + scrollReveal; // matches hero media panel's own reveal delay+duration
+      var baseDelay = heroSettle + nodeStagger; // ~ hero choreography lands, then the graphic begins
+
+      nodes.forEach(function (n, i) {
+        var delay = baseDelay + i * nodeStagger;
+        setTimeout(function () {
+          n.style.willChange = 'opacity, transform';
+          n.classList.add('is-in');
+          n.addEventListener('transitionend', function handler(e) {
+            if (e.propertyName !== 'transform') return;
+            n.style.willChange = '';
+            n.classList.add('is-floating');
+            n.removeEventListener('transitionend', handler);
+          });
+        }, delay);
+      });
+
+      var maxPathReady = 0;
+      paths.forEach(function (p) {
+        var afterIndex = parseInt(p.getAttribute('data-after-node'), 10) || 0;
+        var delay = baseDelay + afterIndex * nodeStagger + nodeDuration;
+        maxPathReady = Math.max(maxPathReady, delay + pathDuration);
+        setTimeout(function () {
+          p.style.willChange = 'stroke-dashoffset';
+          p.style.strokeDashoffset = '0';
+        }, delay);
+      });
+
+      setTimeout(function () {
+        if (pulsesGroup) pulsesGroup.classList.add('is-active');
+      }, maxPathReady);
+    };
+
+    if (prefersReducedMotion.matches) {
+      setGraphicStatic();
+    } else {
+      var graphicObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          runGraphicSequence();
+          graphicObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.2, rootMargin: '-80px 0px' });
+      graphicObserver.observe(graphicRoot.closest('.adb-hero__media') || graphicRoot);
+    }
+  }
+
+  /* ---- 5. Stat count-up (once-only) ---- */
+  var COUNT_DURATION = readMs('--motion-duration-loop', 1000);
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function formatStat(el, current) {
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    return prefix + current.toFixed(decimals) + suffix;
+  }
+  function runCountUp(statEl) {
+    var target = parseFloat(statEl.getAttribute('data-target'));
+    var valueEl = statEl.querySelector('[data-value]');
+    if (!valueEl || isNaN(target)) return;
+    var start = null;
+    function tick(ts) {
+      if (start === null) start = ts;
+      var t = Math.min((ts - start) / COUNT_DURATION, 1);
+      valueEl.innerHTML = formatStat(statEl, target * easeOutCubic(t));
+      if (t < 1) requestAnimationFrame(tick);
+      else valueEl.innerHTML = formatStat(statEl, target);
+    }
+    requestAnimationFrame(tick);
+  }
+  function setFinalStat(statEl) {
+    var target = parseFloat(statEl.getAttribute('data-target'));
+    var valueEl = statEl.querySelector('[data-value]');
+    if (valueEl && !isNaN(target)) valueEl.innerHTML = formatStat(statEl, target);
+  }
+  var statEls = document.querySelectorAll('[data-count]');
+  if (prefersReducedMotion.matches) {
+    statEls.forEach(function (el) { el.classList.add('is-revealed'); setFinalStat(el); });
+  } else {
+    var statObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-revealed');
+        runCountUp(entry.target);
+        statObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.3, rootMargin: '-40px 0px' });
+    statEls.forEach(function (el) { statObserver.observe(el); });
+  }
+
+  /* ---- 6. Card scroll-reveal (canonical [data-reveal] pattern, once-only) ---- */
+  var revealEls = document.querySelectorAll('[data-reveal]');
+  var applyRevealState = function (el) { el.classList.add('is-revealed'); };
+  if (prefersReducedMotion.matches) {
+    revealEls.forEach(applyRevealState);
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.style.willChange = 'transform, opacity';
+        entry.target.classList.add('is-revealed');
+        entry.target.addEventListener('transitionend', function () {
+          entry.target.style.willChange = '';
+        }, { once: true });
+        revealObserver.unobserve(entry.target);
+      });
+    }, { threshold: 0.15, rootMargin: '-80px 0px' });
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
+  }
+
+  /* ---- 7. Timeline reveal (rail draw + dot pop, once-only) ---- */
+  var timelineEl = document.querySelector('.adb-timeline');
+  if (timelineEl) {
+    if (prefersReducedMotion.matches) {
+      timelineEl.classList.add('is-revealed');
+    } else {
+      var timelineObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-revealed');
+          timelineObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.3, rootMargin: '-40px 0px' });
+      timelineObserver.observe(timelineEl);
+    }
+  }
+
+  /* ---- 8. Before/after slider ---- */
+  var baRoot = document.getElementById('beforeAfter');
+  var baRange = document.getElementById('beforeAfterRange');
+  if (baRoot && baRange) {
+    var setBa = function (val) { baRoot.style.setProperty('--ba-pos', val + '%'); };
+    setBa(baRange.value);
+    baRange.addEventListener('input', function () { setBa(baRange.value); });
+  }
+
+  /* ---- 9. Live prefers-reduced-motion toggle: snap everything to final state ---- */
+  prefersReducedMotion.addEventListener('change', function (e) {
+    if (!e.matches) return;
+    showHero();
+    if (graphicRoot) {
+      graphicRoot.querySelectorAll('.adb-graphic__node').forEach(function (n) { n.classList.add('is-in'); });
+      graphicRoot.querySelectorAll('.adb-graphic__path').forEach(function (p) { p.style.strokeDashoffset = '0'; });
+    }
+    statEls.forEach(function (el) { el.classList.add('is-revealed'); setFinalStat(el); });
+    revealEls.forEach(applyRevealState);
+    if (timelineEl) timelineEl.classList.add('is-revealed');
+  });
+})();
+</script>
+</body>
+</html>
