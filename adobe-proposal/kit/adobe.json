@@ -1,0 +1,49 @@
+{
+  "meta": {
+    "name": "adobe",
+    "client": "Adobe (style reference — not an Adobe deliverable; no Adobe logo/identity)",
+    "source": "@adobe/spectrum-tokens 14.14.0 (adobe/spectrum-design-data) + @spectrum-css/vars 9.0.8 (motion) + brand-guideline knowledge for #EB1000 (unverified this session)",
+    "extracted": "2026-07-13",
+    "confidential": false,
+    "css": "tokens.css"
+  },
+  "colors": {
+    "roles": {
+      "primary": "#131313",
+      "accent": "#EB1000",
+      "accentHover": "#C50E00",
+      "background": "#FFFFFF",
+      "backgroundSubtle": "#F8F8F8",
+      "backgroundDark": "#0A0A0A",
+      "text": "#292929",
+      "textOnDark": "#F2F2F2",
+      "muted": "#717171",
+      "border": "#E1E1E1",
+      "link": "#3B63FB",
+      "positive": "#079355",
+      "negative": "#F03823",
+      "chart": ["#3B63FB", "#131313", "#717171", "#D45B00", "#079355", "#C6C6C6"]
+    }
+  },
+  "typography": {
+    "heading": { "family": "Source Sans 3", "fallback": "'Segoe UI', Helvetica, Arial, sans-serif", "weight": 800 },
+    "body":    { "family": "Source Sans 3", "fallback": "'Segoe UI', Helvetica, Arial, sans-serif", "weight": 400 },
+    "mono":    { "family": "Source Code Pro", "fallback": "ui-monospace, Menlo, monospace", "weight": 400 },
+    "scale":   { "hero": 72, "h1": 44, "h2": 28, "h3": 20, "body": 18, "caption": 12 },
+    "notes": "Source Sans 3 substitutes proprietary Adobe Clean (both Adobe faces, close metrics). Headlines extrabold-to-black, -0.02em tracking at hero size only. Full fluid scale in tokens.css."
+  },
+  "logo": {
+    "primary": null,
+    "notes": "No Adobe mark, ever — this system is Adobe-styled, not Adobe-branded. Use a neutral text wordmark placeholder."
+  },
+  "notes": [
+    "Red #EB1000 is the CORPORATE brand red; Spectrum UI negative red #F03823 is a different color for error/negative semantics only. Never mix them.",
+    "Red rationing: at most 1-2 red elements per viewport — primary CTA, small badge/accent, or single-word headline emphasis. Never a background, body-text color, large fill, or icon-set base color.",
+    "Charts lead with blue, not red (red is reserved; see chart array order).",
+    "Primary CTAs are pill-shaped (radius 999px) — the Spectrum 2 signature. All media gets rounded corners (8-24px by size).",
+    "Surfaces white/near-white, text near-black (not pure black). Dark sections are a deliberate accent, roughly 1 in 4-6 sections, plus the footer.",
+    "Section rhythm: 80-120px vertical padding desktop (56px mobile), content capped at 1280px, body copy columns capped at 672px.",
+    "White on #EB1000 is 4.6:1 — AA for normal text; keep CTA labels bold and >= 16px.",
+    "Motion: tokens in tokens.css, rules in design-system/motion.md. No ease-in anywhere. Focus rings never animate."
+  ]
+}

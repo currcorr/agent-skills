@@ -1,0 +1,281 @@
+/* ==========================================================================
+   Adobe-styled design system — tokens.css (THE CONTRACT)
+   ==========================================================================
+   Provenance:
+   - Color ramps, type scale, spacing, radii, shadows: VERIFIED against
+     @adobe/spectrum-tokens 14.14.0 (adobe/spectrum-design-data). See
+     research/tokens-inventory.md for per-value sources.
+   - Motion durations/easings: real published Spectrum CSS values
+     (@spectrum-css/vars 9.0.8 — Spectrum 1; S2 publishes no motion tokens).
+     emil overrides per design-system/motion.md §1.
+   - --brand-red #EB1000: Adobe corporate "Adobe Red" (brand guideline value,
+     not a Spectrum token; not fetch-verified this session). The Spectrum UI
+     negative red (#F03823) is a DIFFERENT color and is mapped to
+     --color-negative below. Do not swap one for the other.
+   - Font: Source Sans 3 substitutes proprietary Adobe Clean.
+
+   Rules for consumers:
+   - Components use SEMANTIC tokens (--color-*, --shadow-*, --motion-*,
+     --text-*, --space-*) — reach for raw ramp steps (--gray-*, --red-*,
+     --blue-*) only when no semantic token fits.
+   - Never a literal hex, px shadow, ms duration, or cubic-bezier in
+     component CSS. If a needed token is missing, flag it — don't inline it.
+   - Dark theme: media-query default + [data-theme] override in both
+     directions. Test every component in both.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand ---------------------------------------------------------- */
+  --brand-red:        #EB1000;
+  --brand-red-hover:  #C50E00; /* derived: brand red darkened ~15% */
+  --brand-red-press:  #A80C00; /* derived: brand red darkened ~28% */
+  --brand-on-red:     #FFFFFF; /* white on #EB1000 = 4.6:1 — AA normal, use bold ≥16px */
+
+  /* ---- Gray ramp (Spectrum 2, light set) ------------------------------ */
+  --gray-25:   #FFFFFF;
+  --gray-50:   #F8F8F8;
+  --gray-75:   #F3F3F3;
+  --gray-100:  #E9E9E9;
+  --gray-200:  #E1E1E1;
+  --gray-300:  #DADADA;
+  --gray-400:  #C6C6C6;
+  --gray-500:  #8F8F8F;
+  --gray-600:  #717171;
+  --gray-700:  #505050;
+  --gray-800:  #292929;
+  --gray-900:  #131313;
+  --gray-1000: #000000;
+
+  /* ---- Accent / informative blue (Spectrum blue, light set) ----------- */
+  --blue-800:  #4B75FF;
+  --blue-900:  #3B63FB;
+  --blue-1000: #274DEA;
+
+  /* ---- Spectrum UI red (semantic negative — NOT the brand red) -------- */
+  --red-800:   #F03823;
+  --red-900:   #D73220;
+
+  /* ---- Semantic colors (Spectrum -800 step, light) --------------------- */
+  --color-positive:    #079355;
+  --color-negative:    #F03823;
+  --color-notice:      #D45B00;
+  --color-informative: #4B75FF;
+  --color-positive-subtle-bg:    #D7F7E1;
+  --color-negative-subtle-bg:    #FFEBE8;
+  --color-notice-subtle-bg:      #FFECCF;
+  --color-informative-subtle-bg: #E5F0FE;
+
+  /* ---- Surfaces (Spectrum background layers) --------------------------- */
+  --color-bg-base:     var(--gray-25);
+  --color-bg-layer-1:  var(--gray-50);   /* subtle section differentiation */
+  --color-bg-layer-2:  var(--gray-75);
+  --color-bg-elevated: #FFFFFF;          /* cards, popovers */
+  --color-bg-dark-section: #0A0A0A;      /* deliberate dark sections + footer */
+
+  /* ---- Text ------------------------------------------------------------ */
+  --color-text-heading:   var(--gray-900);
+  --color-text-body:      var(--gray-800);
+  --color-text-secondary: var(--gray-700);
+  --color-text-tertiary:  var(--gray-600);
+  --color-text-disabled:  var(--gray-500);
+  --color-text-on-dark:          #F2F2F2;
+  --color-text-on-dark-secondary:#AFAFAF;
+  --color-link:        var(--blue-900);
+  --color-link-hover:  var(--blue-1000);
+
+  /* ---- Borders / dividers ---------------------------------------------- */
+  --color-border:        var(--gray-200);
+  --color-border-strong: var(--gray-300);
+  --color-divider:       var(--gray-100);
+
+  /* ---- Focus (instant, never animated) --------------------------------- */
+  --focus-ring-color: var(--blue-900);
+  --focus-ring: 0 0 0 2px var(--color-bg-base), 0 0 0 4px var(--focus-ring-color);
+
+  /* ---- Typography ------------------------------------------------------- */
+  --font-sans: "Source Sans 3", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --weight-regular:   400;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+  --weight-extrabold: 800; /* default heading weight (Spectrum: extra-bold) */
+  --weight-black:     900; /* hero / heavy variant */
+
+  /* Fluid marketing scale (research/design-rules.md §1) */
+  --text-hero:    clamp(2.75rem, 4.5vw + 1rem, 4.5rem);  /* 44 → 72px */
+  --text-display: clamp(3.25rem, 6vw + 1rem, 5.5rem);    /* 52 → 88px, campaign heroes only */
+  --text-h2:      clamp(1.75rem, 2.5vw + 1rem, 2.75rem); /* 28 → 44px */
+  --text-h3:      clamp(1.25rem, 1vw + 1rem, 1.75rem);   /* 20 → 28px */
+  --text-h4:      1.25rem;                                /* 20px */
+  --text-lede:    1.25rem;   /* 20px — opening paragraph under a hero */
+  --text-body:    1.125rem;  /* 18px marketing body */
+  --text-body-s:  1rem;      /* 16px */
+  --text-detail:  0.875rem;  /* 14px — eyebrows/meta; pair with --tracking-detail + uppercase */
+  --text-caption: 0.75rem;   /* 12px */
+
+  --leading-hero:    1.08; /* display type sits tight */
+  --leading-heading: 1.15;
+  --leading-sub:     1.3;  /* Spectrum heading line-height */
+  --leading-body:    1.5;  /* Spectrum body line-height */
+
+  --tracking-hero:   -0.02em; /* negative tracking only ≥ ~20px */
+  --tracking-h2:     -0.01em;
+  --tracking-body:    0;
+  --tracking-detail:  0.06em; /* Spectrum detail-letter-spacing */
+
+  /* ---- Spacing (Spectrum scale) ----------------------------------------- */
+  --space-25:  1px;
+  --space-50:  2px;
+  --space-75:  4px;
+  --space-100: 8px;
+  --space-200: 12px;
+  --space-300: 16px;
+  --space-400: 24px;
+  --space-500: 32px;
+  --space-600: 40px;
+  --space-700: 48px;
+  --space-800: 64px;
+  --space-900: 80px;
+  --space-1000: 96px;
+
+  /* Layout rhythm (research/design-rules.md §3) */
+  --space-section:   clamp(3.5rem, 9vw, 7.5rem); /* 56 → 120px section pad */
+  --container-max:   1280px;
+  --container-wide:  1440px; /* hero/visual sections only */
+  --container-text:  42rem;  /* 672px — body copy column cap */
+  --gutter:          clamp(1rem, 3vw, 2rem);
+
+  /* ---- Corner radius (Spectrum 2 scale + marketing media tier) --------- */
+  --radius-s:    4px;
+  --radius-m:    8px;
+  --radius-l:    10px;
+  --radius-xl:   16px;   /* cards, media */
+  --radius-xxl:  24px;   /* large hero media */
+  --radius-pill: 999px;  /* primary CTAs — the Spectrum 2 signature */
+
+  /* ---- Elevation (Spectrum geometry + light opacities) ------------------ */
+  --shadow-resting:  0 1px 6px rgba(0, 0, 0, 0.12);
+  --shadow-elevated: 0 2px 8px rgba(0, 0, 0, 0.16);
+  --shadow-dragged:  0 6px 16px rgba(0, 0, 0, 0.20);
+  /* Marketing-tier card shadows (derived: softer resting, bloomed hover) */
+  --shadow-card:       0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.14);
+
+  /* ---- Motion (design-system/motion.md §1 — use these names ONLY) ------- */
+  --motion-duration-instant: 0ms;
+  --motion-duration-100: 130ms;  /* press feedback, button hover, tooltips */
+  --motion-duration-200: 160ms;  /* hover color/border/shadow, tag, tray exit */
+  --motion-duration-300: 190ms;  /* menu close, scrim exit */
+  --motion-duration-400: 220ms;  /* dropdown open, popover, card hover lift */
+  --motion-duration-500: 250ms;  /* panel entry, accordion expand */
+  --motion-duration-600: 300ms;  /* UI ceiling — nothing interactive exceeds this */
+  --motion-duration-900: 450ms;  /* modal open/close */
+  --motion-duration-1000: 500ms; /* absolute overlay ceiling */
+  --motion-duration-scroll-reveal: 550ms;
+  --motion-duration-loop: 1000ms;
+
+  --motion-ease-linear:     cubic-bezier(0, 0, 1, 1);
+  --motion-ease-in-out:     cubic-bezier(0.45, 0, 0.4, 1);
+  --motion-ease-out:        cubic-bezier(0, 0, 0.4, 1);      /* small component motion */
+  --motion-ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);  /* hero / scroll-reveal scale */
+  --motion-ease-spring:     cubic-bezier(0.34, 1.56, 0.64, 1); /* micro-interactions only */
+  --motion-ease-drawer:     cubic-bezier(0.32, 0.72, 0, 1);
+  /* NOTE: no ease-in token exists, by design. Exits use ease-out, shorter
+     duration than the matching entrance. See motion.md §1.3. */
+
+  color-scheme: light;
+}
+
+/* ==========================================================================
+   Dark theme — media-query default, [data-theme] wins in both directions
+   ========================================================================== */
+
+:root[data-theme="dark"] { color-scheme: dark; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { color-scheme: dark; }
+}
+
+/* Shared dark values, applied under both selectors below */
+:root[data-theme="dark"] {
+  --gray-25:   #111111; --gray-50:  #1B1B1B; --gray-75:  #222222;
+  --gray-100:  #2C2C2C; --gray-200: #323232; --gray-300: #393939;
+  --gray-400:  #444444; --gray-500: #6D6D6D; --gray-600: #8A8A8A;
+  --gray-700:  #AFAFAF; --gray-800: #DBDBDB; --gray-900: #F2F2F2;
+  --gray-1000: #FFFFFF;
+
+  --blue-800: #4069FD; --blue-900: #5681FF; --blue-1000: #6995FE;
+  --red-800:  #DF3422; --red-900:  #FC432E;
+
+  --color-positive:    #068850;
+  --color-negative:    #DF3422;
+  --color-notice:      #C75200;
+  --color-informative: #4069FD;
+  --color-positive-subtle-bg:    #003326;
+  --color-negative-subtle-bg:    #571107;
+  --color-notice-subtle-bg:      #501B00;
+  --color-informative-subtle-bg: #0C2175;
+
+  --color-bg-elevated: #222222;
+  --color-bg-dark-section: #060606;
+  --color-text-on-dark: #F2F2F2;
+  --color-text-on-dark-secondary: #AFAFAF;
+
+  --shadow-resting:  0 1px 6px rgba(0, 0, 0, 0.36);
+  --shadow-elevated: 0 2px 8px rgba(0, 0, 0, 0.48);
+  --shadow-dragged:  0 6px 16px rgba(0, 0, 0, 0.60);
+  --shadow-card:       0 2px 8px rgba(0, 0, 0, 0.30);
+  --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --gray-25:   #111111; --gray-50:  #1B1B1B; --gray-75:  #222222;
+    --gray-100:  #2C2C2C; --gray-200: #323232; --gray-300: #393939;
+    --gray-400:  #444444; --gray-500: #6D6D6D; --gray-600: #8A8A8A;
+    --gray-700:  #AFAFAF; --gray-800: #DBDBDB; --gray-900: #F2F2F2;
+    --gray-1000: #FFFFFF;
+
+    --blue-800: #4069FD; --blue-900: #5681FF; --blue-1000: #6995FE;
+    --red-800:  #DF3422; --red-900:  #FC432E;
+
+    --color-positive:    #068850;
+    --color-negative:    #DF3422;
+    --color-notice:      #C75200;
+    --color-informative: #4069FD;
+    --color-positive-subtle-bg:    #003326;
+    --color-negative-subtle-bg:    #571107;
+    --color-notice-subtle-bg:      #501B00;
+    --color-informative-subtle-bg: #0C2175;
+
+    --color-bg-elevated: #222222;
+    --color-bg-dark-section: #060606;
+    --color-text-on-dark: #F2F2F2;
+    --color-text-on-dark-secondary: #AFAFAF;
+
+    --shadow-resting:  0 1px 6px rgba(0, 0, 0, 0.36);
+    --shadow-elevated: 0 2px 8px rgba(0, 0, 0, 0.48);
+    --shadow-dragged:  0 6px 16px rgba(0, 0, 0, 0.60);
+    --shadow-card:       0 2px 8px rgba(0, 0, 0, 0.30);
+    --shadow-card-hover: 0 12px 32px rgba(0, 0, 0, 0.45);
+  }
+}
+
+/* ==========================================================================
+   Reduced motion — durations collapse to 1ms (not 0: transitionend must
+   still fire). Components additionally follow motion.md §6 (JS observers
+   short-circuit; transform-based movement removed).
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-100: 1ms;  --motion-duration-200: 1ms;
+    --motion-duration-300: 1ms;  --motion-duration-400: 1ms;
+    --motion-duration-500: 1ms;  --motion-duration-600: 1ms;
+    --motion-duration-900: 1ms;  --motion-duration-1000: 1ms;
+    --motion-duration-scroll-reveal: 1ms;
+    --motion-duration-loop: 1ms;
+  }
+}
