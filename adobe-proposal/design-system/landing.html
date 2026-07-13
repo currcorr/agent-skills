@@ -410,7 +410,7 @@ h1, h2, h3, h4, p { margin: 0; }
   display: flex;
   align-items: center;
   gap: var(--space-400);
-  height: 64px;
+  min-height: 64px;
   padding-inline: var(--gutter);
   background: var(--color-bg-base);
   border-bottom: var(--space-25) solid transparent;
@@ -442,7 +442,7 @@ h1, h2, h3, h4, p { margin: 0; }
   transform: scale(0.92);
 }
 .adb-nav__brand { display: flex; align-items: center; margin-inline-end: var(--space-200); }
-.adb-nav__links { display: flex; align-items: center; gap: var(--space-400); margin: 0; padding: 0; list-style: none; }
+.adb-nav__links { display: flex; align-items: center; gap: var(--space-400); margin: 0; padding: 0; list-style: none; white-space: nowrap; }
 .adb-nav__link {
   position: relative;
   display: inline-block;
@@ -509,8 +509,19 @@ h1, h2, h3, h4, p { margin: 0; }
 .adb-nav__panel-link:focus-visible { outline: none; box-shadow: var(--focus-ring); transition: none; }
 
 @media (max-width: 760px) {
+  .adb-nav { flex-wrap: wrap; }
   .adb-nav__links { display: none; }
   .adb-nav__burger { display: inline-flex; }
+}
+/* Below ~480px the wordmark + pill CTA + burger no longer fit on one line
+   (measured overflow at 390px viewport: ~19px past the edge). Move the CTA
+   into the drawer instead of shrinking it — a squeezed pill button reads as
+   a bug, a drawer entry doesn't. Base rule must precede the media query so
+   the query's override actually wins in the cascade at narrow widths. */
+.adb-nav__panel-cta { display: none; margin: 0 0 var(--space-300); align-self: flex-start; }
+@media (max-width: 480px) {
+  .adb-nav__cluster > .adb-btn-primary { display: none; }
+  .adb-nav__panel-cta { display: inline-flex; }
 }
 
 /* ==========================================================================
@@ -977,6 +988,7 @@ h1, h2, h3, h4, p { margin: 0; }
         <li><a class="adb-nav__panel-link" href="#roadmap">Roadmap</a></li>
         <li><a class="adb-nav__panel-link" href="#comparison">Before / after</a></li>
       </ul>
+      <a href="#comparison" class="adb-btn adb-btn-primary adb-btn-md adb-nav__panel-cta">Request the plan</a>
     </div>
   </div>
 </header>
@@ -1083,7 +1095,7 @@ h1, h2, h3, h4, p { margin: 0; }
         <div class="adb-stat" data-count data-target="12" data-suffix="%" data-decimals="0" style="--stat-index:3">
           <span class="adb-stat__value" data-value>0%</span>
           <span class="adb-stat__label">Support ticket rate</span>
-          <span class="adb-stat__delta adb-stat__delta--down">
+          <span class="adb-stat__delta adb-stat__delta--up">
             <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 2v8M6 10l3.5-3.5M6 10 2.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             vs. baseline
           </span>
