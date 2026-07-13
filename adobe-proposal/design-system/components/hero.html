@@ -167,7 +167,7 @@
     transform: translateY(24px);
     transition: opacity var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong),
                 transform var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong);
-    transition-delay: calc(var(--reveal-index, 0) * 120ms);
+    transition-delay: calc(var(--reveal-index, 0) * var(--motion-duration-100));
   }
   #demo-hero .adb-hero__reveal.is-revealed {
     opacity: 1;
