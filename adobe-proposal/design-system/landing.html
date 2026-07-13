@@ -1314,9 +1314,13 @@ h1, h2, h3, h4, p { margin: 0; }
           <ellipse cx="120" cy="480" rx="200" ry="160" style="fill: var(--blue-900); opacity: 0.4;"></ellipse>
         </g>
       </svg>
-      <span class="adb-photosec__tag">Placeholder — swap for licensed photography</span>
     </div>
     <div class="adb-photosec__content">
+      <!-- Tag lives here, not inside .adb-photosec__media: the fixed media
+           layer is sized to the full viewport (100vh) while this content
+           layer (and the section) is only 90vh — anchoring to media's own
+           box would clip the tag out of view almost everywhere. -->
+      <span class="adb-photosec__tag">Placeholder — swap for licensed photography</span>
       <div class="adb-container">
         <div class="adb-photosec__inner">
           <p class="adb-photosec__eyebrow">The team behind the cutover</p>

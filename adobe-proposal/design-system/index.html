@@ -4120,6 +4120,11 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
     border-bottom: var(--space-25) solid var(--color-divider);
   }
   #demo-photo .ds-row:last-of-type { border-bottom: none; }
+  /* .ds-row (gallery chrome) is a flex-wrap row; every child in this
+     fragment is meant to stack full-width (label, hint, then the demo),
+     not sit side-by-side — force that explicitly rather than relying on
+     each child's incidental shrink-to-fit content width. */
+  #demo-photo .ds-row > * { width: 100%; box-sizing: border-box; }
   #demo-photo .ds-label {
     font-size: var(--text-caption);
     font-weight: var(--weight-semibold);
@@ -4423,9 +4428,13 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
             <ellipse cx="120" cy="480" rx="200" ry="160" style="fill: var(--blue-900); opacity: 0.4;"></ellipse>
           </g>
         </svg>
-        <span class="adb-photosec__tag">Placeholder — swap for licensed photography</span>
       </div>
       <div class="adb-photosec__content">
+        <!-- Tag lives in .content, not .media: the fixed/production media
+             layer is sized to the full viewport while content (and the
+             section) is only 90vh — anchoring to media's own box would
+             clip the tag out of view almost everywhere. -->
+        <span class="adb-photosec__tag">Placeholder — swap for licensed photography</span>
         <div class="adb-container">
           <div class="adb-photosec__inner">
             <p class="adb-photosec__eyebrow">Field notes</p>
