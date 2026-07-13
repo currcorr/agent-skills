@@ -1,0 +1,409 @@
+<section class="ds-demo" id="demo-buttons" data-title="Buttons, Tags &amp; Links">
+<style>
+  #demo-buttons {
+    background: var(--color-bg-base);
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    padding: var(--space-700) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-800);
+  }
+
+  #demo-buttons .ds-row {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-300);
+  }
+
+  #demo-buttons .ds-label {
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--space-300);
+  }
+
+  /* ==========================================================================
+     Shared button base
+     ========================================================================== */
+  .adb-btn {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-100);
+    font-family: var(--font-sans);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-body-s);
+    line-height: 1;
+    border: var(--space-50) solid transparent;
+    border-radius: var(--radius-pill);
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    white-space: nowrap;
+    background: transparent;
+    transition: background var(--motion-duration-100) var(--motion-ease-out),
+                border-color var(--motion-duration-100) var(--motion-ease-out),
+                color var(--motion-duration-100) var(--motion-ease-out),
+                transform var(--motion-duration-100) var(--motion-ease-out);
+  }
+
+  .adb-btn:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+    transition: none;
+  }
+
+  /* Sizes — vertical padding is chosen so padding + 1-line text + border
+     resolves to exactly 40px (md) / 48px (lg) with box-sizing: border-box,
+     rather than hardcoding a height. */
+  .adb-btn-md {
+    padding: calc(var(--space-200) - var(--space-50)) calc(var(--space-400) - var(--space-50));
+  }
+  .adb-btn-lg {
+    padding: calc(var(--space-300) - var(--space-50)) calc(var(--space-500) - var(--space-50));
+  }
+
+  /* Demo layout scaffolding — groups of example buttons within a .ds-row */
+  .adb-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-300);
+  }
+  .adb-btn-group-loose {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-400);
+  }
+
+  /* ==========================================================================
+     1. Primary CTA
+     ========================================================================== */
+  .adb-btn-primary {
+    background: var(--brand-red);
+    border-color: transparent;
+    color: var(--brand-on-red);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-btn-primary:hover:not(:disabled) {
+      background: var(--brand-red-hover);
+    }
+  }
+  .adb-btn-primary:active:not(:disabled) {
+    background: var(--brand-red-press);
+  }
+
+  /* ==========================================================================
+     2. Secondary — pill outline
+     ========================================================================== */
+  .adb-btn-secondary {
+    background: transparent;
+    border-color: var(--color-text-heading);
+    color: var(--color-text-heading);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-btn-secondary:hover:not(:disabled) {
+      background: var(--color-bg-layer-1);
+    }
+  }
+  .adb-btn-secondary:active:not(:disabled) {
+    background: var(--color-bg-layer-2);
+  }
+
+  /* ==========================================================================
+     3. Quiet / text button
+     ========================================================================== */
+  .adb-btn-quiet {
+    background: transparent;
+    border-color: transparent;
+    color: var(--color-text-heading);
+    font-weight: var(--weight-semibold);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-btn-quiet:hover:not(:disabled) {
+      background: var(--color-bg-layer-1);
+    }
+  }
+  .adb-btn-quiet:active:not(:disabled) {
+    background: var(--color-bg-layer-2);
+  }
+
+  /* Standalone inline link — underline always visible, thickens + shifts
+     color on hover. Uses a currentColor background-image so the underline
+     tracks the text color automatically; only background-size animates. */
+  .adb-link {
+    display: inline-flex;
+    font-family: var(--font-sans);
+    font-weight: var(--weight-semibold);
+    color: var(--color-link);
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% var(--space-25);
+    padding-block-end: var(--space-25);
+    transition: background-size var(--motion-duration-100) var(--motion-ease-out),
+                color var(--motion-duration-100) var(--motion-ease-in-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-link:hover {
+      background-size: 100% var(--space-50);
+      color: var(--color-link-hover);
+    }
+  }
+  .adb-link:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+    transition: none;
+    border-radius: var(--radius-s);
+  }
+
+  /* ==========================================================================
+     4. On-dark demo panel
+     ========================================================================== */
+  .adb-btn-darkdemo {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    background: var(--color-bg-dark-section);
+    border-radius: var(--radius-l);
+    padding: var(--space-400);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-300);
+  }
+  .adb-btn-darkdemo .adb-btn-secondary {
+    border-color: var(--color-text-on-dark);
+    color: var(--color-text-on-dark);
+  }
+  /* No dedicated "on-dark subtle surface" token exists in tokens.css, so the
+     hover/press fill is derived from the on-dark text token via color-mix
+     rather than introducing a new hex literal. */
+  @media (hover: hover) and (pointer: fine) {
+    .adb-btn-darkdemo .adb-btn-secondary:hover:not(:disabled) {
+      background: color-mix(in srgb, var(--color-text-on-dark) 14%, transparent);
+    }
+  }
+  .adb-btn-darkdemo .adb-btn-secondary:active:not(:disabled) {
+    background: color-mix(in srgb, var(--color-text-on-dark) 22%, transparent);
+  }
+
+  /* ==========================================================================
+     5. Icon button (round) + trailing-icon button
+     ========================================================================== */
+  .adb-btn-icon-glyph {
+    display: inline-flex;
+    width: var(--text-body-s);
+    height: var(--text-body-s);
+    flex: none;
+  }
+  .adb-btn-icon-glyph svg { display: block; width: 100%; height: 100%; }
+
+  /* Round icon-only button: symmetric padding around a square glyph, no
+     border, so padding + glyph resolves to an exact 40px / 48px circle. */
+  .adb-btn-icon {
+    border-color: transparent;
+  }
+  .adb-btn-icon.adb-btn-md { padding: var(--space-200); }
+  .adb-btn-icon.adb-btn-lg { padding: var(--space-300); }
+
+  /* Trailing icon nudges right on hover of its parent button. */
+  .adb-btn-icon-trail {
+    transition: transform var(--motion-duration-100) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-btn-primary:not(:disabled):hover .adb-btn-icon-trail,
+    .adb-btn-secondary:not(:disabled):hover .adb-btn-icon-trail {
+      transform: translateX(3px);
+    }
+  }
+
+  /* ==========================================================================
+     Press feedback — 0.98 for buttons ≥40px tall, 0.97 for small
+     (icon-only) targets, per motion.md §2.
+     ========================================================================== */
+  .adb-btn-md:not(.adb-btn-icon):active:not(:disabled),
+  .adb-btn-lg:not(.adb-btn-icon):active:not(:disabled) {
+    transform: scale(0.98);
+  }
+  .adb-btn-icon:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  /* ==========================================================================
+     6. Disabled
+     ========================================================================== */
+  .adb-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* ==========================================================================
+     7. Tags &amp; badges
+     ========================================================================== */
+  .adb-tag {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-75);
+    font-family: var(--font-sans);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    line-height: 1;
+    padding: var(--space-100) var(--space-200);
+    border-radius: var(--radius-pill);
+    white-space: nowrap;
+  }
+  .adb-tag-neutral {
+    background: var(--color-bg-layer-2);
+    color: var(--color-text-secondary);
+  }
+  .adb-tag-new {
+    background: var(--color-bg-layer-2);
+    color: var(--color-text-heading);
+  }
+  .adb-tag-dot {
+    width: var(--space-75);
+    height: var(--space-75);
+    border-radius: var(--radius-pill);
+    background: var(--brand-red);
+    flex: none;
+  }
+  .adb-tag-positive {
+    background: var(--color-positive-subtle-bg);
+    color: var(--color-positive);
+  }
+  .adb-tag-negative {
+    background: var(--color-negative-subtle-bg);
+    color: var(--color-negative);
+  }
+  .adb-tag-notice {
+    background: var(--color-notice-subtle-bg);
+    color: var(--color-notice);
+  }
+  .adb-tag-informative {
+    background: var(--color-informative-subtle-bg);
+    color: var(--color-informative);
+  }
+  .adb-tag-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-200);
+  }
+</style>
+
+<div class="ds-row">
+  <div>
+    <div class="ds-label">Primary CTA — Medium &amp; Large</div>
+    <div class="adb-btn-group">
+      <button type="button" class="adb-btn adb-btn-primary adb-btn-md">Get started</button>
+      <button type="button" class="adb-btn adb-btn-primary adb-btn-lg">Get started</button>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <div>
+    <div class="ds-label">Secondary — Pill Outline</div>
+    <div class="adb-btn-group">
+      <button type="button" class="adb-btn adb-btn-secondary adb-btn-md">Learn more</button>
+      <button type="button" class="adb-btn adb-btn-secondary adb-btn-lg">Learn more</button>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <div>
+    <div class="ds-label">Quiet / Text Button &amp; Inline Link</div>
+    <div class="adb-btn-group-loose">
+      <button type="button" class="adb-btn adb-btn-quiet adb-btn-md">Dismiss</button>
+      <a href="#" class="adb-link">Read the Northbeam release notes</a>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <div>
+    <div class="ds-label">On Dark</div>
+    <div class="adb-btn-darkdemo">
+      <button type="button" class="adb-btn adb-btn-primary adb-btn-md">Get started</button>
+      <button type="button" class="adb-btn adb-btn-secondary adb-btn-md">Learn more</button>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <div>
+    <div class="ds-label">Icon Button &amp; Trailing Icon</div>
+    <div class="adb-btn-group">
+      <button type="button" class="adb-btn adb-btn-primary adb-btn-icon adb-btn-md" aria-label="Next">
+        <span class="adb-btn-icon-glyph">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M3 8h9M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+      <button type="button" class="adb-btn adb-btn-primary adb-btn-icon adb-btn-lg" aria-label="Next">
+        <span class="adb-btn-icon-glyph">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M3 8h9M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+      <button type="button" class="adb-btn adb-btn-primary adb-btn-md">
+        Continue
+        <span class="adb-btn-icon-glyph adb-btn-icon-trail">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M3 8h9M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <div>
+    <div class="ds-label">Disabled</div>
+    <div class="adb-btn-group">
+      <button type="button" class="adb-btn adb-btn-primary adb-btn-md" disabled>Get started</button>
+      <button type="button" class="adb-btn adb-btn-secondary adb-btn-md" disabled>Learn more</button>
+      <button type="button" class="adb-btn adb-btn-quiet adb-btn-md" disabled>Dismiss</button>
+      <button type="button" class="adb-btn adb-btn-primary adb-btn-icon adb-btn-md" aria-label="Next" disabled>
+        <span class="adb-btn-icon-glyph">
+          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false">
+            <path d="M3 8h9M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <div>
+    <div class="ds-label">Tags &amp; Badges</div>
+    <div class="adb-tag-group">
+      <span class="adb-tag adb-tag-neutral">Beta</span>
+      <span class="adb-tag adb-tag-new"><span class="adb-tag-dot"></span>New</span>
+      <span class="adb-tag adb-tag-positive">Active</span>
+      <span class="adb-tag adb-tag-negative">Failed</span>
+      <span class="adb-tag adb-tag-notice">Pending</span>
+      <span class="adb-tag adb-tag-informative">Info</span>
+    </div>
+  </div>
+</div>
+
+</section>

@@ -1,0 +1,500 @@
+<section class="ds-demo" id="demo-hero" data-title="Heroes &amp; CTA Bands">
+<style>
+  #demo-hero,
+  #demo-hero *,
+  #demo-hero *::before,
+  #demo-hero *::after { box-sizing: border-box; }
+
+  #demo-hero {
+    display: block;
+    font-family: var(--font-sans);
+    background: var(--color-bg-base);
+    color: var(--color-text-body);
+  }
+
+  /* ---- demo scaffolding (scoped to #demo-hero only) --------------------- */
+  #demo-hero .ds-row {
+    padding-block: var(--space-600);
+    border-bottom: var(--space-25) solid var(--color-divider);
+  }
+  #demo-hero .ds-row:last-of-type { border-bottom: none; }
+  #demo-hero .ds-label {
+    font-size: var(--text-caption);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-detail);
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--space-300);
+    padding-inline: var(--gutter);
+  }
+
+  /* =========================================================================
+     1. Split hero (light)
+     ========================================================================= */
+  #demo-hero .adb-hero {
+    max-width: var(--container-wide);
+    margin-inline: auto;
+    padding: var(--space-section) var(--gutter);
+  }
+  #demo-hero .adb-hero--split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-600);
+    align-items: center;
+  }
+  @media (min-width: 900px) {
+    #demo-hero .adb-hero--split {
+      grid-template-columns: 1.05fr 1fr;
+      gap: var(--space-800);
+    }
+  }
+
+  #demo-hero .adb-hero__eyebrow {
+    margin: 0 0 var(--space-300);
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  #demo-hero .adb-hero__heading {
+    margin: 0 0 var(--space-400);
+    font-size: var(--text-hero);
+    font-weight: var(--weight-black);
+    letter-spacing: var(--tracking-hero);
+    line-height: var(--leading-hero);
+    color: var(--color-text-heading);
+  }
+  #demo-hero .adb-hero__emphasis { color: var(--brand-red); }
+
+  #demo-hero .adb-hero__lede {
+    margin: 0 0 var(--space-500);
+    max-width: var(--container-text);
+    font-size: var(--text-lede);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+  }
+
+  #demo-hero .adb-hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-400);
+  }
+
+  /* ---- primary pill CTA (shared by split + dark heroes) ------------------ */
+  #demo-hero .adb-hero__cta-primary {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: var(--space-300) var(--space-500);
+    font-family: inherit;
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-bold);
+    color: var(--brand-on-red);
+    background: var(--brand-red);
+    cursor: pointer;
+    transition: background var(--motion-duration-100) var(--motion-ease-out),
+                box-shadow var(--motion-duration-100) var(--motion-ease-out),
+                transform var(--motion-duration-100) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    #demo-hero .adb-hero__cta-primary:hover { background: var(--brand-red-hover); }
+  }
+  #demo-hero .adb-hero__cta-primary:active {
+    background: var(--brand-red-press);
+    transform: scale(0.98);
+  }
+  #demo-hero .adb-hero__cta-primary:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+
+  /* ---- quiet text CTA ----------------------------------------------------- */
+  #demo-hero .adb-hero__cta-quiet {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-100);
+    border: none;
+    background: transparent;
+    padding: var(--space-300) var(--space-100);
+    border-radius: var(--radius-m);
+    font-family: inherit;
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-heading);
+    cursor: pointer;
+    transition: color var(--motion-duration-100) var(--motion-ease-in-out);
+  }
+  #demo-hero .adb-hero__arrow {
+    display: inline-block;
+    transition: transform var(--motion-duration-200) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    #demo-hero .adb-hero__cta-quiet:hover { color: var(--color-link-hover); }
+    #demo-hero .adb-hero__cta-quiet:hover .adb-hero__arrow { transform: translateX(var(--space-75)); }
+  }
+  #demo-hero .adb-hero__cta-quiet:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+
+  /* ---- media placeholder --------------------------------------------------- */
+  #demo-hero .adb-hero__media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-xxl);
+    background: radial-gradient(140% 140% at 18% 16%,
+      var(--blue-800) 0%, var(--blue-1000) 42%, var(--color-bg-dark-section) 100%);
+  }
+  #demo-hero .adb-hero__media svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---- entrance choreography (§3) ----------------------------------------- */
+  #demo-hero .adb-hero__reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong),
+                transform var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong);
+    transition-delay: calc(var(--reveal-index, 0) * 120ms);
+  }
+  #demo-hero .adb-hero__reveal.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #demo-hero .adb-hero__reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* =========================================================================
+     2. Centered campaign hero (dark) + 3. magnetic CTA
+     ========================================================================= */
+  #demo-hero .adb-hero--dark {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background: var(--color-bg-dark-section);
+    border-radius: var(--radius-xl);
+  }
+  #demo-hero .adb-hero--dark .adb-hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: var(--container-text);
+    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-400);
+  }
+  #demo-hero .adb-hero--dark .adb-hero__heading {
+    margin: 0;
+    font-size: var(--text-display);
+    font-weight: var(--weight-black);
+    letter-spacing: var(--tracking-hero);
+    line-height: var(--leading-hero);
+    color: var(--color-text-on-dark);
+  }
+  #demo-hero .adb-hero--dark .adb-hero__lede {
+    margin: 0 0 var(--space-200);
+    max-width: var(--container-text);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-on-dark-secondary);
+  }
+
+  #demo-hero .adb-hero__ambient {
+    position: absolute;
+    inset: -20%;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.55;
+    background: conic-gradient(from 0deg at 50% 50%,
+      var(--blue-900) 0deg, var(--color-bg-dark-section) 90deg,
+      var(--blue-800) 180deg, var(--color-bg-dark-section) 270deg,
+      var(--blue-900) 360deg);
+    animation: adb-hero-ambient-drift calc(var(--motion-duration-loop) * 18) var(--motion-ease-linear) infinite;
+  }
+  @keyframes adb-hero-ambient-drift {
+    0%   { transform: translate(0%, 0%) scale(1); }
+    50%  { transform: translate(-4%, 3%) scale(1.08); }
+    100% { transform: translate(0%, 0%) scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #demo-hero .adb-hero__ambient { animation: none; transform: none; }
+  }
+
+  /* magnetic CTA: JS drives transform; CSS only sets baseline + focus */
+  #demo-hero .adb-hero__cta-magnetic { will-change: auto; }
+  #demo-hero .adb-hero__cta-magnetic:focus-visible { transition: none; }
+
+  /* =========================================================================
+     4. CTA band
+     ========================================================================= */
+  #demo-hero .adb-ctaband {
+    background: var(--color-bg-layer-1);
+    padding: var(--space-800) var(--gutter);
+  }
+  #demo-hero .adb-ctaband--dark {
+    background: var(--color-bg-dark-section);
+  }
+  #demo-hero .adb-ctaband__inner {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-600);
+  }
+  #demo-hero .adb-ctaband__heading {
+    margin: 0;
+    max-width: var(--container-text);
+    font-size: var(--text-h2);
+    font-weight: var(--weight-extrabold);
+    letter-spacing: var(--tracking-h2);
+    line-height: var(--leading-heading);
+    color: var(--color-text-heading);
+  }
+  #demo-hero .adb-ctaband--dark .adb-ctaband__heading { color: var(--color-text-on-dark); }
+
+  #demo-hero .adb-ctaband__cta {
+    appearance: none;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-pill);
+    padding: var(--space-300) var(--space-500);
+    font-family: inherit;
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-bold);
+    color: var(--brand-on-red);
+    background: var(--brand-red);
+    cursor: pointer;
+    transition: background var(--motion-duration-100) var(--motion-ease-out),
+                transform var(--motion-duration-100) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    #demo-hero .adb-ctaband__cta:hover { background: var(--brand-red-hover); }
+  }
+  #demo-hero .adb-ctaband__cta:active {
+    background: var(--brand-red-press);
+    transform: scale(0.98);
+  }
+  #demo-hero .adb-ctaband__cta:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+
+  @media (max-width: 720px) {
+    #demo-hero .adb-ctaband__inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+
+<div class="ds-row">
+  <p class="ds-label">Split hero — light, scroll-triggered entrance choreography</p>
+
+  <div class="adb-hero adb-hero--split" data-hero-reveal>
+    <div class="adb-hero__content">
+      <p class="adb-hero__eyebrow adb-hero__reveal" style="--reveal-index:0">Platform Modernization &middot; FY26 Proposal</p>
+      <p class="adb-hero__heading adb-hero__reveal" style="--reveal-index:1">
+        Retire the legacy stack without retiring your <span class="adb-hero__emphasis">roadmap</span>.
+      </p>
+      <p class="adb-hero__lede adb-hero__reveal" style="--reveal-index:2">
+        Northbeam re-platforms core transaction systems onto a resilient, API-first
+        architecture &mdash; cutting release cycles from weeks to hours without a single
+        day of customer-facing downtime.
+      </p>
+      <div class="adb-hero__ctas adb-hero__reveal" style="--reveal-index:3">
+        <button type="button" class="adb-hero__cta-primary">Request the migration plan</button>
+        <button type="button" class="adb-hero__cta-quiet">
+          See the architecture
+          <span class="adb-hero__arrow" aria-hidden="true">&rarr;</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="adb-hero__media adb-hero__reveal" style="--reveal-index:4" role="img" aria-label="Abstract system architecture illustration">
+      <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <circle cx="320" cy="60" r="90" style="fill: var(--color-text-on-dark); opacity: 0.08;"></circle>
+        <circle cx="70" cy="230" r="60" style="fill: var(--color-text-on-dark); opacity: 0.10;"></circle>
+        <path d="M20 180 L160 100 L260 150 L380 70" style="fill:none; stroke: var(--color-text-on-dark); stroke-width: 2; opacity: 0.35;"></path>
+        <path d="M0 240 L120 200 L220 240 L400 190" style="fill:none; stroke: var(--color-text-on-dark); stroke-width: 2; opacity: 0.2;"></path>
+        <circle cx="160" cy="100" r="6" style="fill: var(--color-text-on-dark); opacity: 0.9;"></circle>
+        <circle cx="260" cy="150" r="6" style="fill: var(--color-text-on-dark); opacity: 0.9;"></circle>
+        <circle cx="380" cy="70" r="6" style="fill: var(--color-text-on-dark); opacity: 0.9;"></circle>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">Centered campaign hero — dark, ambient gradient drift + magnetic CTA</p>
+
+  <div class="adb-hero adb-hero--dark">
+    <div class="adb-hero__ambient" aria-hidden="true"></div>
+    <div class="adb-hero__inner">
+      <p class="adb-hero__heading">One platform. Every region. Zero downtime.</p>
+      <p class="adb-hero__lede">
+        Northbeam Live &mdash; a 40-minute walkthrough of the migration architecture
+        that took three regional ledgers to one, Thursday 10am PT.
+      </p>
+      <button type="button" class="adb-hero__cta-primary adb-hero__cta-magnetic">Save my seat</button>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">CTA band — light</p>
+  <div class="adb-ctaband">
+    <div class="adb-ctaband__inner">
+      <p class="adb-ctaband__heading">Ready to see Northbeam on your data?</p>
+      <button type="button" class="adb-ctaband__cta">Book a working session</button>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">CTA band — dark</p>
+  <div class="adb-ctaband adb-ctaband--dark">
+    <div class="adb-ctaband__inner">
+      <p class="adb-ctaband__heading">Your migration timeline starts with one call.</p>
+      <button type="button" class="adb-ctaband__cta">Talk to platform engineering</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('demo-hero');
+  if (!root) return;
+
+  var reduceMotionMQ = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var fineHoverMQ = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  /* ---- 1. Split hero entrance choreography (§3, once-only) -------------- */
+  var splitHero = root.querySelector('[data-hero-reveal]');
+  if (splitHero) {
+    var revealItems = Array.prototype.slice.call(splitHero.querySelectorAll('.adb-hero__reveal'));
+
+    var showAll = function () {
+      revealItems.forEach(function (el) { el.classList.add('is-revealed'); });
+    };
+
+    if (reduceMotionMQ.matches) {
+      showAll();
+    } else {
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          revealItems.forEach(function (el) {
+            el.style.willChange = 'opacity, transform';
+            el.classList.add('is-revealed');
+            el.addEventListener('transitionend', function handler() {
+              el.style.willChange = '';
+              el.removeEventListener('transitionend', handler);
+            }, { once: true });
+          });
+          revealObserver.unobserve(entry.target);
+        });
+      }, { threshold: 0.2, rootMargin: '-80px 0px' });
+
+      revealObserver.observe(splitHero);
+    }
+
+    reduceMotionMQ.addEventListener('change', function (e) {
+      if (e.matches) showAll();
+    });
+  }
+
+  /* ---- 3. Magnetic primary CTA (dark hero) ------------------------------ */
+  var magnetic = root.querySelector('.adb-hero__cta-magnetic');
+  if (magnetic) {
+    var LERP = 0.15;
+    var MAX_OFFSET = 8;
+    var targetX = 0, targetY = 0, curX = 0, curY = 0, raf = null;
+
+    var loop = function () {
+      curX += (targetX - curX) * LERP;
+      curY += (targetY - curY) * LERP;
+
+      if (Math.abs(targetX - curX) > 0.05 || Math.abs(targetY - curY) > 0.05 ||
+          Math.abs(curX) > 0.05 || Math.abs(curY) > 0.05) {
+        magnetic.style.transform = 'translate3d(' + curX.toFixed(2) + 'px,' + curY.toFixed(2) + 'px,0)';
+        raf = requestAnimationFrame(loop);
+      } else {
+        curX = 0; curY = 0;
+        magnetic.style.transform = '';
+        magnetic.style.willChange = '';
+        raf = null;
+      }
+    };
+
+    var onMove = function (e) {
+      var rect = magnetic.getBoundingClientRect();
+      var relX = e.clientX - (rect.left + rect.width / 2);
+      var relY = e.clientY - (rect.top + rect.height / 2);
+      targetX = Math.max(-MAX_OFFSET, Math.min(MAX_OFFSET, relX * 0.3));
+      targetY = Math.max(-MAX_OFFSET, Math.min(MAX_OFFSET, relY * 0.3));
+      magnetic.style.willChange = 'transform';
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+
+    var onLeave = function () {
+      targetX = 0;
+      targetY = 0;
+      if (!raf) raf = requestAnimationFrame(loop);
+    };
+
+    var enabled = false;
+
+    var attach = function () {
+      if (enabled) return;
+      magnetic.addEventListener('pointermove', onMove);
+      magnetic.addEventListener('pointerleave', onLeave);
+      enabled = true;
+    };
+
+    var detach = function () {
+      if (!enabled) return;
+      magnetic.removeEventListener('pointermove', onMove);
+      magnetic.removeEventListener('pointerleave', onLeave);
+      targetX = 0; targetY = 0; curX = 0; curY = 0;
+      magnetic.style.transform = '';
+      magnetic.style.willChange = '';
+      if (raf) { cancelAnimationFrame(raf); raf = null; }
+      enabled = false;
+    };
+
+    var refresh = function () {
+      if (fineHoverMQ.matches && !reduceMotionMQ.matches) {
+        attach();
+      } else {
+        detach();
+      }
+    };
+
+    refresh();
+    reduceMotionMQ.addEventListener('change', refresh);
+    fineHoverMQ.addEventListener('change', refresh);
+  }
+})();
+</script>
+</section>

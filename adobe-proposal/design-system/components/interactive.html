@@ -478,6 +478,10 @@
 
 <div class="ds-row">
   <span class="ds-label">Scroll progress</span>
+  <!-- Bar fill uses var(--color-text-heading) here since this gallery page has many
+       accents on screen at once; on a page where this progress bar is the sole red
+       accent, swap the fill to var(--brand-red) per design-rules.md's "red = rare,
+       deliberate accent" rule. -->
   <div class="adb-scrollbar-wrap">
     <div class="adb-scrollbar-track" aria-hidden="true">
       <div class="adb-scrollbar-bar" id="adbScrollBar"></div>

@@ -1,0 +1,636 @@
+<section class="ds-demo" id="demo-cards" data-title="Cards">
+<style>
+  /* ---- Demo scaffolding (scoped to #demo-cards only) -------------------- */
+  #demo-cards .ds-row { margin-block-end: var(--space-700); }
+  #demo-cards .ds-row:last-child { margin-block-end: 0; }
+  #demo-cards .ds-label {
+    font-family: var(--font-sans);
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--space-300) 0;
+  }
+
+  /* ---- Card grids --------------------------------------------------------- */
+  .adb-card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-400);
+  }
+  .adb-card-grid--2col { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 900px) {
+    .adb-card-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 700px) {
+    .adb-card-grid--2col { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .adb-card-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---- Base card shell ------------------------------------------------- */
+  .adb-card {
+    font-family: var(--font-sans);
+    background: var(--color-bg-elevated);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  /* ---- Content card ------------------------------------------------------ */
+  .adb-card-content {
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--motion-duration-400) var(--motion-ease-out),
+                box-shadow var(--motion-duration-400) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-card-content:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card-hover);
+    }
+  }
+
+  .adb-card-media {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+  .adb-card-media--hue-a { background: linear-gradient(135deg, var(--blue-800), var(--blue-1000)); }
+  .adb-card-media--hue-b { background: linear-gradient(135deg, var(--gray-700), var(--gray-900)); }
+  .adb-card-media--hue-c { background: linear-gradient(135deg, var(--blue-900), var(--gray-800)); }
+
+  .adb-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-200);
+    padding: var(--space-400);
+  }
+
+  .adb-card-eyebrow {
+    margin: 0;
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+
+  .adb-card-title {
+    margin: 0;
+    font-size: var(--text-h4);
+    line-height: var(--leading-heading);
+    font-weight: var(--weight-extrabold);
+    color: var(--color-text-heading);
+  }
+
+  .adb-card-text {
+    margin: 0;
+    font-size: var(--text-body-s);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .adb-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-100);
+    margin-top: var(--space-100);
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-link);
+    text-decoration: none;
+    width: fit-content;
+    transition: color var(--motion-duration-100) var(--motion-ease-in-out);
+  }
+  .adb-card-link-icon {
+    width: 1em;
+    height: 1em;
+    flex: none;
+    transition: transform var(--motion-duration-100) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-card-link:hover { color: var(--color-link-hover); }
+    .adb-card-link:hover .adb-card-link-icon { transform: translateX(var(--space-50)); }
+  }
+  .adb-card-link:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-s);
+    transition: none;
+  }
+
+  /* ---- Clickable card variant -------------------------------------------- */
+  .adb-card-clickable {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-card-clickable:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card-hover);
+    }
+    .adb-card-clickable:hover:active {
+      transform: translateY(-4px) scale(0.98);
+      transition-duration: var(--motion-duration-100);
+    }
+  }
+  .adb-card-clickable:active {
+    transform: scale(0.98);
+    transition-duration: var(--motion-duration-100);
+  }
+  .adb-card-clickable:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring), var(--shadow-card);
+    transition: none;
+  }
+
+  /* ---- Stat card (non-interactive, no hover motion) ---------------------- */
+  .adb-card-stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-100);
+    padding: var(--space-500) var(--space-400);
+  }
+  .adb-card-stat-label {
+    margin: 0;
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    order: 2;
+  }
+  .adb-card-stat-value {
+    margin: 0;
+    font-size: var(--text-h2);
+    line-height: var(--leading-heading);
+    font-weight: var(--weight-extrabold);
+    color: var(--color-text-heading);
+    letter-spacing: var(--tracking-h2);
+    order: 1;
+  }
+  .adb-card-stat-delta {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-75);
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-positive);
+    order: 3;
+  }
+  .adb-card-stat-delta-icon {
+    width: 0.9em;
+    height: 0.9em;
+    flex: none;
+  }
+
+  /* ---- Pricing cards -------------------------------------------------------- */
+  .adb-card-pricing {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-500) var(--space-400);
+    border: 1px solid var(--color-border);
+  }
+  .adb-card-pricing--featured {
+    border: calc(var(--space-25) * 2) solid var(--color-text-heading);
+  }
+
+  .adb-card-pricing-badge {
+    position: absolute;
+    top: 0;
+    left: var(--space-400);
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-100);
+    padding: var(--space-75) var(--space-300);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border-strong);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-heading);
+  }
+  .adb-card-pricing-badge-dot {
+    width: var(--space-100);
+    height: var(--space-100);
+    border-radius: var(--radius-pill);
+    background: var(--brand-red);
+    flex: none;
+  }
+
+  .adb-card-pricing-name {
+    margin: 0 0 var(--space-200) 0;
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+
+  .adb-card-pricing-price {
+    margin: 0 0 var(--space-400) 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-75);
+  }
+  .adb-card-pricing-price-value {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-extrabold);
+    color: var(--color-text-heading);
+    letter-spacing: var(--tracking-h2);
+  }
+  .adb-card-pricing-price-period {
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-tertiary);
+  }
+
+  .adb-card-pricing-divider {
+    border: none;
+    border-top: 1px solid var(--color-divider);
+    margin: 0 0 var(--space-400) 0;
+  }
+
+  .adb-card-pricing-features {
+    list-style: none;
+    margin: 0 0 var(--space-500) 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-200);
+    flex: 1;
+  }
+  .adb-card-pricing-feature {
+    display: flex;
+    align-items: center;
+    gap: var(--space-200);
+    font-size: var(--text-body-s);
+    color: var(--color-text-body);
+  }
+  .adb-card-pricing-feature-icon {
+    width: 1.1em;
+    height: 1.1em;
+    flex: none;
+    color: var(--color-positive);
+  }
+
+  .adb-card-pricing-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-200) var(--space-400);
+    border-radius: var(--radius-pill);
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-bold);
+    text-decoration: none;
+    text-align: center;
+    transition: background var(--motion-duration-100) var(--motion-ease-out),
+                border-color var(--motion-duration-100) var(--motion-ease-out),
+                transform var(--motion-duration-100) var(--motion-ease-out);
+  }
+  .adb-card-pricing-cta--primary {
+    background: var(--brand-red);
+    color: var(--brand-on-red);
+    border: 1px solid transparent;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-card-pricing-cta--primary:hover { background: var(--brand-red-hover); }
+  }
+  .adb-card-pricing-cta--secondary {
+    background: transparent;
+    color: var(--color-text-heading);
+    border: 1px solid var(--color-border-strong);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-card-pricing-cta--secondary:hover {
+      border-color: var(--color-text-heading);
+      background: var(--color-bg-layer-1);
+    }
+  }
+  .adb-card-pricing-cta:active { transform: scale(0.98); }
+  .adb-card-pricing-cta:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+
+  /* ---- Horizontal card ---------------------------------------------------- */
+  .adb-card-horizontal-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-400);
+  }
+  .adb-card-horizontal {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    transition: transform var(--motion-duration-400) var(--motion-ease-out),
+                box-shadow var(--motion-duration-400) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-card-horizontal:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card-hover);
+    }
+  }
+  @media (max-width: 640px) {
+    .adb-card-horizontal { grid-template-columns: 1fr; }
+  }
+  .adb-card-horizontal-media {
+    min-height: 100%;
+  }
+  .adb-card-horizontal-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-200);
+    padding: var(--space-400);
+    justify-content: center;
+  }
+
+  /* ---- Reduced motion -------------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .adb-card-content,
+    .adb-card-clickable,
+    .adb-card-link-icon,
+    .adb-card-horizontal,
+    .adb-card-pricing-cta {
+      transition-duration: var(--motion-duration-100);
+    }
+    .adb-card-content:hover,
+    .adb-card-clickable:hover,
+    .adb-card-clickable:active,
+    .adb-card-horizontal:hover,
+    .adb-card-pricing-cta:active {
+      transform: none;
+    }
+  }
+</style>
+
+<div class="ds-row">
+  <p class="ds-label">Content card — responsive 3-column grid</p>
+  <div class="adb-card-grid">
+
+    <article class="adb-card adb-card-content">
+      <div class="adb-card-media adb-card-media--hue-a" aria-hidden="true"></div>
+      <div class="adb-card-body">
+        <p class="adb-card-eyebrow">Workflow</p>
+        <h3 class="adb-card-title">Composable review pipelines</h3>
+        <p class="adb-card-text">Route every asset through configurable approval gates, so nothing ships without the right eyes on it first.</p>
+        <a class="adb-card-link" href="#">
+          Learn more
+          <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="adb-card adb-card-content">
+      <div class="adb-card-media adb-card-media--hue-b" aria-hidden="true"></div>
+      <div class="adb-card-body">
+        <p class="adb-card-eyebrow">Analytics</p>
+        <h3 class="adb-card-title">Attribution you can defend</h3>
+        <p class="adb-card-text">Reconcile spend across channels with audit trails your finance team will actually trust.</p>
+        <a class="adb-card-link" href="#">
+          Learn more
+          <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="adb-card adb-card-content">
+      <div class="adb-card-media adb-card-media--hue-c" aria-hidden="true"></div>
+      <div class="adb-card-body">
+        <p class="adb-card-eyebrow">Collaboration</p>
+        <h3 class="adb-card-title">One workspace, every stakeholder</h3>
+        <p class="adb-card-text">Comment, annotate, and resolve feedback inline — no more screenshots pasted into email threads.</p>
+        <a class="adb-card-link" href="#">
+          Learn more
+          <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">Clickable card — whole card is a link</p>
+  <div class="adb-card-grid adb-card-grid--2col">
+
+    <a class="adb-card adb-card-content adb-card-clickable" href="#">
+      <div class="adb-card-media adb-card-media--hue-a" aria-hidden="true"></div>
+      <div class="adb-card-body">
+        <p class="adb-card-eyebrow">Case study</p>
+        <h3 class="adb-card-title">How Larkspur Media cut turnaround 40%</h3>
+        <p class="adb-card-text">A mid-size agency moved its entire review cycle onto Northbeam in under three weeks.</p>
+        <span class="adb-card-link" aria-hidden="true">
+          Read the story
+          <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </a>
+
+    <a class="adb-card adb-card-content adb-card-clickable" href="#">
+      <div class="adb-card-media adb-card-media--hue-c" aria-hidden="true"></div>
+      <div class="adb-card-body">
+        <p class="adb-card-eyebrow">Guide</p>
+        <h3 class="adb-card-title">Scaling review pipelines past 50 reviewers</h3>
+        <p class="adb-card-text">The staffing, tooling, and governance changes that keep large review teams fast.</p>
+        <span class="adb-card-link" aria-hidden="true">
+          Read the guide
+          <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">Stat card — non-interactive</p>
+  <div class="adb-card-grid">
+
+    <div class="adb-card adb-card-stat">
+      <p class="adb-card-stat-value">482</p>
+      <p class="adb-card-stat-label">Deploys per week</p>
+      <p class="adb-card-stat-delta">
+        <svg class="adb-card-stat-delta-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 12.5V3.5M8 3.5L3.5 8M8 3.5L12.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        12% vs last quarter
+      </p>
+    </div>
+
+    <div class="adb-card adb-card-stat">
+      <p class="adb-card-stat-value">99.98%</p>
+      <p class="adb-card-stat-label">Platform uptime</p>
+      <p class="adb-card-stat-delta">
+        <svg class="adb-card-stat-delta-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 12.5V3.5M8 3.5L3.5 8M8 3.5L12.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        0.04 pts
+      </p>
+    </div>
+
+    <div class="adb-card adb-card-stat">
+      <p class="adb-card-stat-value">3.2×</p>
+      <p class="adb-card-stat-label">Faster review cycles</p>
+      <p class="adb-card-stat-delta">
+        <svg class="adb-card-stat-delta-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M8 12.5V3.5M8 3.5L3.5 8M8 3.5L12.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        18% team velocity
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">Pricing card — base and featured</p>
+  <div class="adb-card-grid adb-card-grid--2col">
+
+    <div class="adb-card adb-card-pricing">
+      <p class="adb-card-pricing-name">Starter</p>
+      <p class="adb-card-pricing-price">
+        <span class="adb-card-pricing-price-value">$29</span>
+        <span class="adb-card-pricing-price-period">/mo</span>
+      </p>
+      <hr class="adb-card-pricing-divider">
+      <ul class="adb-card-pricing-features">
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Up to 5 workspaces
+        </li>
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          10 GB asset storage
+        </li>
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Email support
+        </li>
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Standard integrations
+        </li>
+      </ul>
+      <a class="adb-card-pricing-cta adb-card-pricing-cta--secondary" href="#">Choose Starter</a>
+    </div>
+
+    <div class="adb-card adb-card-pricing adb-card-pricing--featured">
+      <span class="adb-card-pricing-badge">
+        <span class="adb-card-pricing-badge-dot" aria-hidden="true"></span>
+        Most popular
+      </span>
+      <p class="adb-card-pricing-name">Team</p>
+      <p class="adb-card-pricing-price">
+        <span class="adb-card-pricing-price-value">$79</span>
+        <span class="adb-card-pricing-price-period">/mo</span>
+      </p>
+      <hr class="adb-card-pricing-divider">
+      <ul class="adb-card-pricing-features">
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Unlimited workspaces
+        </li>
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          250 GB asset storage
+        </li>
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Priority support
+        </li>
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Advanced integrations
+        </li>
+        <li class="adb-card-pricing-feature">
+          <svg class="adb-card-pricing-feature-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          SSO &amp; audit logs
+        </li>
+      </ul>
+      <a class="adb-card-pricing-cta adb-card-pricing-cta--primary" href="#">Choose Team</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">Horizontal card — list layout</p>
+  <div class="adb-card-horizontal-list">
+
+    <article class="adb-card adb-card-horizontal">
+      <div class="adb-card-horizontal-media adb-card-media adb-card-media--hue-a" aria-hidden="true"></div>
+      <div class="adb-card-horizontal-body">
+        <p class="adb-card-eyebrow">Playbook</p>
+        <h3 class="adb-card-title">Scaling review pipelines past 50 reviewers</h3>
+        <p class="adb-card-text">The staffing, tooling, and governance changes that keep large review teams fast without adding bottlenecks.</p>
+        <a class="adb-card-link" href="#">
+          Read the playbook
+          <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+    <article class="adb-card adb-card-horizontal">
+      <div class="adb-card-horizontal-media adb-card-media adb-card-media--hue-b" aria-hidden="true"></div>
+      <div class="adb-card-horizontal-body">
+        <p class="adb-card-eyebrow">Case study</p>
+        <h3 class="adb-card-title">How Larkspur Media cut turnaround by 40%</h3>
+        <p class="adb-card-text">A mid-size agency moved its entire review cycle onto Northbeam in under three weeks.</p>
+        <a class="adb-card-link" href="#">
+          Read the case study
+          <svg class="adb-card-link-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3.5 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+    </article>
+
+  </div>
+</div>
+
+</section>
