@@ -1,5 +1,12 @@
 # Adobe-Style Proposal Website — Execution Plan
 
+> **Scope update (2026-07-13):** Deliverable is the **design system only**
+> (Phases 0–1 + QA on the gallery). The proposal site itself will be built
+> separately on the user's work computer, consuming this package. Phases 2–3
+> below are retained as reference for that later work. The package must be
+> fully portable: self-contained files, no build step, a README covering how
+> to consume the tokens/components.
+
 **Goal:** A high-fidelity proposal website in Adobe's visual language, built on a
 reusable Adobe design system (tokens + components + motion), with interactive and
 motion elements throughout. Orchestrated by the main agent; executed with Sonnet
