@@ -64,6 +64,11 @@
   --color-negative-subtle-bg:    #FFEBE8;
   --color-notice-subtle-bg:      #FFECCF;
   --color-informative-subtle-bg: #E5F0FE;
+  /* Text ON subtle backgrounds — Spectrum -1000 step, ≥4.5:1 on the pair above */
+  --color-positive-on-subtle:    #036E45;
+  --color-negative-on-subtle:    #B72818;
+  --color-notice-on-subtle:      #A73E00;
+  --color-informative-on-subtle: #274DEA;
 
   /* ---- Surfaces (Spectrum background layers) --------------------------- */
   --color-bg-base:     var(--gray-25);
@@ -226,6 +231,10 @@
   --color-negative-subtle-bg:    #571107;
   --color-notice-subtle-bg:      #501B00;
   --color-informative-subtle-bg: #0C2175;
+  --color-positive-on-subtle:    #0EAF62;
+  --color-negative-on-subtle:    #FF6756;
+  --color-notice-on-subtle:      #F37500;
+  --color-informative-on-subtle: #6995FE;
 
   --color-bg-elevated: #222222;
   --color-bg-dark-section: #060606;
@@ -258,6 +267,10 @@
     --color-negative-subtle-bg:    #571107;
     --color-notice-subtle-bg:      #501B00;
     --color-informative-subtle-bg: #0C2175;
+    --color-positive-on-subtle:    #0EAF62;
+    --color-negative-on-subtle:    #FF6756;
+    --color-notice-on-subtle:      #F37500;
+    --color-informative-on-subtle: #6995FE;
 
     --color-bg-elevated: #222222;
     --color-bg-dark-section: #060606;

@@ -683,6 +683,21 @@
     var stored = 'auto';
     try { stored = localStorage.getItem(STORAGE_KEY) || 'auto'; } catch (err) { /* storage unavailable */ }
     requestAnimationFrame(function () { setActive(stored, false); });
+
+    // Stay in sync when something else (e.g. a page-level toggle) changes the
+    // theme: re-derive state from storage on any data-theme mutation. UI-only
+    // update — no re-apply, no persist — so the two widgets can't loop.
+    function syncFromDom() {
+      var current = 'auto';
+      try { current = localStorage.getItem(STORAGE_KEY) || 'auto'; } catch (err) { /* storage unavailable */ }
+      if (current !== 'light' && current !== 'dark') current = 'auto';
+      options.forEach(function (opt) {
+        var isActive = opt.getAttribute('data-theme-value') === current;
+        opt.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        if (isActive) moveThemeIndicator(opt);
+      });
+    }
+    new MutationObserver(syncFromDom).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 
   /* ---- Tooltip ---- */

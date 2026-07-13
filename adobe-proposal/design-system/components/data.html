@@ -82,12 +82,12 @@
   .adb-stat__delta svg { width: 12px; height: 12px; flex: none; }
 
   .adb-stat__delta--up {
-    color: var(--color-positive);
+    color: var(--color-positive-on-subtle);
     background: var(--color-positive-subtle-bg);
   }
 
   .adb-stat__delta--down {
-    color: var(--color-negative);
+    color: var(--color-negative-on-subtle);
     background: var(--color-negative-subtle-bg);
   }
 
@@ -559,19 +559,20 @@
   <div class="adb-progress-group">
     <div class="adb-progress" data-progress data-target="82">
       <div class="adb-progress__head">
-        <span class="adb-progress__name">Components migrated to tokens</span>
-        <span class="adb-progress__pct" data-progress-pct>0%</span>
+        <span class="adb-progress__name" id="adb-progress-label-1">Components migrated to tokens</span>
+        <span class="adb-progress__pct" data-progress-pct aria-hidden="true">0%</span>
       </div>
-      <div class="adb-progress__track">
+      <div class="adb-progress__track" role="progressbar" aria-labelledby="adb-progress-label-1"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-progress-track>
         <div class="adb-progress__fill" data-progress-fill></div>
       </div>
     </div>
 
     <div class="adb-progress adb-progress--indeterminate">
       <div class="adb-progress__head">
-        <span class="adb-progress__name">Syncing design tokens…</span>
+        <span class="adb-progress__name" id="adb-progress-label-2">Syncing design tokens…</span>
       </div>
-      <div class="adb-progress__track">
+      <div class="adb-progress__track" role="progressbar" aria-labelledby="adb-progress-label-2">
         <div class="adb-progress__fill"></div>
       </div>
     </div>
@@ -586,7 +587,12 @@
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* ---- Count-up stats ---- */
-  var COUNT_DURATION = 1000;
+  var COUNT_DURATION = (function () {
+      var raw = getComputedStyle(document.documentElement).getPropertyValue('--motion-duration-loop').trim();
+      var n = parseFloat(raw);
+      if (raw.indexOf('ms') === -1 && raw.indexOf('s') !== -1) n *= 1000;
+      return isNaN(n) || n <= 0 ? 1000 : n;
+    })();
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
   function formatValue(el, current) {
@@ -642,10 +648,15 @@
     var target = parseFloat(progEl.getAttribute('data-target')) || 0;
     var fillEl = progEl.querySelector('[data-progress-fill]');
     var pctEl = progEl.querySelector('[data-progress-pct]');
+    var trackEl = progEl.querySelector('[data-progress-track]');
+    function setNow(v) {
+      if (trackEl) trackEl.setAttribute('aria-valuenow', String(v));
+    }
     if (fillEl) fillEl.style.width = target + '%';
-    if (!pctEl) return;
+    if (!pctEl) { setNow(target); return; }
     if (prefersReducedMotion.matches) {
       pctEl.textContent = target + '%';
+      setNow(target);
       return;
     }
     var duration = readScrollRevealMs();
@@ -657,7 +668,7 @@
       var eased = easeOutCubic(t);
       pctEl.textContent = Math.round(target * eased) + '%';
       if (t < 1) requestAnimationFrame(tick);
-      else pctEl.textContent = target + '%';
+      else { pctEl.textContent = target + '%'; setNow(target); }
     }
     requestAnimationFrame(tick);
   }

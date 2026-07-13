@@ -75,6 +75,11 @@
   --color-negative-subtle-bg:    #FFEBE8;
   --color-notice-subtle-bg:      #FFECCF;
   --color-informative-subtle-bg: #E5F0FE;
+  /* Text ON subtle backgrounds — Spectrum -1000 step, ≥4.5:1 on the pair above */
+  --color-positive-on-subtle:    #036E45;
+  --color-negative-on-subtle:    #B72818;
+  --color-notice-on-subtle:      #A73E00;
+  --color-informative-on-subtle: #274DEA;
 
   /* ---- Surfaces (Spectrum background layers) --------------------------- */
   --color-bg-base:     var(--gray-25);
@@ -237,6 +242,10 @@
   --color-negative-subtle-bg:    #571107;
   --color-notice-subtle-bg:      #501B00;
   --color-informative-subtle-bg: #0C2175;
+  --color-positive-on-subtle:    #0EAF62;
+  --color-negative-on-subtle:    #FF6756;
+  --color-notice-on-subtle:      #F37500;
+  --color-informative-on-subtle: #6995FE;
 
   --color-bg-elevated: #222222;
   --color-bg-dark-section: #060606;
@@ -269,6 +278,10 @@
     --color-negative-subtle-bg:    #571107;
     --color-notice-subtle-bg:      #501B00;
     --color-informative-subtle-bg: #0C2175;
+    --color-positive-on-subtle:    #0EAF62;
+    --color-negative-on-subtle:    #FF6756;
+    --color-notice-on-subtle:      #F37500;
+    --color-informative-on-subtle: #6995FE;
 
     --color-bg-elevated: #222222;
     --color-bg-dark-section: #060606;
@@ -728,19 +741,19 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
   }
   .adb-tag-positive {
     background: var(--color-positive-subtle-bg);
-    color: var(--color-positive);
+    color: var(--color-positive-on-subtle);
   }
   .adb-tag-negative {
     background: var(--color-negative-subtle-bg);
-    color: var(--color-negative);
+    color: var(--color-negative-on-subtle);
   }
   .adb-tag-notice {
     background: var(--color-notice-subtle-bg);
-    color: var(--color-notice);
+    color: var(--color-notice-on-subtle);
   }
   .adb-tag-informative {
     background: var(--color-informative-subtle-bg);
-    color: var(--color-informative);
+    color: var(--color-informative-on-subtle);
   }
   .adb-tag-group {
     display: flex;
@@ -1804,9 +1817,9 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
   <div class="adb-hero adb-hero--split" data-hero-reveal>
     <div class="adb-hero__content">
       <p class="adb-hero__eyebrow adb-hero__reveal" style="--reveal-index:0">Platform Modernization &middot; FY26 Proposal</p>
-      <p class="adb-hero__heading adb-hero__reveal" style="--reveal-index:1">
+      <h3 class="adb-hero__heading adb-hero__reveal" style="--reveal-index:1">
         Retire the legacy stack without retiring your <span class="adb-hero__emphasis">roadmap</span>.
-      </p>
+      </h3>
       <p class="adb-hero__lede adb-hero__reveal" style="--reveal-index:2">
         Northbeam re-platforms core transaction systems onto a resilient, API-first
         architecture &mdash; cutting release cycles from weeks to hours without a single
@@ -1841,7 +1854,7 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
   <div class="adb-hero adb-hero--dark">
     <div class="adb-hero__ambient" aria-hidden="true"></div>
     <div class="adb-hero__inner">
-      <p class="adb-hero__heading">One platform. Every region. Zero downtime.</p>
+      <h3 class="adb-hero__heading">One platform. Every region. Zero downtime.</h3>
       <p class="adb-hero__lede">
         Northbeam Live &mdash; a 40-minute walkthrough of the migration architecture
         that took three regional ledgers to one, Thursday 10am PT.
@@ -1855,7 +1868,7 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
   <p class="ds-label">CTA band — light</p>
   <div class="adb-ctaband">
     <div class="adb-ctaband__inner">
-      <p class="adb-ctaband__heading">Ready to see Northbeam on your data?</p>
+      <h3 class="adb-ctaband__heading">Ready to see Northbeam on your data?</h3>
       <button type="button" class="adb-ctaband__cta">Book a working session</button>
     </div>
   </div>
@@ -1865,7 +1878,7 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
   <p class="ds-label">CTA band — dark</p>
   <div class="adb-ctaband adb-ctaband--dark">
     <div class="adb-ctaband__inner">
-      <p class="adb-ctaband__heading">Your migration timeline starts with one call.</p>
+      <h3 class="adb-ctaband__heading">Your migration timeline starts with one call.</h3>
       <button type="button" class="adb-ctaband__cta">Talk to platform engineering</button>
     </div>
   </div>
@@ -2046,14 +2059,26 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
     background: var(--color-bg-base);
     border-bottom: var(--space-25) solid transparent;
     box-shadow: none;
-    transition: height var(--motion-duration-400) var(--motion-ease-out),
-                border-color var(--motion-duration-400) var(--motion-ease-out),
+    /* Shrink is transform-only (motion.md bans height animation): the bar
+       keeps its 64px layout box; scrolled state condenses the contents. */
+    transition: border-color var(--motion-duration-400) var(--motion-ease-out),
                 box-shadow var(--motion-duration-400) var(--motion-ease-out);
   }
+  .adb-nav__brand,
+  .adb-nav__links,
+  .adb-nav__actions {
+    transition: transform var(--motion-duration-400) var(--motion-ease-out);
+    transform-origin: left center;
+  }
+  .adb-nav__actions { transform-origin: right center; }
   .adb-nav.is-scrolled {
-    height: 52px;
     border-bottom-color: var(--color-border);
     box-shadow: var(--shadow-resting);
+  }
+  .adb-nav.is-scrolled .adb-nav__brand,
+  .adb-nav.is-scrolled .adb-nav__links,
+  .adb-nav.is-scrolled .adb-nav__actions {
+    transform: scale(0.92);
   }
 
   .adb-nav__brand {
@@ -2450,7 +2475,7 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
 
 <div class="ds-row">
   <p class="ds-label">Sticky header — scroll the frame below</p>
-  <p class="adb-nav-demo-hint">Scroll inside the bordered frame; past 8px of scroll the header shrinks 64px → 52px, gains a hairline border and resting shadow.</p>
+  <p class="adb-nav-demo-hint">Scroll inside the bordered frame; past 8px of scroll the header condenses (transform-only), gains a hairline border and resting shadow.</p>
   <div class="adb-nav-demo-frame" data-nav-scroll-frame>
     <header class="adb-nav" data-nav-header>
       <a class="adb-nav__brand adb-nav__wordmark" href="#">Northbeam</a>
@@ -2471,8 +2496,8 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
       <p>This filler content exists only to make the sticky header scroll-shrink demonstrable inside a contained frame, so it doesn't hijack the gallery page's own scroll.</p>
       <p>Northbeam brings your workflow, your team, and your assets into a single fast surface — built for people who ship every day, not once a quarter.</p>
       <p>Keep scrolling within this frame to confirm the header stays pinned to the top while the rest of the content moves beneath it.</p>
-      <p>At roughly 8px of scroll offset the transition fires: height eases from 64px to 52px, a hairline bottom border fades in, and a resting shadow settles underneath — all in one 220ms ease-out transition.</p>
-      <p>Once you scroll back up past the threshold, the header returns to its resting 64px state on the same transition.</p>
+      <p>At roughly 8px of scroll offset the transition fires: the bar's contents condense via a transform-only scale (the layout box never changes, per the motion spec), a hairline bottom border fades in, and a resting shadow settles underneath — all in one 220ms ease-out transition.</p>
+      <p>Once you scroll back up past the threshold, the header returns to its resting state on the same transition.</p>
       <p>End of filler content.</p>
     </div>
   </div>
@@ -2722,12 +2747,12 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
   .adb-stat__delta svg { width: 12px; height: 12px; flex: none; }
 
   .adb-stat__delta--up {
-    color: var(--color-positive);
+    color: var(--color-positive-on-subtle);
     background: var(--color-positive-subtle-bg);
   }
 
   .adb-stat__delta--down {
-    color: var(--color-negative);
+    color: var(--color-negative-on-subtle);
     background: var(--color-negative-subtle-bg);
   }
 
@@ -3199,19 +3224,20 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
   <div class="adb-progress-group">
     <div class="adb-progress" data-progress data-target="82">
       <div class="adb-progress__head">
-        <span class="adb-progress__name">Components migrated to tokens</span>
-        <span class="adb-progress__pct" data-progress-pct>0%</span>
+        <span class="adb-progress__name" id="adb-progress-label-1">Components migrated to tokens</span>
+        <span class="adb-progress__pct" data-progress-pct aria-hidden="true">0%</span>
       </div>
-      <div class="adb-progress__track">
+      <div class="adb-progress__track" role="progressbar" aria-labelledby="adb-progress-label-1"
+           aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-progress-track>
         <div class="adb-progress__fill" data-progress-fill></div>
       </div>
     </div>
 
     <div class="adb-progress adb-progress--indeterminate">
       <div class="adb-progress__head">
-        <span class="adb-progress__name">Syncing design tokens…</span>
+        <span class="adb-progress__name" id="adb-progress-label-2">Syncing design tokens…</span>
       </div>
-      <div class="adb-progress__track">
+      <div class="adb-progress__track" role="progressbar" aria-labelledby="adb-progress-label-2">
         <div class="adb-progress__fill"></div>
       </div>
     </div>
@@ -3226,7 +3252,12 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
   var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   /* ---- Count-up stats ---- */
-  var COUNT_DURATION = 1000;
+  var COUNT_DURATION = (function () {
+      var raw = getComputedStyle(document.documentElement).getPropertyValue('--motion-duration-loop').trim();
+      var n = parseFloat(raw);
+      if (raw.indexOf('ms') === -1 && raw.indexOf('s') !== -1) n *= 1000;
+      return isNaN(n) || n <= 0 ? 1000 : n;
+    })();
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
 
   function formatValue(el, current) {
@@ -3282,10 +3313,15 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
     var target = parseFloat(progEl.getAttribute('data-target')) || 0;
     var fillEl = progEl.querySelector('[data-progress-fill]');
     var pctEl = progEl.querySelector('[data-progress-pct]');
+    var trackEl = progEl.querySelector('[data-progress-track]');
+    function setNow(v) {
+      if (trackEl) trackEl.setAttribute('aria-valuenow', String(v));
+    }
     if (fillEl) fillEl.style.width = target + '%';
-    if (!pctEl) return;
+    if (!pctEl) { setNow(target); return; }
     if (prefersReducedMotion.matches) {
       pctEl.textContent = target + '%';
+      setNow(target);
       return;
     }
     var duration = readScrollRevealMs();
@@ -3297,7 +3333,7 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
       var eased = easeOutCubic(t);
       pctEl.textContent = Math.round(target * eased) + '%';
       if (t < 1) requestAnimationFrame(tick);
-      else pctEl.textContent = target + '%';
+      else { pctEl.textContent = target + '%'; setNow(target); }
     }
     requestAnimationFrame(tick);
   }
@@ -4026,6 +4062,21 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
     var stored = 'auto';
     try { stored = localStorage.getItem(STORAGE_KEY) || 'auto'; } catch (err) { /* storage unavailable */ }
     requestAnimationFrame(function () { setActive(stored, false); });
+
+    // Stay in sync when something else (e.g. a page-level toggle) changes the
+    // theme: re-derive state from storage on any data-theme mutation. UI-only
+    // update — no re-apply, no persist — so the two widgets can't loop.
+    function syncFromDom() {
+      var current = 'auto';
+      try { current = localStorage.getItem(STORAGE_KEY) || 'auto'; } catch (err) { /* storage unavailable */ }
+      if (current !== 'light' && current !== 'dark') current = 'auto';
+      options.forEach(function (opt) {
+        var isActive = opt.getAttribute('data-theme-value') === current;
+        opt.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        if (isActive) moveThemeIndicator(opt);
+      });
+    }
+    new MutationObserver(syncFromDom).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 
   /* ---- Tooltip ---- */
@@ -4097,8 +4148,17 @@ main { max-width: var(--container-max); margin: 0 auto; padding: 0 var(--gutter)
       });
     });
   }
+  function syncButtons() {
+    var stored = null;
+    try { stored = localStorage.getItem(KEY); } catch (err) { /* storage unavailable */ }
+    var mode = (stored === 'light' || stored === 'dark') ? stored : 'auto';
+    document.querySelectorAll('.g-theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.mode === mode));
+    });
+  }
   renderSwatches();
-  new MutationObserver(renderSwatches).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  new MutationObserver(function () { renderSwatches(); syncButtons(); })
+    .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderSwatches);
   }

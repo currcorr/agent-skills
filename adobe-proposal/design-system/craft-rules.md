@@ -71,10 +71,12 @@ red dot is an accent; five badges is noise.
 ### 7. Radius and accent-word autopilot
 Maximum roundness on every element, and an accent-colored word in every
 heading.
-**Instead:** the radius scale is semantic — pills are for CTAs only
-(`--radius-pill`), cards/media take `--radius-xl`, small controls `--radius-s`
-to `--radius-m`. The red single-word headline emphasis exists but is rationed
-exactly like all red: at most one instance per page, in the hero.
+**Instead:** the radius scale is semantic — `--radius-pill` is for CTAs,
+tags/badges, and small capsule controls (toggles, progress tracks), never
+content containers; cards/media take `--radius-xl`, small controls
+`--radius-s` to `--radius-m`. The red single-word headline emphasis exists
+but is rationed exactly like all red: at most one instance per page, in the
+hero.
 
 ### 8. Filler copy and fake proof
 "Unlock the power of…", "Elevate your workflow", "Seamlessly…", five-star
@@ -107,7 +109,8 @@ surfaces (footer) use the `*-on-dark` tokens in both themes.
 - [ ] No section is a symmetric icon-title-blurb grid with interchangeable copy
 - [ ] Centered composition appears at most once per 3–4 sections
 - [ ] Shadows only on interactive cards and overlays
-- [ ] Pills = CTAs only; red = ≤1–2 elements per viewport (incl. accent words)
+- [ ] Pill radius only on CTAs, tags/badges, and capsule controls — never
+      content containers; red = ≤1–2 elements per viewport (incl. accent words)
 - [ ] No filler superlatives, fake testimonials, or invented stats
 - [ ] Some visible elements do not scroll-animate
 - [ ] Dark theme uses dark-set tokens, not inverted light values

@@ -57,14 +57,26 @@
     background: var(--color-bg-base);
     border-bottom: var(--space-25) solid transparent;
     box-shadow: none;
-    transition: height var(--motion-duration-400) var(--motion-ease-out),
-                border-color var(--motion-duration-400) var(--motion-ease-out),
+    /* Shrink is transform-only (motion.md bans height animation): the bar
+       keeps its 64px layout box; scrolled state condenses the contents. */
+    transition: border-color var(--motion-duration-400) var(--motion-ease-out),
                 box-shadow var(--motion-duration-400) var(--motion-ease-out);
   }
+  .adb-nav__brand,
+  .adb-nav__links,
+  .adb-nav__actions {
+    transition: transform var(--motion-duration-400) var(--motion-ease-out);
+    transform-origin: left center;
+  }
+  .adb-nav__actions { transform-origin: right center; }
   .adb-nav.is-scrolled {
-    height: 52px;
     border-bottom-color: var(--color-border);
     box-shadow: var(--shadow-resting);
+  }
+  .adb-nav.is-scrolled .adb-nav__brand,
+  .adb-nav.is-scrolled .adb-nav__links,
+  .adb-nav.is-scrolled .adb-nav__actions {
+    transform: scale(0.92);
   }
 
   .adb-nav__brand {
@@ -461,7 +473,7 @@
 
 <div class="ds-row">
   <p class="ds-label">Sticky header — scroll the frame below</p>
-  <p class="adb-nav-demo-hint">Scroll inside the bordered frame; past 8px of scroll the header shrinks 64px → 52px, gains a hairline border and resting shadow.</p>
+  <p class="adb-nav-demo-hint">Scroll inside the bordered frame; past 8px of scroll the header condenses (transform-only), gains a hairline border and resting shadow.</p>
   <div class="adb-nav-demo-frame" data-nav-scroll-frame>
     <header class="adb-nav" data-nav-header>
       <a class="adb-nav__brand adb-nav__wordmark" href="#">Northbeam</a>
@@ -482,8 +494,8 @@
       <p>This filler content exists only to make the sticky header scroll-shrink demonstrable inside a contained frame, so it doesn't hijack the gallery page's own scroll.</p>
       <p>Northbeam brings your workflow, your team, and your assets into a single fast surface — built for people who ship every day, not once a quarter.</p>
       <p>Keep scrolling within this frame to confirm the header stays pinned to the top while the rest of the content moves beneath it.</p>
-      <p>At roughly 8px of scroll offset the transition fires: height eases from 64px to 52px, a hairline bottom border fades in, and a resting shadow settles underneath — all in one 220ms ease-out transition.</p>
-      <p>Once you scroll back up past the threshold, the header returns to its resting 64px state on the same transition.</p>
+      <p>At roughly 8px of scroll offset the transition fires: the bar's contents condense via a transform-only scale (the layout box never changes, per the motion spec), a hairline bottom border fades in, and a resting shadow settles underneath — all in one 220ms ease-out transition.</p>
+      <p>Once you scroll back up past the threshold, the header returns to its resting state on the same transition.</p>
       <p>End of filler content.</p>
     </div>
   </div>

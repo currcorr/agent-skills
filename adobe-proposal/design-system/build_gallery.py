@@ -205,8 +205,17 @@ SHELL_JS = """
       });
     });
   }
+  function syncButtons() {
+    var stored = null;
+    try { stored = localStorage.getItem(KEY); } catch (err) { /* storage unavailable */ }
+    var mode = (stored === 'light' || stored === 'dark') ? stored : 'auto';
+    document.querySelectorAll('.g-theme button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.mode === mode));
+    });
+  }
   renderSwatches();
-  new MutationObserver(renderSwatches).observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+  new MutationObserver(function () { renderSwatches(); syncButtons(); })
+    .observe(root, { attributes: true, attributeFilter: ['data-theme'] });
   if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderSwatches);
   }
