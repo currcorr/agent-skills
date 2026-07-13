@@ -187,15 +187,15 @@
     color: var(--color-text-on-dark);
   }
   /* No dedicated "on-dark subtle surface" token exists in tokens.css, so the
-     hover/press fill is derived from the on-dark text token via color-mix
+     hover/press fill uses the on-dark surface tokens
      rather than introducing a new hex literal. */
   @media (hover: hover) and (pointer: fine) {
     .adb-btn-darkdemo .adb-btn-secondary:hover:not(:disabled) {
-      background: color-mix(in srgb, var(--color-text-on-dark) 14%, transparent);
+      background: var(--color-bg-on-dark-hover);
     }
   }
   .adb-btn-darkdemo .adb-btn-secondary:active:not(:disabled) {
-    background: color-mix(in srgb, var(--color-text-on-dark) 22%, transparent);
+    background: var(--color-bg-on-dark-press);
   }
 
   /* ==========================================================================

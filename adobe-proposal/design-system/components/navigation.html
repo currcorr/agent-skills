@@ -318,7 +318,7 @@
   .adb-section-stack > .adb-section:not(:last-child) {
     border-bottom: var(--space-25) solid var(--color-divider);
   }
-  .adb-section--dark.adb-section:not(:last-child) { border-bottom-color: rgba(255,255,255,0.08); }
+  .adb-section--dark.adb-section:not(:last-child) { border-bottom-color: var(--color-divider-on-dark); }
 
   /* ==========================================================================
      3. Footer
@@ -386,7 +386,7 @@
 
   .adb-footer__divider {
     border: none;
-    border-top: var(--space-25) solid rgba(255,255,255,0.12);
+    border-top: var(--space-25) solid var(--color-border-on-dark);
     margin: 0 0 var(--space-400);
   }
 
@@ -416,7 +416,7 @@
     width: 36px;
     height: 36px;
     border-radius: var(--radius-pill);
-    border: var(--space-25) solid rgba(255,255,255,0.18);
+    border: var(--space-25) solid var(--color-border-on-dark);
     background: transparent;
     color: var(--color-text-on-dark-secondary);
     cursor: pointer;
@@ -428,7 +428,7 @@
     .adb-footer__social-btn:hover {
       transform: translateY(-2px);
       color: var(--color-text-on-dark);
-      border-color: rgba(255,255,255,0.4);
+      border-color: var(--color-border-on-dark-strong);
     }
   }
   .adb-footer__social-btn:active { transform: scale(0.97); }
