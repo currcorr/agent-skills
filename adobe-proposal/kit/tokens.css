@@ -101,6 +101,11 @@
   /* Overlays on imagery — theme-independent */
   --color-scrim:         rgba(0, 0, 0, 0.35);
   --color-text-on-media: #FFFFFF;
+  /* Scrims for text over photography (photo sections). Text on photos always
+     sits on one of these — never directly on the image. */
+  --scrim-photo:        linear-gradient(180deg, rgba(0, 0, 0, 0.10) 0%, rgba(0, 0, 0, 0.60) 100%);
+  --scrim-photo-strong: linear-gradient(180deg, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.78) 100%);
+  --scrim-photo-left:   linear-gradient(90deg, rgba(0, 0, 0, 0.70) 0%, rgba(0, 0, 0, 0.30) 55%, rgba(0, 0, 0, 0) 100%);
 
   /* ---- Focus (instant, never animated) --------------------------------- */
   --focus-ring-color: var(--blue-900);

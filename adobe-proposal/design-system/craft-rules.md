@@ -40,7 +40,10 @@ gradient borders. Adobe's language is flat, confident color.
 *placeholders* (standing in for real imagery, blue/gray tones) and the dark
 hero's slow ambient backdrop drift. Never on text, buttons, borders, or as a
 section background in the light theme. Real imagery replaces placeholder
-gradients in the final site.
+gradients in the final site — and photo-section slots (`adb-photosec`) must
+ship with real licensed photography, never their gallery placeholders:
+shipping CSS scenery where a photo belongs is itself a tell (see
+design-rules.md §3b).
 
 ### 4. Symmetric icon-title-blurb feature grids
 Three perfectly equal columns, each with icon on top, four-word title, and

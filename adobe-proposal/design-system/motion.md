@@ -210,6 +210,16 @@ still instant (0ms) — not a soft fade-in.
 
 ---
 
+### Pinned photo backdrops (photo sections)
+
+Content scrolling over a fixed photographic backdrop is an allowed,
+Adobe-signature scroll treatment — the layer itself does not animate; the
+effect comes from normal scrolling. Constraints: the photo layer never
+translates against scroll direction, never zooms/pans on scroll, and no
+text is read *while moving* (text lives in the scrolling content, on a
+scrim). Under `prefers-reduced-motion`, the pinned layer becomes a normal
+absolutely-positioned image that scrolls with its section.
+
 ## 5. Performance rules
 
 1. **Animate `transform` and `opacity` only.** No `width`, `height`, `top`, `left`,

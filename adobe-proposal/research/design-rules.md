@@ -60,6 +60,32 @@ Concrete rationing rule for builders **[knowledge-based, synthesizing the above]
 - Image treatment: **rounded corners on essentially all media** (product screenshots, thumbnails, video embeds) — this is a consistent, checkable signature. Radius scales with element size (small thumbnail ~8px, large hero visual ~16-24px). Full-bleed edge-to-edge imagery is used more sparingly, mostly in campaign heroes.
 - Whitespace ratio: marketing sections favor **content occupying well under half the vertical rhythm**, with the rest as padding/whitespace — dense, tightly-packed sections are not the Adobe pattern.
 
+## 3b. Photography in the scroll experience
+
+**[user-verified against live adobe.com]** Adobe uses real photography as
+section backgrounds during the scroll experience — full-bleed photographic
+moments between flat-color content sections, with content scrolling over
+them. Rules for this system:
+
+- **Real photos, not CSS scenery.** Photo slots ship with clearly-marked
+  placeholders; production pages must swap in licensed photography (people
+  at work, product-in-context, campaign imagery). A gradient is never a
+  substitute in a photo slot.
+- **Two treatments:** (1) full-bleed pinned backdrop — the photo stays fixed
+  while content scrolls over it (one per page is plenty; it's a "brand
+  moment", used like the dark section); (2) rounded photo panel
+  (`--radius-xxl`) inside a normal section, matching the rounded-media rule.
+- **Text never sits directly on a photo.** Always through a scrim token
+  (`--scrim-photo`, `--scrim-photo-strong`, `--scrim-photo-left`) with
+  `--color-text-on-media`; headline + one line + optional CTA, kept to the
+  scrimmed region.
+- **Rhythm:** photo sections count toward the same "special occasion" budget
+  as dark sections — roughly 1 photographic backdrop per 4-6 sections. They
+  pair naturally: photo moment → light content → dark section.
+- **Motion:** the pinned effect itself is the motion; no additional zoom/pan
+  by default. Under `prefers-reduced-motion` the photo becomes a normally
+  scrolling absolute layer.
+
 ## 4. Component idioms
 
 **[search-verified]** Spectrum 2 (Adobe's product-UI design system, launched Dec 2023) explicitly moved components toward being **"lighter, bolder, and rounder"** — described in launch coverage as introducing more rounded elements, thicker icon strokes, and brighter color use across 100+ Adobe applications. Sources: [Adobe Blog](https://blog.adobe.com/en/publish/2023/12/12/adobe-unveils-spectrum-2-design-system-reimagining-user-experience-over-100-adobe-applications), [adobe.design — Introducing Spectrum 2](https://adobe.design/stories/design-for-scale/introducing-spectrum-2).

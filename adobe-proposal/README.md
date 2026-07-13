@@ -43,6 +43,16 @@ against Adobe's open-source `@adobe/spectrum-tokens` package — see
    `<html>`; the theme-toggle component in `components/interactive.html`
    handles switching + persistence.
 
+## Photography
+
+Adobe's scroll experience uses real photography as section backdrops. The
+`adb-photosec` component (see the gallery's Photo Sections demo) provides a
+full-bleed *pinned* backdrop (content scrolls over a fixed photo) and a
+rounded photo panel. Slots take a real `<img>` (object-fit cover) and ship
+with a clearly-tagged placeholder — **swap in licensed photography before
+shipping**; rules in `research/design-rules.md` §3b (scrims, rhythm,
+reduced-motion fallback).
+
 ## Fonts
 
 Adobe Clean is proprietary, so the system uses **Source Sans 3** and
