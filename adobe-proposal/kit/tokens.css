@@ -87,6 +87,9 @@
   --color-border:        var(--gray-200);
   --color-border-strong: var(--gray-300);
   --color-divider:       var(--gray-100);
+  /* For permanently-dark surfaces (footer, dark sections) — theme-independent */
+  --color-border-on-dark:  rgba(255, 255, 255, 0.16);
+  --color-divider-on-dark: rgba(255, 255, 255, 0.08);
 
   /* ---- Focus (instant, never animated) --------------------------------- */
   --focus-ring-color: var(--blue-900);

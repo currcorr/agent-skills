@@ -1,0 +1,689 @@
+<section class="ds-demo" id="demo-interactive" data-title="Interactive">
+<style>
+  #demo-interactive {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-800);
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+  }
+  #demo-interactive .ds-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-300);
+  }
+  #demo-interactive .ds-label {
+    font-size: var(--text-detail);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* ---------------------------------------------------------------------
+     1. Tabs
+  --------------------------------------------------------------------- */
+  .adb-tabs { width: 100%; max-width: 640px; }
+  .adb-tabs__list {
+    position: relative;
+    display: flex;
+    gap: var(--space-400);
+    border-bottom: 1px solid var(--color-divider);
+  }
+  .adb-tabs__tab {
+    appearance: none;
+    background: none;
+    border: none;
+    padding: var(--space-200) var(--space-50);
+    font: inherit;
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: color var(--motion-duration-200) var(--motion-ease-in-out);
+  }
+  .adb-tabs__tab[aria-selected="true"] { color: var(--color-text-heading); }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-tabs__tab:hover { color: var(--color-text-heading); }
+  }
+  .adb-tabs__tab:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+    border-radius: var(--radius-s);
+  }
+  .adb-tabs__indicator {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    height: 2px;
+    width: 0;
+    background: var(--color-text-heading);
+    transform: translateX(0);
+    transition: transform var(--motion-duration-400) var(--motion-ease-in-out),
+                width var(--motion-duration-400) var(--motion-ease-in-out);
+  }
+  .adb-tabs__panels { position: relative; padding-top: var(--space-400); }
+  .adb-tabs__panel {
+    display: none;
+    opacity: 0;
+    font-size: var(--text-body-s);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-body);
+    transition: opacity var(--motion-duration-200) var(--motion-ease-out);
+  }
+  .adb-tabs__panel[data-active] {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ---------------------------------------------------------------------
+     2. Accordion
+  --------------------------------------------------------------------- */
+  .adb-acc { width: 100%; max-width: 640px; border-top: 1px solid var(--color-divider); }
+  .adb-acc__item { border-bottom: 1px solid var(--color-divider); }
+  .adb-acc__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: var(--space-300);
+    appearance: none;
+    background: none;
+    border: none;
+    padding: var(--space-300) var(--space-100);
+    font: inherit;
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-heading);
+    text-align: left;
+    cursor: pointer;
+    border-radius: var(--radius-s);
+    transition: background-color var(--motion-duration-200) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-acc__header:hover { background: var(--color-bg-layer-1); }
+  }
+  .adb-acc__header:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+  .adb-acc__chevron {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    transition: transform var(--motion-duration-500) var(--motion-ease-out);
+    color: var(--color-text-tertiary);
+  }
+  .adb-acc__header[aria-expanded="true"] .adb-acc__chevron { transform: rotate(180deg); }
+  .adb-acc__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--motion-duration-500) var(--motion-ease-out);
+  }
+  .adb-acc__header[aria-expanded="true"] + .adb-acc__body { grid-template-rows: 1fr; }
+  .adb-acc__body-inner {
+    overflow: hidden;
+    min-height: 0;
+  }
+  .adb-acc__content {
+    padding: 0 var(--space-100) var(--space-400);
+    font-size: var(--text-body-s);
+    color: var(--color-text-secondary);
+    line-height: var(--leading-body);
+  }
+
+  /* ---------------------------------------------------------------------
+     3. Before / after slider
+  --------------------------------------------------------------------- */
+  .adb-ba {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-resting);
+    --ba-pos: 50%;
+  }
+  .adb-ba__layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .adb-ba__layer--before {
+    background: linear-gradient(135deg, var(--gray-300), var(--gray-100));
+  }
+  .adb-ba__layer--after {
+    background: linear-gradient(135deg, var(--blue-1000), var(--blue-800));
+    clip-path: inset(0 0 0 var(--ba-pos));
+  }
+  .adb-ba__layer svg { width: 60%; height: 60%; color: var(--gray-25); opacity: 0.85; }
+  .adb-ba__layer--before svg { color: var(--gray-600); opacity: 0.7; }
+  .adb-ba__divider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--ba-pos);
+    width: 2px;
+    background: var(--gray-25);
+    transform: translateX(-1px);
+    pointer-events: none;
+    box-shadow: var(--shadow-resting);
+  }
+  .adb-ba__grip {
+    position: absolute;
+    top: 50%;
+    left: var(--ba-pos);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-pill);
+    background: var(--gray-25);
+    color: var(--gray-800);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translate(-50%, -50%);
+    box-shadow: var(--shadow-elevated);
+    pointer-events: none;
+  }
+  .adb-ba__grip svg { width: 18px; height: 18px; }
+  .adb-ba__range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    appearance: none;
+    background: transparent;
+    cursor: grab;
+    opacity: 0;
+  }
+  .adb-ba__range:active { cursor: grabbing; }
+  .adb-ba__range::-webkit-slider-thumb {
+    appearance: none;
+    width: 40px;
+    height: 40px;
+  }
+  .adb-ba__range::-moz-range-thumb {
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+  }
+  .adb-ba__range:focus-visible ~ .adb-ba__grip {
+    box-shadow: var(--focus-ring), var(--shadow-elevated);
+    transition: none;
+  }
+  .adb-ba__tag {
+    position: absolute;
+    top: var(--space-200);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    padding: var(--space-50) var(--space-200);
+    border-radius: var(--radius-pill);
+    background: rgba(0, 0, 0, 0.35);
+    color: var(--gray-25);
+    pointer-events: none;
+  }
+  .adb-ba__tag--before { left: var(--space-200); }
+  .adb-ba__tag--after { right: var(--space-200); }
+
+  /* ---------------------------------------------------------------------
+     4. Scroll progress
+  --------------------------------------------------------------------- */
+  .adb-scrollbar-wrap {
+    position: relative;
+    max-width: 480px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-l);
+    overflow: hidden;
+    background: var(--color-bg-elevated);
+  }
+  .adb-scrollbar-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--color-divider);
+    z-index: 1;
+  }
+  /* NOTE: bar color uses --color-text-heading here since interactive.html is a
+     component gallery with many demos on screen; on a live page where this is
+     the only red accent on view, swap the fill below to var(--brand-red). */
+  .adb-scrollbar-bar {
+    height: 100%;
+    width: 100%;
+    background: var(--color-text-heading);
+    transform: scaleX(0);
+    transform-origin: left center;
+    /* Direct 1:1 scroll mapping — no transition (motion.md exempts scrubbed/
+       drag-following motion from easing; smoothing here would create lag). */
+  }
+  .adb-scrollbar-scroll {
+    height: 360px;
+    overflow-y: auto;
+    padding: var(--space-500) var(--space-400) var(--space-400);
+  }
+  .adb-scrollbar-scroll p {
+    margin: 0 0 var(--space-300);
+    font-size: var(--text-body-s);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+  }
+  .adb-scrollbar-scroll p:first-child {
+    color: var(--color-text-heading);
+    font-weight: var(--weight-semibold);
+  }
+
+  /* ---------------------------------------------------------------------
+     5. Theme toggle
+  --------------------------------------------------------------------- */
+  .adb-theme {
+    position: relative;
+    display: inline-flex;
+    padding: var(--space-50);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-layer-1);
+    border: 1px solid var(--color-border);
+    gap: var(--space-50);
+  }
+  .adb-theme__indicator {
+    position: absolute;
+    top: var(--space-50);
+    left: var(--space-50);
+    height: calc(100% - (var(--space-50) * 2));
+    width: 0;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-elevated);
+    box-shadow: var(--shadow-resting);
+    transform: translateX(0);
+    transition: transform var(--motion-duration-400) var(--motion-ease-in-out),
+                width var(--motion-duration-400) var(--motion-ease-in-out);
+  }
+  .adb-theme__opt {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-100);
+    appearance: none;
+    background: none;
+    border: none;
+    padding: var(--space-100) var(--space-300);
+    border-radius: var(--radius-pill);
+    font: inherit;
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    z-index: 1;
+    transition: color var(--motion-duration-200) var(--motion-ease-out);
+  }
+  .adb-theme__opt[aria-pressed="true"] { color: var(--color-text-heading); }
+  .adb-theme__opt svg { width: 16px; height: 16px; flex: none; }
+  .adb-theme__opt:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+
+  /* ---------------------------------------------------------------------
+     6. Tooltip
+  --------------------------------------------------------------------- */
+  .adb-tip {
+    position: relative;
+    display: inline-flex;
+  }
+  .adb-tip__btn {
+    appearance: none;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-elevated);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color var(--motion-duration-100) var(--motion-ease-out),
+                border-color var(--motion-duration-100) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-tip__btn:hover { background: var(--color-bg-layer-1); }
+  }
+  .adb-tip__btn:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+  .adb-tip__btn svg { width: 18px; height: 18px; }
+  .adb-tip__bubble {
+    position: absolute;
+    bottom: calc(100% + var(--space-200));
+    left: 50%;
+    transform: translate(-50%, 4px);
+    white-space: nowrap;
+    padding: var(--space-100) var(--space-200);
+    border-radius: var(--radius-m);
+    background: var(--gray-900);
+    color: var(--gray-25);
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    pointer-events: none;
+    opacity: 0;
+    box-shadow: var(--shadow-elevated);
+    transition: opacity var(--motion-duration-100) var(--motion-ease-out),
+                transform var(--motion-duration-100) var(--motion-ease-out);
+  }
+  :root[data-theme="dark"] .adb-tip__bubble { background: var(--gray-100); color: var(--gray-900); }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .adb-tip__bubble { background: var(--gray-100); color: var(--gray-900); }
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-tip__btn:hover + .adb-tip__bubble {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+  .adb-tip__btn:focus-visible + .adb-tip__bubble {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    transition-duration: var(--motion-duration-instant);
+  }
+</style>
+
+<div class="ds-row">
+  <span class="ds-label">Tabs — sliding indicator</span>
+  <div class="adb-tabs" id="adbTabs">
+    <div class="adb-tabs__list" role="tablist" aria-label="Example tabs">
+      <button class="adb-tabs__tab" id="adbTab-0" role="tab" aria-selected="true" aria-controls="adbPanel-0" tabindex="0" data-index="0">Overview</button>
+      <button class="adb-tabs__tab" id="adbTab-1" role="tab" aria-selected="false" aria-controls="adbPanel-1" tabindex="-1" data-index="1">Specs</button>
+      <button class="adb-tabs__tab" id="adbTab-2" role="tab" aria-selected="false" aria-controls="adbPanel-2" tabindex="-1" data-index="2">Pricing</button>
+      <button class="adb-tabs__tab" id="adbTab-3" role="tab" aria-selected="false" aria-controls="adbPanel-3" tabindex="-1" data-index="3">Support</button>
+      <span class="adb-tabs__indicator" aria-hidden="true"></span>
+    </div>
+    <div class="adb-tabs__panels">
+      <div class="adb-tabs__panel" id="adbPanel-0" role="tabpanel" aria-labelledby="adbTab-0" data-active>A quick summary of the product, positioning, and what makes it worth a closer look.</div>
+      <div class="adb-tabs__panel" id="adbPanel-1" role="tabpanel" aria-labelledby="adbTab-1" hidden>Technical specifications, compatibility notes, and system requirements live here.</div>
+      <div class="adb-tabs__panel" id="adbPanel-2" role="tabpanel" aria-labelledby="adbTab-2" hidden>Plan tiers, billing cadence, and what's included at each level.</div>
+      <div class="adb-tabs__panel" id="adbPanel-3" role="tabpanel" aria-labelledby="adbTab-3" hidden>Documentation, contact channels, and response-time expectations.</div>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <span class="ds-label">Accordion — grid-rows expand</span>
+  <div class="adb-acc" id="adbAcc">
+    <div class="adb-acc__item">
+      <button class="adb-acc__header" aria-expanded="true" aria-controls="adbAccBody-0" id="adbAccHead-0">
+        What is included in the base plan?
+        <svg class="adb-acc__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="adb-acc__body" id="adbAccBody-0" role="region" aria-labelledby="adbAccHead-0">
+        <div class="adb-acc__body-inner">
+          <p class="adb-acc__content">The base plan covers core editing tools, 100GB of cloud storage, and access on up to two devices.</p>
+        </div>
+      </div>
+    </div>
+    <div class="adb-acc__item">
+      <button class="adb-acc__header" aria-expanded="false" aria-controls="adbAccBody-1" id="adbAccHead-1">
+        Can I change plans later?
+        <svg class="adb-acc__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="adb-acc__body" id="adbAccBody-1" role="region" aria-labelledby="adbAccHead-1">
+        <div class="adb-acc__body-inner">
+          <p class="adb-acc__content">Yes — upgrade or downgrade anytime from account settings; changes prorate automatically.</p>
+        </div>
+      </div>
+    </div>
+    <div class="adb-acc__item">
+      <button class="adb-acc__header" aria-expanded="false" aria-controls="adbAccBody-2" id="adbAccHead-2">
+        Is there a free trial?
+        <svg class="adb-acc__chevron" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="adb-acc__body" id="adbAccBody-2" role="region" aria-labelledby="adbAccHead-2">
+        <div class="adb-acc__body-inner">
+          <p class="adb-acc__content">Every plan starts with a 14-day trial, no card required, with full feature access.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <span class="ds-label">Before / after slider</span>
+  <div class="adb-ba" id="adbBa">
+    <div class="adb-ba__layer adb-ba__layer--before" aria-hidden="true">
+      <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="10" width="48" height="34" rx="3" stroke="currentColor" stroke-width="2"/><path d="M14 38l10-10 8 8 10-14 8 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="32" cy="52" r="2" fill="currentColor"/></svg>
+    </div>
+    <span class="adb-ba__tag adb-ba__tag--before">Before</span>
+    <div class="adb-ba__layer adb-ba__layer--after" aria-hidden="true">
+      <svg viewBox="0 0 64 64" fill="none"><rect x="8" y="10" width="48" height="34" rx="3" stroke="currentColor" stroke-width="2"/><path d="M14 34l8-8 8 6 12-16 8 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="20" r="3" fill="currentColor"/></svg>
+    </div>
+    <span class="adb-ba__tag adb-ba__tag--after">After</span>
+    <div class="adb-ba__divider" aria-hidden="true"></div>
+    <div class="adb-ba__grip" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M9 6v12M15 6v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </div>
+    <input class="adb-ba__range" id="adbBaRange" type="range" min="0" max="100" value="50" step="1" aria-label="Reveal amount, before to after">
+  </div>
+</div>
+
+<div class="ds-row">
+  <span class="ds-label">Scroll progress</span>
+  <div class="adb-scrollbar-wrap">
+    <div class="adb-scrollbar-track" aria-hidden="true">
+      <div class="adb-scrollbar-bar" id="adbScrollBar"></div>
+    </div>
+    <div class="adb-scrollbar-scroll" id="adbScrollBody">
+      <p>Scroll this panel to track progress.</p>
+      <p>Spectrum 2 moves Adobe's product surfaces toward lighter, bolder, rounder components, while the marketing language stays disciplined: white surfaces, near-black text, and red used only as a rare, deliberate accent.</p>
+      <p>Motion in this kit follows a strict hierarchy — small component-level transitions borrow Spectrum's own duration and easing tokens, while larger marketing-weight reveals use a stronger custom curve so they read with enough presence at scale.</p>
+      <p>Every interactive control stays under the 300ms UI ceiling; only overlays, trays, and scroll-triggered choreography are permitted to run longer, and only because the user isn't actively waiting on direct feedback from them.</p>
+      <p>Reduced-motion users get every transition collapsed to a near-instant one millisecond rather than deleted outright, so dependent event listeners keep firing correctly while movement effectively disappears.</p>
+      <p>This progress bar is a direct, unsmoothed mapping from scroll position to bar width — no easing curve is layered on top, since scrubbed motion like this should track the input with zero perceptible lag.</p>
+      <p>End of the scrollable region.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <span class="ds-label">Theme toggle</span>
+  <div class="adb-theme" id="adbTheme" role="group" aria-label="Theme preference">
+    <span class="adb-theme__indicator" aria-hidden="true"></span>
+    <button class="adb-theme__opt" type="button" data-theme-value="auto" aria-pressed="true">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.6"/><path d="M10 2a8 8 0 000 16z" fill="currentColor"/></svg>
+      Auto
+    </button>
+    <button class="adb-theme__opt" type="button" data-theme-value="light" aria-pressed="false">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M10 1.5v2M10 16.5v2M18.5 10h-2M3.5 10h-2M15.7 4.3l-1.4 1.4M5.7 14.3l-1.4 1.4M15.7 15.7l-1.4-1.4M5.7 5.7L4.3 4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      Light
+    </button>
+    <button class="adb-theme__opt" type="button" data-theme-value="dark" aria-pressed="false">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M17 11.5A7 7 0 018.5 3a7 7 0 109 8.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      Dark
+    </button>
+  </div>
+</div>
+
+<div class="ds-row">
+  <span class="ds-label">Tooltip</span>
+  <div class="adb-tip">
+    <button class="adb-tip__btn" id="adbTipBtn" aria-describedby="adbTipBubble" type="button">
+      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.6"/><path d="M10 9v4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="10" cy="6.5" r="1" fill="currentColor"/></svg>
+      <span class="adb-sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;">More info</span>
+    </button>
+    <span class="adb-tip__bubble" id="adbTipBubble" role="tooltip">Additional details here</span>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* ---- Tabs ---- */
+  var tabsRoot = document.getElementById('adbTabs');
+  if (tabsRoot) {
+    var tabList = tabsRoot.querySelector('.adb-tabs__list');
+    var tabs = Array.prototype.slice.call(tabsRoot.querySelectorAll('.adb-tabs__tab'));
+    var panels = Array.prototype.slice.call(tabsRoot.querySelectorAll('.adb-tabs__panel'));
+    var indicator = tabsRoot.querySelector('.adb-tabs__indicator');
+
+    function moveIndicator(tab) {
+      var listRect = tabList.getBoundingClientRect();
+      var tabRect = tab.getBoundingClientRect();
+      indicator.style.width = tabRect.width + 'px';
+      indicator.style.transform = 'translateX(' + (tabRect.left - listRect.left) + 'px)';
+    }
+
+    function activate(index, focus) {
+      tabs.forEach(function (tab, i) {
+        var active = i === index;
+        tab.setAttribute('aria-selected', active ? 'true' : 'false');
+        tab.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach(function (panel, i) {
+        var active = i === index;
+        if (active) {
+          panel.hidden = false;
+          requestAnimationFrame(function () { panel.setAttribute('data-active', ''); });
+        } else {
+          panel.removeAttribute('data-active');
+          panel.hidden = true;
+        }
+      });
+      moveIndicator(tabs[index]);
+      if (focus) tabs[index].focus();
+    }
+
+    tabs.forEach(function (tab, i) {
+      tab.addEventListener('click', function () { activate(i, false); });
+      tab.addEventListener('keydown', function (e) {
+        var current = tabs.findIndex(function (t) { return t.getAttribute('aria-selected') === 'true'; });
+        var next = null;
+        if (e.key === 'ArrowRight') next = (current + 1) % tabs.length;
+        else if (e.key === 'ArrowLeft') next = (current - 1 + tabs.length) % tabs.length;
+        else if (e.key === 'Home') next = 0;
+        else if (e.key === 'End') next = tabs.length - 1;
+        if (next !== null) {
+          e.preventDefault();
+          activate(next, true);
+        }
+      });
+    });
+
+    window.addEventListener('resize', function () {
+      var activeTab = tabs.find(function (t) { return t.getAttribute('aria-selected') === 'true'; });
+      if (activeTab) moveIndicator(activeTab);
+    });
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(function () {
+        var activeTab = tabs.find(function (t) { return t.getAttribute('aria-selected') === 'true'; });
+        if (activeTab) moveIndicator(activeTab);
+      }).observe(tabList);
+    }
+
+    // Initial placement (after layout settles)
+    requestAnimationFrame(function () { moveIndicator(tabs[0]); });
+  }
+
+  /* ---- Accordion ---- */
+  var accRoot = document.getElementById('adbAcc');
+  if (accRoot) {
+    var headers = Array.prototype.slice.call(accRoot.querySelectorAll('.adb-acc__header'));
+    headers.forEach(function (header) {
+      header.addEventListener('click', function () {
+        var expanded = header.getAttribute('aria-expanded') === 'true';
+        header.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      });
+    });
+  }
+
+  /* ---- Before/after slider ---- */
+  var baRoot = document.getElementById('adbBa');
+  var baRange = document.getElementById('adbBaRange');
+  if (baRoot && baRange) {
+    function setBa(val) {
+      baRoot.style.setProperty('--ba-pos', val + '%');
+    }
+    setBa(baRange.value);
+    baRange.addEventListener('input', function () { setBa(baRange.value); });
+  }
+
+  /* ---- Scroll progress ---- */
+  var scrollBody = document.getElementById('adbScrollBody');
+  var scrollBar = document.getElementById('adbScrollBar');
+  if (scrollBody && scrollBar) {
+    function updateScrollBar() {
+      var max = scrollBody.scrollHeight - scrollBody.clientHeight;
+      var frac = max > 0 ? scrollBody.scrollTop / max : 0;
+      scrollBar.style.transform = 'scaleX(' + frac + ')';
+    }
+    scrollBody.addEventListener('scroll', updateScrollBar, { passive: true });
+    updateScrollBar();
+  }
+
+  /* ---- Theme toggle ---- */
+  var themeRoot = document.getElementById('adbTheme');
+  if (themeRoot) {
+    var STORAGE_KEY = 'adb-theme';
+    var options = Array.prototype.slice.call(themeRoot.querySelectorAll('.adb-theme__opt'));
+    var themeIndicator = themeRoot.querySelector('.adb-theme__indicator');
+
+    function moveThemeIndicator(opt) {
+      var rootRect = themeRoot.getBoundingClientRect();
+      var optRect = opt.getBoundingClientRect();
+      themeIndicator.style.width = optRect.width + 'px';
+      themeIndicator.style.transform = 'translateX(' + (optRect.left - rootRect.left - 2) + 'px)';
+    }
+
+    function applyTheme(value) {
+      if (value === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+      } else if (value === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+      }
+    }
+
+    function setActive(value, persist) {
+      options.forEach(function (opt) {
+        var isActive = opt.getAttribute('data-theme-value') === value;
+        opt.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        if (isActive) moveThemeIndicator(opt);
+      });
+      applyTheme(value);
+      if (persist) {
+        try { localStorage.setItem(STORAGE_KEY, value); } catch (err) { /* storage unavailable */ }
+      }
+    }
+
+    options.forEach(function (opt) {
+      opt.addEventListener('click', function () {
+        setActive(opt.getAttribute('data-theme-value'), true);
+      });
+    });
+
+    window.addEventListener('resize', function () {
+      var activeOpt = options.find(function (o) { return o.getAttribute('aria-pressed') === 'true'; });
+      if (activeOpt) moveThemeIndicator(activeOpt);
+    });
+
+    var stored = 'auto';
+    try { stored = localStorage.getItem(STORAGE_KEY) || 'auto'; } catch (err) { /* storage unavailable */ }
+    requestAnimationFrame(function () { setActive(stored, false); });
+  }
+
+  /* ---- Tooltip ---- */
+  // Tooltip is pure CSS (:hover / :focus-visible driven); no JS needed beyond
+  // the shared behaviors above. role=tooltip + aria-describedby are static markup.
+})();
+</script>
+</section>

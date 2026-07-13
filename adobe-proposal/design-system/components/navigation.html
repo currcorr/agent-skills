@@ -1,0 +1,652 @@
+<section class="ds-demo" id="demo-navigation" data-title="Navigation, Sections &amp; Footer">
+<style>
+  #demo-navigation {
+    font-family: var(--font-sans);
+    color: var(--color-text-body);
+    background: var(--color-bg-base);
+  }
+  #demo-navigation .ds-row {
+    margin-block-end: var(--space-800);
+  }
+  #demo-navigation .ds-row:last-child { margin-block-end: 0; }
+  #demo-navigation .ds-label {
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin-block-end: var(--space-300);
+  }
+
+  /* ==========================================================================
+     Wordmark (shared)
+     ========================================================================== */
+  .adb-nav__wordmark,
+  .adb-footer__wordmark {
+    font-weight: var(--weight-extrabold);
+    letter-spacing: var(--tracking-h2);
+    font-size: var(--text-h4);
+    color: var(--color-text-heading);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .adb-footer__wordmark { color: var(--color-text-on-dark); }
+
+  /* ==========================================================================
+     1. Sticky nav header
+     ========================================================================== */
+  .adb-nav-demo-frame {
+    position: relative;
+    height: 420px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border: var(--space-25) solid var(--color-border);
+    border-radius: var(--radius-l);
+    background: var(--color-bg-base);
+  }
+
+  .adb-nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: var(--space-400);
+    height: 64px;
+    padding-inline: var(--space-400);
+    background: var(--color-bg-base);
+    border-bottom: var(--space-25) solid transparent;
+    box-shadow: none;
+    transition: height var(--motion-duration-400) var(--motion-ease-out),
+                border-color var(--motion-duration-400) var(--motion-ease-out),
+                box-shadow var(--motion-duration-400) var(--motion-ease-out);
+  }
+  .adb-nav.is-scrolled {
+    height: 52px;
+    border-bottom-color: var(--color-border);
+    box-shadow: var(--shadow-resting);
+  }
+
+  .adb-nav__brand {
+    display: flex;
+    align-items: center;
+    margin-inline-end: var(--space-200);
+  }
+
+  .adb-nav__links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-400);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .adb-nav__link {
+    position: relative;
+    display: inline-block;
+    padding-block: var(--space-100);
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-body);
+    text-decoration: none;
+  }
+  .adb-nav__link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: var(--space-25);
+    width: 100%;
+    background: var(--color-text-heading);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--motion-duration-100) var(--motion-ease-in-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-nav__link:hover { color: var(--color-text-heading); }
+    .adb-nav__link:hover::after { transform: scaleX(1); }
+  }
+  .adb-nav__link:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-s);
+    transition: none;
+  }
+
+  .adb-nav__spacer { flex: 1 1 auto; }
+
+  .adb-nav__cluster {
+    display: flex;
+    align-items: center;
+    gap: var(--space-300);
+  }
+
+  .adb-nav__signin {
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    padding: var(--space-75) var(--space-100);
+    border-radius: var(--radius-s);
+    transition: color var(--motion-duration-100) var(--motion-ease-in-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-nav__signin:hover { color: var(--color-text-heading); }
+  }
+  .adb-nav__signin:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+
+  .adb-nav__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    padding-inline: var(--space-400);
+    border-radius: var(--radius-pill);
+    background: var(--brand-red);
+    color: var(--brand-on-red);
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-bold);
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background var(--motion-duration-100) var(--motion-ease-out),
+                transform var(--motion-duration-100) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-nav__cta:hover { background: var(--brand-red-hover); }
+  }
+  .adb-nav__cta:active { transform: scale(0.97); }
+  .adb-nav__cta:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+
+  /* Hamburger (desktop layout always shown per brief; hamburger demo is a
+     separate, additional pattern shown below the scroll frame) */
+  .adb-nav__burger {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--color-text-heading);
+    border-radius: var(--radius-s);
+    cursor: pointer;
+  }
+  .adb-nav__burger:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+  .adb-nav__burger svg { display: block; }
+
+  /* Filler content inside the scroll frame, to demonstrate stickiness */
+  .adb-nav-demo-filler {
+    padding: var(--space-500) var(--space-400);
+  }
+  .adb-nav-demo-filler h3 {
+    margin: 0 0 var(--space-200);
+    font-size: var(--text-h4);
+    font-weight: var(--weight-extrabold);
+    color: var(--color-text-heading);
+  }
+  .adb-nav-demo-filler p {
+    margin: 0 0 var(--space-400);
+    font-size: var(--text-body-s);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+    max-width: var(--container-text);
+  }
+  .adb-nav-demo-hint {
+    font-size: var(--text-caption);
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--space-500);
+  }
+
+  /* ==========================================================================
+     Standalone hamburger / mobile dropdown pattern demo
+     ========================================================================== */
+  .adb-nav--mobile-demo {
+    position: static;
+    border: var(--space-25) solid var(--color-border);
+    border-radius: var(--radius-l);
+    flex-wrap: wrap;
+  }
+  .adb-nav--mobile-demo .adb-nav__links { display: none; }
+  .adb-nav--mobile-demo .adb-nav__signin { display: none; }
+  .adb-nav--mobile-demo .adb-nav__burger { display: inline-flex; }
+
+  .adb-nav__panel {
+    order: 10;
+    flex-basis: 100%;
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--motion-duration-500) var(--motion-ease-out);
+  }
+  .adb-nav__panel-inner { overflow: hidden; min-height: 0; }
+  .adb-nav--mobile-demo[data-open="true"] .adb-nav__panel {
+    grid-template-rows: 1fr;
+  }
+  .adb-nav__panel-list {
+    list-style: none;
+    margin: 0;
+    padding: var(--space-300) var(--space-400) var(--space-400);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-100);
+    border-top: var(--space-25) solid var(--color-divider);
+  }
+  .adb-nav__panel-link {
+    display: block;
+    padding: var(--space-200) var(--space-100);
+    border-radius: var(--radius-s);
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-body);
+    text-decoration: none;
+    transition: color var(--motion-duration-100) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-nav__panel-link:hover { color: var(--color-text-heading); background: var(--color-bg-layer-1); }
+  }
+  .adb-nav__panel-link:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+
+  /* ==========================================================================
+     2. Section shells + containers
+     ========================================================================== */
+  .adb-section {
+    background: var(--color-bg-base);
+    padding-block: var(--space-section);
+  }
+  .adb-section--subtle { background: var(--color-bg-layer-1); }
+  .adb-section--dark {
+    background: var(--color-bg-dark-section);
+    color: var(--color-text-on-dark);
+  }
+  .adb-section--dark .adb-section__eyebrow { color: var(--color-text-on-dark-secondary); }
+  .adb-section--dark .adb-section__heading { color: var(--color-text-on-dark); }
+  .adb-section--dark .adb-section__body { color: var(--color-text-on-dark-secondary); }
+
+  /* demo modifier: caps padding so three stacked examples stay legible in a gallery */
+  .adb-section--demo { padding-block: var(--space-600); }
+
+  .adb-container {
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+  .adb-container--wide { max-width: var(--container-wide); }
+  .adb-container--text { max-width: var(--container-text); }
+
+  .adb-section__eyebrow {
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--space-200);
+  }
+  .adb-section__heading {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-extrabold);
+    letter-spacing: var(--tracking-h2);
+    line-height: var(--leading-heading);
+    color: var(--color-text-heading);
+    margin: 0 0 var(--space-300);
+  }
+  .adb-section__body {
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+    max-width: var(--container-text);
+    margin: 0;
+  }
+
+  .adb-section-stack > .adb-section:not(:last-child) {
+    border-bottom: var(--space-25) solid var(--color-divider);
+  }
+  .adb-section--dark.adb-section:not(:last-child) { border-bottom-color: rgba(255,255,255,0.08); }
+
+  /* ==========================================================================
+     3. Footer
+     ========================================================================== */
+  .adb-footer {
+    background: var(--color-bg-dark-section);
+    color: var(--color-text-on-dark-secondary);
+    padding-block: var(--space-800) var(--space-500);
+    border-radius: var(--radius-l);
+  }
+  .adb-footer__top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-700);
+    margin-bottom: var(--space-700);
+  }
+  .adb-footer__brand-col {
+    flex: 1 1 200px;
+    min-width: 180px;
+  }
+  .adb-footer__tagline {
+    margin: var(--space-200) 0 0;
+    font-size: var(--text-body-s);
+    color: var(--color-text-on-dark-secondary);
+    max-width: 26ch;
+    line-height: var(--leading-body);
+  }
+  .adb-footer__columns {
+    flex: 3 1 480px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-500);
+  }
+  .adb-footer__col-title {
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-on-dark);
+    margin: 0 0 var(--space-300);
+  }
+  .adb-footer__col-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-200);
+  }
+  .adb-footer__link {
+    font-size: var(--text-body-s);
+    color: var(--color-text-on-dark-secondary);
+    text-decoration: none;
+    transition: color var(--motion-duration-100) var(--motion-ease-in-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-footer__link:hover { color: var(--color-text-on-dark); }
+  }
+  .adb-footer__link:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    border-radius: var(--radius-s);
+    transition: none;
+  }
+
+  .adb-footer__divider {
+    border: none;
+    border-top: var(--space-25) solid rgba(255,255,255,0.12);
+    margin: 0 0 var(--space-400);
+  }
+
+  .adb-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-300);
+  }
+  .adb-footer__copyright {
+    font-size: var(--text-caption);
+    color: var(--color-text-on-dark-secondary);
+    margin: 0;
+  }
+  .adb-footer__socials {
+    display: flex;
+    gap: var(--space-200);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .adb-footer__social-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-pill);
+    border: var(--space-25) solid rgba(255,255,255,0.18);
+    background: transparent;
+    color: var(--color-text-on-dark-secondary);
+    cursor: pointer;
+    transition: transform var(--motion-duration-100) var(--motion-ease-out),
+                color var(--motion-duration-100) var(--motion-ease-out),
+                border-color var(--motion-duration-100) var(--motion-ease-out);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .adb-footer__social-btn:hover {
+      transform: translateY(-2px);
+      color: var(--color-text-on-dark);
+      border-color: rgba(255,255,255,0.4);
+    }
+  }
+  .adb-footer__social-btn:active { transform: scale(0.97); }
+  .adb-footer__social-btn:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+  .adb-footer__social-btn svg { display: block; }
+
+  @media (max-width: 860px) {
+    .adb-footer__top { flex-direction: column; }
+    .adb-footer__columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 480px) {
+    .adb-footer__columns { grid-template-columns: 1fr; }
+    .adb-footer__bottom { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #demo-navigation .adb-nav,
+    #demo-navigation .adb-nav__link::after,
+    #demo-navigation .adb-nav__panel,
+    #demo-navigation .adb-nav__cta,
+    #demo-navigation .adb-footer__social-btn {
+      transition-duration: 1ms !important;
+    }
+  }
+</style>
+
+<div class="ds-row">
+  <p class="ds-label">Sticky header — scroll the frame below</p>
+  <p class="adb-nav-demo-hint">Scroll inside the bordered frame; past 8px of scroll the header shrinks 64px → 52px, gains a hairline border and resting shadow.</p>
+  <div class="adb-nav-demo-frame" data-nav-scroll-frame>
+    <header class="adb-nav" data-nav-header>
+      <a class="adb-nav__brand adb-nav__wordmark" href="#">Northbeam</a>
+      <ul class="adb-nav__links">
+        <li><a class="adb-nav__link" href="#">Products</a></li>
+        <li><a class="adb-nav__link" href="#">Solutions</a></li>
+        <li><a class="adb-nav__link" href="#">Pricing</a></li>
+        <li><a class="adb-nav__link" href="#">Resources</a></li>
+      </ul>
+      <span class="adb-nav__spacer"></span>
+      <div class="adb-nav__cluster">
+        <a class="adb-nav__signin" href="#">Sign in</a>
+        <a class="adb-nav__cta" href="#">Get started</a>
+      </div>
+    </header>
+    <div class="adb-nav-demo-filler">
+      <h3>Scroll to see the header react</h3>
+      <p>This filler content exists only to make the sticky header scroll-shrink demonstrable inside a contained frame, so it doesn't hijack the gallery page's own scroll.</p>
+      <p>Northbeam brings your workflow, your team, and your assets into a single fast surface — built for people who ship every day, not once a quarter.</p>
+      <p>Keep scrolling within this frame to confirm the header stays pinned to the top while the rest of the content moves beneath it.</p>
+      <p>At roughly 8px of scroll offset the transition fires: height eases from 64px to 52px, a hairline bottom border fades in, and a resting shadow settles underneath — all in one 220ms ease-out transition.</p>
+      <p>Once you scroll back up past the threshold, the header returns to its resting 64px state on the same transition.</p>
+      <p>End of filler content.</p>
+    </div>
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">Hamburger / mobile dropdown pattern</p>
+  <p class="adb-nav-demo-hint">Additional pattern for narrow viewports: toggle button expands a keyboard-accessible dropdown panel (grid-template-rows 0fr → 1fr, 250ms ease-out).</p>
+  <nav class="adb-nav adb-nav--mobile-demo" data-nav-mobile data-open="false">
+    <a class="adb-nav__brand adb-nav__wordmark" href="#">Northbeam</a>
+    <span class="adb-nav__spacer"></span>
+    <button class="adb-nav__burger" type="button" data-nav-burger aria-expanded="false" aria-controls="demo-nav-mobile-panel" aria-label="Toggle navigation menu">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M3 5.5H17M3 10H17M3 14.5H17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+    </button>
+    <div class="adb-nav__panel" id="demo-nav-mobile-panel">
+      <div class="adb-nav__panel-inner">
+        <ul class="adb-nav__panel-list">
+          <li><a class="adb-nav__panel-link" href="#">Products</a></li>
+          <li><a class="adb-nav__panel-link" href="#">Solutions</a></li>
+          <li><a class="adb-nav__panel-link" href="#">Pricing</a></li>
+          <li><a class="adb-nav__panel-link" href="#">Resources</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">Section shells — light / subtle / dark rhythm</p>
+  <div class="adb-section-stack" style="border: var(--space-25) solid var(--color-border); border-radius: var(--radius-l); overflow: hidden;">
+    <section class="adb-section adb-section--demo">
+      <div class="adb-container adb-container--text">
+        <p class="adb-section__eyebrow">Base surface</p>
+        <h2 class="adb-section__heading">Built for the way teams actually ship</h2>
+        <p class="adb-section__body">The base section shell sits on var(--color-bg-base) — the default canvas for most page content, using generous var(--space-section) vertical rhythm in production.</p>
+      </div>
+    </section>
+    <section class="adb-section adb-section--subtle adb-section--demo">
+      <div class="adb-container adb-container--text">
+        <p class="adb-section__eyebrow">Subtle surface</p>
+        <h2 class="adb-section__heading">A quiet layer to separate content groups</h2>
+        <p class="adb-section__body">The subtle shell swaps in var(--color-bg-layer-1) — just enough contrast to break up long pages without introducing a hard edge or border.</p>
+      </div>
+    </section>
+    <section class="adb-section adb-section--dark adb-section--demo">
+      <div class="adb-container adb-container--text">
+        <p class="adb-section__eyebrow">Dark surface</p>
+        <h2 class="adb-section__heading">Reserved for deliberate, occasional moments</h2>
+        <p class="adb-section__body">The dark shell uses var(--color-bg-dark-section) with on-dark text tokens throughout — a rare, bracketing accent rather than an alternating pattern.</p>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class="ds-row">
+  <p class="ds-label">Footer</p>
+  <footer class="adb-footer">
+    <div class="adb-container">
+      <div class="adb-footer__top">
+        <div class="adb-footer__brand-col">
+          <span class="adb-footer__wordmark">Northbeam</span>
+          <p class="adb-footer__tagline">Tools for teams who ship every day.</p>
+        </div>
+        <div class="adb-footer__columns">
+          <div class="adb-footer__col">
+            <p class="adb-footer__col-title">Products</p>
+            <ul class="adb-footer__col-list">
+              <li><a class="adb-footer__link" href="#">Studio</a></li>
+              <li><a class="adb-footer__link" href="#">Canvas</a></li>
+              <li><a class="adb-footer__link" href="#">Flows</a></li>
+              <li><a class="adb-footer__link" href="#">Analytics</a></li>
+              <li><a class="adb-footer__link" href="#">Integrations</a></li>
+            </ul>
+          </div>
+          <div class="adb-footer__col">
+            <p class="adb-footer__col-title">Resources</p>
+            <ul class="adb-footer__col-list">
+              <li><a class="adb-footer__link" href="#">Documentation</a></li>
+              <li><a class="adb-footer__link" href="#">Guides</a></li>
+              <li><a class="adb-footer__link" href="#">API reference</a></li>
+              <li><a class="adb-footer__link" href="#">Community</a></li>
+              <li><a class="adb-footer__link" href="#">Changelog</a></li>
+            </ul>
+          </div>
+          <div class="adb-footer__col">
+            <p class="adb-footer__col-title">Company</p>
+            <ul class="adb-footer__col-list">
+              <li><a class="adb-footer__link" href="#">About</a></li>
+              <li><a class="adb-footer__link" href="#">Careers</a></li>
+              <li><a class="adb-footer__link" href="#">Blog</a></li>
+              <li><a class="adb-footer__link" href="#">Press</a></li>
+            </ul>
+          </div>
+          <div class="adb-footer__col">
+            <p class="adb-footer__col-title">Legal</p>
+            <ul class="adb-footer__col-list">
+              <li><a class="adb-footer__link" href="#">Privacy</a></li>
+              <li><a class="adb-footer__link" href="#">Terms</a></li>
+              <li><a class="adb-footer__link" href="#">Cookie preferences</a></li>
+              <li><a class="adb-footer__link" href="#">Security</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <hr class="adb-footer__divider" />
+      <div class="adb-footer__bottom">
+        <p class="adb-footer__copyright">© 2026 Northbeam. All rights reserved.</p>
+        <ul class="adb-footer__socials">
+          <li>
+            <a class="adb-footer__social-btn" href="#" aria-label="Northbeam on X">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M1 1L15 15M15 1L1 15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a class="adb-footer__social-btn" href="#" aria-label="Northbeam on LinkedIn">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1.5" y="5.5" width="2.6" height="9" rx="0.4" fill="currentColor"/>
+                <circle cx="2.8" cy="2.2" r="1.4" fill="currentColor"/>
+                <path d="M6.6 5.5H9v1.3c.5-.9 1.5-1.5 2.7-1.5 2.1 0 3.3 1.4 3.3 3.9V14.5h-2.6V9.6c0-1.1-.4-1.9-1.5-1.9-.8 0-1.3.6-1.5 1.1-.1.2-.1.5-.1.8v4.9H6.6V5.5Z" fill="currentColor"/>
+              </svg>
+            </a>
+          </li>
+          <li>
+            <a class="adb-footer__social-btn" href="#" aria-label="Northbeam on GitHub">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M8 1a7 7 0 0 0-2.2 13.6c.35.06.48-.15.48-.34v-1.2c-1.95.42-2.36-.94-2.36-.94-.32-.8-.78-1.02-.78-1.02-.64-.44.05-.43.05-.43.7.05 1.07.72 1.07.72.63 1.07 1.64.76 2.04.58.06-.46.24-.76.44-.94-1.56-.18-3.2-.78-3.2-3.47 0-.77.27-1.4.72-1.89-.07-.18-.31-.9.07-1.87 0 0 .59-.19 1.94.72a6.7 6.7 0 0 1 3.53 0c1.35-.91 1.94-.72 1.94-.72.38.97.14 1.69.07 1.87.45.49.72 1.12.72 1.89 0 2.7-1.64 3.29-3.21 3.46.25.22.48.65.48 1.3v1.93c0 .19.13.4.49.34A7 7 0 0 0 8 1Z" fill="currentColor"/>
+              </svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var frame = document.querySelector('#demo-navigation [data-nav-scroll-frame]');
+  var header = document.querySelector('#demo-navigation [data-nav-header]');
+  if (frame && header) {
+    frame.addEventListener('scroll', function () {
+      if (frame.scrollTop > 8) {
+        header.classList.add('is-scrolled');
+      } else {
+        header.classList.remove('is-scrolled');
+      }
+    });
+  }
+
+  var mobileNav = document.querySelector('#demo-navigation [data-nav-mobile]');
+  var burger = document.querySelector('#demo-navigation [data-nav-burger]');
+  if (mobileNav && burger) {
+    burger.addEventListener('click', function () {
+      var isOpen = mobileNav.getAttribute('data-open') === 'true';
+      var next = !isOpen;
+      mobileNav.setAttribute('data-open', String(next));
+      burger.setAttribute('aria-expanded', String(next));
+    });
+  }
+})();
+</script>
+</section>

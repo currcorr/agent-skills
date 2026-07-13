@@ -1,0 +1,704 @@
+<section class="ds-demo" id="demo-data" data-title="Data Display">
+<style>
+  #demo-data {
+    background: var(--color-bg-base);
+    color: var(--color-text-body);
+    font-family: var(--font-sans);
+    padding: var(--space-700) var(--gutter);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-800);
+  }
+
+  #demo-data .ds-row {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  #demo-data .ds-label {
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    margin: 0 0 var(--space-300);
+  }
+
+  /* ============ 1. Stat counter row ============ */
+  .adb-stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-500);
+  }
+
+  .adb-stat {
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-500);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-200);
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong),
+                transform var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong);
+  }
+
+  .adb-stat.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .adb-stat__value {
+    font-size: var(--text-h2);
+    font-weight: var(--weight-extrabold);
+    letter-spacing: var(--tracking-h2);
+    line-height: var(--leading-heading);
+    color: var(--color-text-heading);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .adb-stat__label {
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+
+  .adb-stat__delta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-75);
+    width: fit-content;
+    font-size: var(--text-caption);
+    font-weight: var(--weight-semibold);
+    padding: var(--space-50) var(--space-200);
+    border-radius: var(--radius-pill);
+  }
+
+  .adb-stat__delta svg { width: 12px; height: 12px; flex: none; }
+
+  .adb-stat__delta--up {
+    color: var(--color-positive);
+    background: var(--color-positive-subtle-bg);
+  }
+
+  .adb-stat__delta--down {
+    color: var(--color-negative);
+    background: var(--color-negative-subtle-bg);
+  }
+
+  /* ============ 2. Vertical timeline ============ */
+  .adb-timeline {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-600);
+    padding-left: var(--space-600);
+  }
+
+  .adb-timeline__rail {
+    position: absolute;
+    left: 7px;
+    top: 6px;
+    bottom: 6px;
+    width: 2px;
+    background: var(--color-border-strong);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform calc(var(--motion-duration-scroll-reveal) * 2) var(--motion-ease-out-strong);
+  }
+
+  .adb-timeline.is-revealed .adb-timeline__rail {
+    transform: scaleY(1);
+  }
+
+  .adb-step-item {
+    position: relative;
+  }
+
+  .adb-step-item__dot {
+    position: absolute;
+    left: calc(var(--space-600) * -1 + 1px);
+    top: 2px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--blue-900);
+    border: 2px solid var(--color-bg-base);
+    box-shadow: 0 0 0 2px var(--blue-900);
+    transform: scale(0);
+    transition: transform var(--motion-duration-400) var(--motion-ease-spring);
+    transition-delay: calc(var(--stagger-index, 0) * var(--motion-duration-100));
+  }
+
+  .adb-timeline.is-revealed .adb-step-item__dot {
+    transform: scale(1);
+  }
+
+  .adb-step-item__eyebrow {
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-link);
+    margin: 0 0 var(--space-75);
+  }
+
+  .adb-step-item__title {
+    font-size: var(--text-h4);
+    font-weight: var(--weight-extrabold);
+    color: var(--color-text-heading);
+    margin: 0 0 var(--space-75);
+  }
+
+  .adb-step-item__desc {
+    font-size: var(--text-body-s);
+    line-height: var(--leading-body);
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  /* ============ 3. Horizontal stepper ============ */
+  .adb-stepper {
+    display: flex;
+    align-items: flex-start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .adb-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 1;
+    position: relative;
+    padding: 0 var(--space-100);
+  }
+
+  .adb-step__line {
+    position: absolute;
+    top: 17px;
+    left: -50%;
+    width: 100%;
+    height: 2px;
+    background: var(--color-border-strong);
+    z-index: 0;
+  }
+
+  .adb-step:first-child .adb-step__line { display: none; }
+
+  .adb-step--complete .adb-step__line,
+  .adb-step--active .adb-step__line {
+    background: var(--blue-900);
+  }
+
+  .adb-step__circle {
+    position: relative;
+    z-index: 1;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-bold);
+    background: var(--color-bg-elevated);
+    border: 2px solid var(--color-border-strong);
+    color: var(--color-text-tertiary);
+  }
+
+  .adb-step__circle svg { width: 16px; height: 16px; }
+
+  .adb-step--complete .adb-step__circle {
+    background: var(--blue-900);
+    border-color: var(--blue-900);
+    color: var(--color-text-on-dark);
+  }
+
+  .adb-step--active .adb-step__circle {
+    border-color: var(--blue-900);
+    color: var(--blue-900);
+    box-shadow: 0 0 0 3px var(--color-informative-subtle-bg);
+  }
+
+  .adb-step--upcoming .adb-step__circle {
+    color: var(--color-text-disabled);
+    border-color: var(--color-border);
+  }
+
+  .adb-step__label {
+    margin-top: var(--space-200);
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-body);
+  }
+
+  .adb-step--upcoming .adb-step__label {
+    color: var(--color-text-tertiary);
+  }
+
+  /* ============ 4. Comparison table ============ */
+  .adb-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    background: var(--color-bg-elevated);
+  }
+
+  .adb-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 560px;
+  }
+
+  .adb-table thead th {
+    background: var(--color-bg-layer-1);
+    text-align: left;
+    font-size: var(--text-detail);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-detail);
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    padding: var(--space-300) var(--space-400);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .adb-table thead th:first-child {
+    border-top-left-radius: var(--radius-xl);
+  }
+
+  .adb-table thead th:last-child {
+    border-top-right-radius: var(--radius-xl);
+  }
+
+  .adb-table tbody td {
+    padding: var(--space-300) var(--space-400);
+    border-bottom: 1px solid var(--color-divider);
+    font-size: var(--text-body-s);
+    color: var(--color-text-body);
+  }
+
+  .adb-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .adb-table tbody td:first-child {
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-heading);
+  }
+
+  .adb-table__icon svg { width: 18px; height: 18px; display: block; }
+  .adb-table__icon--yes { color: var(--color-positive); }
+  .adb-table__icon--no { color: var(--color-text-disabled); }
+
+  @media (hover: hover) and (pointer: fine) {
+    .adb-table tbody tr {
+      transition: background var(--motion-duration-100) var(--motion-ease-out);
+    }
+    .adb-table tbody tr:hover {
+      background: var(--color-bg-layer-1);
+    }
+  }
+
+  /* ============ 5. Progress ============ */
+  .adb-progress-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-600);
+  }
+
+  .adb-progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-200);
+  }
+
+  .adb-progress__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .adb-progress__name {
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-body);
+  }
+
+  .adb-progress__pct {
+    font-size: var(--text-body-s);
+    font-weight: var(--weight-bold);
+    color: var(--color-text-heading);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .adb-progress__track {
+    height: 8px;
+    border-radius: var(--radius-pill);
+    background: var(--color-bg-layer-2);
+    overflow: hidden;
+  }
+
+  .adb-progress__fill {
+    height: 100%;
+    border-radius: var(--radius-pill);
+    background: var(--blue-900);
+    width: 0%;
+    transition: width var(--motion-duration-scroll-reveal) var(--motion-ease-out-strong);
+  }
+
+  .adb-progress--indeterminate .adb-progress__track {
+    position: relative;
+  }
+
+  .adb-progress--indeterminate .adb-progress__fill {
+    position: absolute;
+    width: 40%;
+    transition: none;
+    animation: adb-progress-slide var(--motion-duration-loop) var(--motion-ease-linear) infinite;
+  }
+
+  @keyframes adb-progress-slide {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .adb-stat {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .adb-timeline__rail {
+      transform: scaleY(1);
+      transition: none;
+    }
+    .adb-step-item__dot {
+      transform: scale(1);
+      transition: none;
+    }
+    .adb-progress__fill {
+      transition: none;
+    }
+    .adb-progress--indeterminate .adb-progress__fill {
+      animation: none;
+      width: 100%;
+      position: static;
+      opacity: 0.5;
+    }
+  }
+
+  #demo-data :focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+    transition: none;
+  }
+</style>
+
+<!-- 1. Stat counter row -->
+<div class="ds-row">
+  <p class="ds-label">Program impact</p>
+  <div class="adb-stat-row">
+    <div class="adb-stat" data-count data-target="40" data-suffix="%" data-decimals="0">
+      <span class="adb-stat__value" data-value>0%</span>
+      <span class="adb-stat__label">Faster delivery</span>
+      <span class="adb-stat__delta adb-stat__delta--up">
+        <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 10V2M6 2L2.5 5.5M6 2l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        vs. baseline
+      </span>
+    </div>
+    <div class="adb-stat" data-count data-target="1.2" data-prefix="$" data-suffix="M" data-decimals="1">
+      <span class="adb-stat__value" data-value>$0.0M</span>
+      <span class="adb-stat__label">Annual savings</span>
+      <span class="adb-stat__delta adb-stat__delta--up">
+        <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 10V2M6 2L2.5 5.5M6 2l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        run-rate
+      </span>
+    </div>
+    <div class="adb-stat" data-count data-target="3" data-suffix="×" data-decimals="0">
+      <span class="adb-stat__value" data-value>0×</span>
+      <span class="adb-stat__label">Deployment frequency</span>
+    </div>
+    <div class="adb-stat" data-count data-target="12" data-suffix="%" data-decimals="0">
+      <span class="adb-stat__value" data-value>0%</span>
+      <span class="adb-stat__label">Support ticket rate</span>
+      <span class="adb-stat__delta adb-stat__delta--down">
+        <svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 2v8M6 10l3.5-3.5M6 10 2.5 6.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        vs. baseline
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Vertical timeline -->
+<div class="ds-row">
+  <p class="ds-label">Rollout timeline</p>
+  <div class="adb-timeline">
+    <div class="adb-timeline__rail" aria-hidden="true"></div>
+
+    <div class="adb-step-item" style="--stagger-index: 0">
+      <span class="adb-step-item__dot" aria-hidden="true"></span>
+      <p class="adb-step-item__eyebrow">Phase 01 — Discovery</p>
+      <h4 class="adb-step-item__title">Audit &amp; token extraction</h4>
+      <p class="adb-step-item__desc">Mapped existing brand assets into a verified, source-linked token set.</p>
+    </div>
+
+    <div class="adb-step-item" style="--stagger-index: 1">
+      <span class="adb-step-item__dot" aria-hidden="true"></span>
+      <p class="adb-step-item__eyebrow">Phase 02 — Foundation</p>
+      <h4 class="adb-step-item__title">Core component kit</h4>
+      <p class="adb-step-item__desc">Buttons, forms, and layout primitives built against the token contract.</p>
+    </div>
+
+    <div class="adb-step-item" style="--stagger-index: 2">
+      <span class="adb-step-item__dot" aria-hidden="true"></span>
+      <p class="adb-step-item__eyebrow">Phase 03 — Scale</p>
+      <h4 class="adb-step-item__title">Motion &amp; data patterns</h4>
+      <p class="adb-step-item__desc">Scroll-reveal, stat, and table components extend the system to marketing pages.</p>
+    </div>
+
+    <div class="adb-step-item" style="--stagger-index: 3">
+      <span class="adb-step-item__dot" aria-hidden="true"></span>
+      <p class="adb-step-item__eyebrow">Phase 04 — Adoption</p>
+      <h4 class="adb-step-item__title">Team rollout</h4>
+      <p class="adb-step-item__desc">Documentation and Figma libraries hand off to product teams for daily use.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 3. Horizontal stepper -->
+<div class="ds-row">
+  <p class="ds-label">Implementation status</p>
+  <ol class="adb-stepper">
+    <li class="adb-step adb-step--complete">
+      <span class="adb-step__line" aria-hidden="true"></span>
+      <span class="adb-step__circle" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="adb-step__label">Discovery</span>
+    </li>
+    <li class="adb-step adb-step--complete">
+      <span class="adb-step__line" aria-hidden="true"></span>
+      <span class="adb-step__circle" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3.5 8.5l3 3 6-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span class="adb-step__label">Foundation</span>
+    </li>
+    <li class="adb-step adb-step--active">
+      <span class="adb-step__line" aria-hidden="true"></span>
+      <span class="adb-step__circle" aria-hidden="true">3</span>
+      <span class="adb-step__label">Data &amp; motion</span>
+    </li>
+    <li class="adb-step adb-step--upcoming">
+      <span class="adb-step__line" aria-hidden="true"></span>
+      <span class="adb-step__circle" aria-hidden="true">4</span>
+      <span class="adb-step__label">Rollout</span>
+    </li>
+  </ol>
+</div>
+
+<!-- 4. Comparison table -->
+<div class="ds-row">
+  <p class="ds-label">Plan comparison</p>
+  <div class="adb-table-wrap">
+    <table class="adb-table">
+      <thead>
+        <tr>
+          <th scope="col">Capability</th>
+          <th scope="col">Starter</th>
+          <th scope="col">Team</th>
+          <th scope="col">Enterprise</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Token-based theming</td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+        </tr>
+        <tr>
+          <td>Dark mode support</td>
+          <td class="adb-table__icon adb-table__icon--no"><svg viewBox="0 0 18 18" fill="none" aria-label="Not included"><path d="M5 9h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+        </tr>
+        <tr>
+          <td>Motion &amp; scroll-reveal kit</td>
+          <td class="adb-table__icon adb-table__icon--no"><svg viewBox="0 0 18 18" fill="none" aria-label="Not included"><path d="M5 9h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--no"><svg viewBox="0 0 18 18" fill="none" aria-label="Not included"><path d="M5 9h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+        </tr>
+        <tr>
+          <td>Dedicated design review</td>
+          <td class="adb-table__icon adb-table__icon--no"><svg viewBox="0 0 18 18" fill="none" aria-label="Not included"><path d="M5 9h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--no"><svg viewBox="0 0 18 18" fill="none" aria-label="Not included"><path d="M5 9h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+        </tr>
+        <tr>
+          <td>SLA-backed support</td>
+          <td class="adb-table__icon adb-table__icon--no"><svg viewBox="0 0 18 18" fill="none" aria-label="Not included"><path d="M5 9h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+          <td class="adb-table__icon adb-table__icon--yes"><svg viewBox="0 0 18 18" fill="none" aria-label="Included"><path d="M4 9.5l3 3 7-7.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 5. Progress -->
+<div class="ds-row">
+  <p class="ds-label">Migration progress</p>
+  <div class="adb-progress-group">
+    <div class="adb-progress" data-progress data-target="82">
+      <div class="adb-progress__head">
+        <span class="adb-progress__name">Components migrated to tokens</span>
+        <span class="adb-progress__pct" data-progress-pct>0%</span>
+      </div>
+      <div class="adb-progress__track">
+        <div class="adb-progress__fill" data-progress-fill></div>
+      </div>
+    </div>
+
+    <div class="adb-progress adb-progress--indeterminate">
+      <div class="adb-progress__head">
+        <span class="adb-progress__name">Syncing design tokens…</span>
+      </div>
+      <div class="adb-progress__track">
+        <div class="adb-progress__fill"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('demo-data');
+  if (!root) return;
+
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* ---- Count-up stats ---- */
+  var COUNT_DURATION = 1000;
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function formatValue(el, current) {
+    var decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var prefix = el.getAttribute('data-prefix') || '';
+    var suffix = el.getAttribute('data-suffix') || '';
+    return prefix + current.toFixed(decimals) + suffix;
+  }
+
+  function runCountUp(statEl) {
+    var target = parseFloat(statEl.getAttribute('data-target'));
+    var valueEl = statEl.querySelector('[data-value]');
+    if (!valueEl || isNaN(target)) return;
+    var start = null;
+
+    function tick(timestamp) {
+      if (start === null) start = timestamp;
+      var elapsed = timestamp - start;
+      var t = Math.min(elapsed / COUNT_DURATION, 1);
+      var eased = easeOutCubic(t);
+      valueEl.textContent = formatValue(statEl, target * eased);
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        valueEl.textContent = formatValue(statEl, target);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function setFinalStat(statEl) {
+    var target = parseFloat(statEl.getAttribute('data-target'));
+    var valueEl = statEl.querySelector('[data-value]');
+    if (valueEl && !isNaN(target)) {
+      valueEl.textContent = formatValue(statEl, target);
+    }
+  }
+
+  var statEls = root.querySelectorAll('[data-count]');
+
+  /* ---- Progress bar (determinate) ----
+     Duration is read from the CSS token driving the fill's own width
+     transition (--motion-duration-scroll-reveal), not a JS literal, so the
+     percentage readout and the visual fill stay in sync. */
+  function readScrollRevealMs() {
+    var raw = getComputedStyle(root).getPropertyValue('--motion-duration-scroll-reveal').trim();
+    var ms = parseFloat(raw);
+    if (isNaN(ms)) return COUNT_DURATION;
+    return raw.indexOf('ms') !== -1 ? ms : ms * 1000;
+  }
+
+  function runProgress(progEl) {
+    var target = parseFloat(progEl.getAttribute('data-target')) || 0;
+    var fillEl = progEl.querySelector('[data-progress-fill]');
+    var pctEl = progEl.querySelector('[data-progress-pct]');
+    if (fillEl) fillEl.style.width = target + '%';
+    if (!pctEl) return;
+    if (prefersReducedMotion.matches) {
+      pctEl.textContent = target + '%';
+      return;
+    }
+    var duration = readScrollRevealMs();
+    var start = null;
+    function tick(timestamp) {
+      if (start === null) start = timestamp;
+      var elapsed = timestamp - start;
+      var t = Math.min(elapsed / duration, 1);
+      var eased = easeOutCubic(t);
+      pctEl.textContent = Math.round(target * eased) + '%';
+      if (t < 1) requestAnimationFrame(tick);
+      else pctEl.textContent = target + '%';
+    }
+    requestAnimationFrame(tick);
+  }
+
+  var progressEls = root.querySelectorAll('[data-progress]');
+  var timelineEl = root.querySelector('.adb-timeline');
+
+  if (prefersReducedMotion.matches) {
+    /* Short-circuit: final state immediately, no observers. */
+    statEls.forEach(setFinalStat);
+    progressEls.forEach(runProgress);
+    if (timelineEl) timelineEl.classList.add('is-revealed');
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        if (el.hasAttribute('data-count')) {
+          el.classList.add('is-revealed');
+          runCountUp(el);
+        } else if (el.hasAttribute('data-progress')) {
+          runProgress(el);
+        } else if (el.classList.contains('adb-timeline')) {
+          el.classList.add('is-revealed');
+        }
+        revealObserver.unobserve(el);
+      });
+    }, { threshold: 0.3, rootMargin: '-40px 0px' });
+
+    statEls.forEach(function (el) { revealObserver.observe(el); });
+    progressEls.forEach(function (el) { revealObserver.observe(el); });
+    if (timelineEl) revealObserver.observe(timelineEl);
+  }
+
+  prefersReducedMotion.addEventListener('change', function (e) {
+    if (e.matches) {
+      statEls.forEach(setFinalStat);
+      progressEls.forEach(runProgress);
+      if (timelineEl) timelineEl.classList.add('is-revealed');
+    }
+  });
+})();
+</script>
+</section>
