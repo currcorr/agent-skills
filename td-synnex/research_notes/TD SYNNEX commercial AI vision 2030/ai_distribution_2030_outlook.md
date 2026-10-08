@@ -31,7 +31,7 @@ Current IT distribution is large and concentrating (about $531B in 2025 per Omdi
 ## 2. What are the credible forecasts for AI PC and AI server/infrastructure demand through 2030?
 
 ### Takeaway
-AI infrastructure is forecast to keep compounding (IDC: $758B of AI infrastructure spend by 2029, accelerated servers more than 95% of AI server spend; Gartner: $2.67B-type totals are actually $2.67 trillion of AI spending in 2026 with $1.48T infrastructure). AI PCs are a majority of 2026 shipments by most trackers (Gartner 55%, Counterpoint 59%), but a memory shortage is cutting total PC units in 2026 (IDC -11.3%), which complicates the device story for distributors.
+AI infrastructure is forecast to keep compounding (IDC: $758B of AI infrastructure spend by 2029, accelerated servers more than 95% of AI server spend; Gartner: about $2.67 trillion of total AI spending in 2026, of which about $1.48 trillion is infrastructure). AI PCs are a majority of 2026 shipments by most trackers (Gartner 55%, Counterpoint 59%), but a memory shortage is cutting total PC units in 2026 (IDC -11.3%), which complicates the device story for distributors.
 
 ### Cited Findings
 - Forecast (IDC, Oct 2025): AI infrastructure spending reaches $758B by 2029; accelerated servers exceed 95% of AI server spend by 2029 with a 42% five-year CAGR; Q2 2025 spend was $82B (+166% YoY); regional CAGRs PRC 41.5%, US 40.5%, EMEA 17.3%, APJ 14.3% — [IDC press release](https://www.idc.com/resource-center/press-releases/artificial-intelligence-infrastructure-spending-to-reach-758bn-usd-mark-by-2029-according-to-idc/); [Techstrong.ai](https://techstrong.ai/articles/ai-infrastructure-spending-surges-past-82-billion-as-market-eyes-758-billion-by-2029/)
