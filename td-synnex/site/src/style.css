@@ -111,7 +111,7 @@ details.viz-table .tbl-wrap{margin:8px 0 4px;border-top-width:1px}
 
 /* Diagram */
 .diagram{overflow-x:auto}
-.diagram svg{min-width:560px}
+.diagram svg{min-width:640px}
 .dg-box{fill:var(--surface);stroke:var(--rule-2);stroke-width:1}
 .dg-core{fill:var(--accent-wash);stroke:var(--accent);stroke-width:1.5}
 .dg-t{font-family:var(--f-ui);font-size:13px;font-weight:600;fill:var(--ink)}

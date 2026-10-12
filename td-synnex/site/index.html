@@ -1,0 +1,1823 @@
+<title>TD SYNNEX 2030 Briefing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>/* Layout: sticky contents rail on the left, one reading column with charts that widen slightly. Manifest-strip header. */
+:root{
+  --paper:#f5f6f4; --surface:#fcfcfb; --ink:#14171a; --ink-2:#4a4f55; --muted:#7c8288; --rule:#dcdfdb; --rule-2:#c3c8c3;
+  --accent:#1c5cab; --accent-wash:#e5eefa; --muted-mark:#a9afb3; --flag:#b45309; --flag-wash:#fdf3e4; --good:#006300;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Source Serif 4",Georgia,"Times New Roman",serif;
+  --f-ui:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#111315; --surface:#181b1e; --ink:#eceeec; --ink-2:#b9beba; --muted:#8a9095; --rule:#2a2e32; --rule-2:#3a3f44;
+  --accent:#6da7ec; --accent-wash:#16263a; --muted-mark:#5d6469; --flag:#f0a64a; --flag-wash:#2a2014; --good:#0ca30c;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --paper:#111315; --surface:#181b1e; --ink:#eceeec; --ink-2:#b9beba; --muted:#8a9095; --rule:#2a2e32; --rule-2:#3a3f44;
+  --accent:#6da7ec; --accent-wash:#16263a; --muted-mark:#5d6469; --flag:#f0a64a; --flag-wash:#2a2014; --good:#0ca30c;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; color-scheme:dark;}
+
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:2px}
+a:focus-visible,summary:focus-visible,[tabindex]:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:2px}
+
+/* Top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+.topbar-in{max-width:1240px;margin:0 auto;padding-inline:20px;display:flex;align-items:center;gap:16px;height:52px;font-family:var(--f-ui);font-size:13px}
+.brand{font-family:var(--f-display);font-weight:600;font-size:20px;letter-spacing:.02em;text-transform:uppercase;color:var(--ink);text-decoration:none;white-space:nowrap}
+.brand span{color:var(--accent)}
+.topbar .meta{color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.topbar .spacer{flex:1}
+.toc-btn{display:none;font:inherit;border:1px solid var(--rule-2);background:var(--surface);color:var(--ink);padding:6px 10px;border-radius:6px;cursor:pointer}
+
+/* Hero */
+.hero{max-width:1240px;margin:0 auto;padding:40px 20px 8px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:600;font-size:clamp(40px,6.4vw,76px);line-height:.98;letter-spacing:-.005em;margin:10px 0 14px;text-wrap:balance;max-width:16ch}
+.hero .dek{font-size:20px;color:var(--ink-2);max-width:60ch;margin:0}
+.manifest{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));border-top:2px solid var(--ink);border-bottom:1px solid var(--rule-2)}
+.manifest > div{padding:14px 16px 14px 0;display:flex;flex-direction:column;gap:2px;min-width:0}
+.manifest > div + div{padding-left:16px;border-left:1px solid var(--rule)}
+.manifest .k{font-family:var(--f-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.manifest .v{font-family:var(--f-display);font-weight:600;font-size:38px;line-height:1.05}
+.manifest .d{font-family:var(--f-ui);font-size:13px;color:var(--ink-2)}
+.manifest .d b{color:var(--good);font-weight:600}
+.manifest .d b.neg{color:var(--flag)}
+.source-line{font-family:var(--f-ui);font-size:12px;color:var(--muted);margin-top:8px}
+
+/* Shell */
+.shell{max-width:1240px;margin:0 auto;padding-inline:20px;padding-block:24px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 72px);align-self:start;max-height:calc(100vh - 100px);overflow:auto;font-family:var(--f-ui);font-size:13.5px}
+nav.toc .h{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:t}
+nav.toc a{display:block;padding:5px 10px;border-left:2px solid var(--rule);color:var(--ink-2);text-decoration:none;line-height:1.35}
+nav.toc a:hover{color:var(--ink);border-left-color:var(--rule-2)}
+nav.toc a.on{color:var(--ink);border-left-color:var(--accent);background:var(--accent-wash)}
+main{min-width:0}
+article{max-width:760px}
+
+/* Sections & prose */
+section.sec{padding-top:28px;margin-top:28px;border-top:1px solid var(--rule)}
+section.sec:first-child{border-top:0;margin-top:0;padding-top:0}
+.sec-no{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--accent);text-transform:uppercase}
+h2{font-family:var(--f-display);font-weight:600;font-size:clamp(30px,3.6vw,40px);line-height:1.08;margin:6px 0 16px;text-wrap:balance}
+h3{font-family:var(--f-ui);font-weight:600;font-size:19px;line-height:1.3;margin:28px 0 8px;text-wrap:balance}
+h4{font-family:var(--f-ui);font-weight:600;font-size:16px;margin:20px 0 6px}
+p,li{max-width:68ch}
+p{margin:0 0 14px}
+ul,ol{padding-left:22px;margin:0 0 16px}
+li{margin:4px 0}
+li::marker{color:var(--muted)}
+strong{font-weight:650}
+hr{border:0;border-top:1px solid var(--rule);margin:28px 0}
+blockquote{margin:16px 0;padding:10px 16px;border-left:3px solid var(--flag);background:var(--flag-wash);font-family:var(--f-ui);font-size:15.5px;line-height:1.55}
+blockquote p:last-child{margin:0}
+code{font-family:var(--f-mono);font-size:.85em;background:var(--accent-wash);padding:1px 4px;border-radius:3px}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;margin:14px 0 20px;border-top:2px solid var(--ink);-webkit-overflow-scrolling:touch}
+table{border-collapse:collapse;width:100%;font-family:var(--f-ui);font-size:14px;line-height:1.4}
+th{text-align:left;font-weight:600;font-size:12px;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-2);padding:9px 10px;border-bottom:1px solid var(--rule-2);vertical-align:bottom;white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-variant-numeric:tabular-nums}
+td.num{text-align:right;white-space:nowrap}
+tbody tr:hover td{background:var(--accent-wash)}
+
+/* Figures */
+figure.viz{margin:24px 0 28px;padding:18px 18px 12px;background:var(--surface);border:1px solid var(--rule);border-radius:8px;max-width:100%}
+figure.viz .vt{font-family:var(--f-ui);font-weight:600;font-size:15.5px;margin:0}
+figure.viz .vs{font-family:var(--f-ui);font-size:13px;color:var(--muted);margin:2px 0 10px}
+figure.viz svg{width:100%;height:auto;display:block;overflow:visible}
+figure.viz figcaption{font-family:var(--f-ui);font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.viz .grid{stroke:var(--rule);stroke-width:1}
+.viz .base{stroke:var(--rule-2);stroke-width:1}
+.viz .tick{font-family:var(--f-ui);font-size:12px;fill:var(--muted)}
+.viz .tick.strong{fill:var(--ink);font-weight:600}
+.viz .vlabel{font-family:var(--f-ui);font-size:12px;font-weight:600;fill:var(--ink)}
+.viz .inlabel{font-family:var(--f-ui);font-size:12px;font-weight:600;fill:#fff}
+.viz .inlabel.dark{fill:#14171a}
+.viz .ln{fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.viz .dot{stroke:var(--surface);stroke-width:2}
+.viz .hit{fill:transparent;cursor:default}
+.viz .mark.est{opacity:.55}
+.viz-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-family:var(--f-ui);font-size:12.5px;color:var(--ink-2);margin-top:8px}
+.viz-legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+details.viz-table{margin-top:8px;font-family:var(--f-ui);font-size:13px}
+details.viz-table summary{cursor:pointer;color:var(--accent);width:max-content}
+details.viz-table .tbl-wrap{margin:8px 0 4px;border-top-width:1px}
+.viz-tip{position:fixed;z-index:50;pointer-events:none;background:var(--ink);color:var(--paper);font-family:var(--f-ui);font-size:12.5px;line-height:1.4;padding:7px 9px;border-radius:6px;max-width:260px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.viz-tip small{opacity:.8}
+
+/* Diagram */
+.diagram{overflow-x:auto}
+.diagram svg{min-width:640px}
+.dg-box{fill:var(--surface);stroke:var(--rule-2);stroke-width:1}
+.dg-core{fill:var(--accent-wash);stroke:var(--accent);stroke-width:1.5}
+.dg-t{font-family:var(--f-ui);font-size:13px;font-weight:600;fill:var(--ink)}
+.dg-s{font-family:var(--f-ui);font-size:11.5px;fill:var(--ink-2)}
+.dg-m{font-family:var(--f-mono);font-size:10.5px;fill:var(--muted);letter-spacing:.04em}
+.dg-arrow{stroke:var(--ink-2);stroke-width:1.5;fill:none}
+.dg-arrow.money{stroke:var(--s3);stroke-dasharray:0}
+.dg-head{fill:var(--ink-2)}
+
+/* Callouts */
+.callout{border:1px solid var(--rule);border-left:3px solid var(--accent);background:var(--surface);padding:12px 16px;border-radius:0 6px 6px 0;font-family:var(--f-ui);font-size:14.5px;line-height:1.55;margin:16px 0}
+.interp{display:inline-block;font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--flag);border:1px solid var(--flag);padding:2px 7px;border-radius:3px;margin-bottom:6px}
+
+footer.foot{border-top:1px solid var(--rule);margin-top:48px;padding-top:16px;font-family:var(--f-ui);font-size:12.5px;color:var(--muted);max-width:760px}
+
+@media (max-width:960px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:0}
+  nav.toc{position:fixed;inset:calc(env(safe-area-inset-top,0px) + 52px) 0 auto 0;max-height:70vh;background:var(--paper);border-bottom:1px solid var(--rule);padding:12px 20px;z-index:19;display:none}
+  nav.toc.open{display:block}
+  .toc-btn{display:inline-block}
+  .topbar .meta{display:none}
+}
+@media (max-width:560px){
+  body{font-size:17px}
+  .manifest > div + div{padding-left:0;border-left:0}
+  .manifest > div{border-top:1px solid var(--rule)}
+  .manifest{grid-template-columns:1fr 1fr}
+  .manifest > div:nth-child(even){padding-left:12px;border-left:1px solid var(--rule)}
+  .manifest .v{font-size:30px}
+  figure.viz{padding:14px 12px 10px}
+}
+
+.routes,.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:4px}
+.route,.tier{display:flex;flex-direction:column;gap:4px;padding:12px;border:1px solid var(--rule);border-radius:6px;background:var(--paper);font-family:var(--f-ui);font-size:13.5px;line-height:1.45;min-width:0}
+.route b,.tier b{font-size:14.5px}
+.route span:last-child,.tier span:last-child{color:var(--ink-2)}
+.route-k{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.tier.t0{border-top:3px solid var(--s1)}.tier.t1{border-top:3px solid var(--s2)}.tier.t2{border-top:3px solid var(--s3)}
+.rails{margin-top:10px;padding:9px 12px;border-radius:6px;background:var(--accent-wash);font-family:var(--f-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);text-align:center}
+.intro-notes{font-family:var(--f-ui);font-size:13.5px;line-height:1.55;color:var(--ink-2);max-width:760px;margin-top:20px}
+.intro-notes p{max-width:none}
+.intro-notes summary{cursor:pointer;color:var(--accent);font-weight:600}
+</style>
+<header class="topbar"><div class="topbar-in">
+  <a class="brand" href="#top">SNX <span>2030</span></a>
+  <span class="meta">TD SYNNEX research briefing · updated Oct 12, 2026 with the Q3 FY26 10-Q</span>
+  <span class="spacer"></span>
+  <button class="toc-btn" id="toc-btn" type="button" aria-expanded="false" aria-controls="toc">Contents</button>
+</div></header>
+<div class="hero" id="top">
+  <div class="eyebrow">Executive meeting briefing · NYSE: SNX · fiscal year ends Nov 30</div>
+  <h1>AI rewires TD SYNNEX&#x27;s two-cent distribution engine</h1>
+  <p class="dek">The business, its numbers, its channel and vendor ecosystem, and what AI could make of its commercial organization by 2030.</p>
+  <div class="manifest"><div><span class="k">Q3 FY26 revenue</span><span class="v">$21.6B</span><span class="d"><b>+37.7%</b> year on year</span></div><div><span class="k">Q3 FY26 gross billings</span><span class="v">$31.8B</span><span class="d"><b>+40.0%</b> · earnings release</span></div><div><span class="k">Hyve operating income</span><span class="v">$249M</span><span class="d">vs Americas $255M (GAAP)</span></div><div><span class="k">Gross margin</span><span class="v">6.61%</span><span class="d"><b class="neg">−61 bp</b> vs 7.22%</span></div><div><span class="k">Free cash flow, 9 months</span><span class="v">−$2.2B</span><span class="d"><b class="neg">vs −$0.03B</b> a year earlier (derived)</span></div></div>
+  <div class="source-line">Quarter ended Aug 31, 2026. Revenue, operating income and margin from the 10-Q; gross billings from the earnings release.</div>
+  <details class="intro-notes"><summary>How to read this briefing</summary><p><em>Updated October 12, 2026 with the Form 10-Q for the quarter ended August 31, 2026.</em></p>
+<p><em>Prepared October 8, 2026 for an executive meeting with TD SYNNEX leadership. TD SYNNEX's fiscal year ends November 30 (FY2026 runs Dec 1, 2025 to Nov 30, 2026; Q1 ends Feb 28, Q2 May 31, Q3 Aug 31). "Gross billings" is the company's non-GAAP measure of what customers are invoiced before software, cloud and some Hyve sales are netted down to GAAP revenue; it appears in earnings releases but not in the 10-Q. The original research relied largely on search-engine excerpts of SEC filings, earnings releases and trade press, because direct access to sec.gov and the investor-relations site was blocked. The October 12 update replaces those excerpts with figures read directly from the Q3 FY26 10-Q wherever the 10-Q covers them, cited as "(10-Q, quarter ended Aug 31, 2026, p. N)". Gross billings, Endpoint/Advanced splits and call commentary still come from secondary sources. Figures marked "derived" are arithmetic on cited inputs. Figures marked "estimate" carry the confidence level the research assigned. Sections 1 to 8 are sourced facts. Sections 9, 10 and 12 are interpretation; section 12 sets out preliminary recommendations for the 2030 commercial organization. A review log of the changes is at the end.</em></p></details>
+</div>
+<div class="shell">
+  <nav class="toc" id="toc" aria-label="Contents"><div class="h">Contents</div><ol><li><a href="#executive-summary">Executive summary</a></li><li><a href="#s1">A $89B billings middleman that keeps about two…</a></li><li><a href="#s2">FY2026 billings are on track for roughly +32% as…</a></li><li><a href="#s3">Three businesses with very different economics:…</a></li><li><a href="#s4">Strategy has narrowed to AI infrastructure,…</a></li><li><a href="#s5">Reaching 150,000 partners through specialists,…</a></li><li><a href="#s6">Vendors are consolidating around two global…</a></li><li><a href="#s7">Ingram Micro&#x27;s Xvantage sets the AI benchmark TD…</a></li><li><a href="#s8">The 2030 outlook: agents, marketplaces and AI…</a></li><li><a href="#s9">What the 2030 outlook implies for TD SYNNEX&#x27;s…</a></li><li><a href="#s10">Conversation starters for the 2030 discussion</a></li><li><a href="#s11">Facts to verify before the meeting</a></li><li><a href="#s12">A 2030 blueprint: preliminary recommendations for…</a></li><li><a href="#conclusion">Conclusion</a></li><li><a href="#review-log-changes-from-the-q">Review log: changes from the 10-Q</a></li></ol></nav>
+  <main><article>
+<section class="sec" id="executive-summary"><div class="sec-no">Summary</div><h2>Executive summary</h2><p><strong>TD SYNNEX is the world's largest IT distributor, and FY2026 has turned it into an AI-infrastructure growth story.</strong> It sits between roughly <strong>2,500 technology vendors and more than 150,000 resellers, MSPs and integrators in 100+ countries</strong> (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026003598/snx-20251130.htm" target="_blank" rel="noopener">FY2025 10-K</a>). In Q3 FY26 (ended Aug 31, 2026), <strong>gross billings rose 40% to $31.8B and non-GAAP EPS rose 59% to $5.68</strong> (<a href="https://www.sec.gov/Archives/edgar/data/0001177394/000162828026063314/ex991-fy26q3pressrelease.htm" target="_blank" rel="noopener">Q3 FY26 8-K</a>). Most of that growth came from Hyve Solutions, the company's hyperscale server design-and-manufacturing arm, whose billings more than doubled. The 10-Q shows how much Hyve now matters: it earned <strong>$249M of GAAP operating income in Q3, almost as much as the whole Americas distribution business ($255M), at a 6.6% operating margin on revenue</strong>, and was 39% of GAAP operating income. It also shows the cost: inventory rose <strong>$5.8B in nine months, "primarily to support growth in our Hyve Solutions business,"</strong> operating cash flow was <strong>-$2.1B for the nine months</strong>, and net debt rose to about <strong>$4.8B</strong> (derived) (10-Q, quarter ended Aug 31, 2026, p. 3, 7, 26, 44). Amazon now holds a warrant for up to 3.2M TD SYNNEX shares that vests with its purchases (p. 14). Distribution economics remain thin: gross margin is about 6.6% of revenue, and FY2025 non-GAAP operating income was <strong>roughly two cents per dollar billed</strong> (derived). So the distribution business depends on scale, vendor rebates, working capital and cost-to-serve. That makes the productivity of the commercial organization, not product margin, the main lever, and AI is the obvious tool for it.</p>
+<p>The 2030 outlook points three ways at once:
+- AI infrastructure spending keeps compounding: IDC forecasts <strong>$758B by 2029</strong> (<a href="https://www.idc.com/resource-center/press-releases/artificial-intelligence-infrastructure-spending-to-reach-758bn-usd-mark-by-2029-according-to-idc/" target="_blank" rel="noopener">IDC</a>).
+- Hyperscaler marketplaces grow toward <strong>$163B a year by 2030, with channel partners handling about 59%</strong> (<a href="https://itchanneloxygen.com/channel-to-pocket-59-of-hyperscaler-marketplace-spend-by-2030-canalys" target="_blank" rel="noopener">IT Channel Oxygen</a>).
+- Gartner expects AI agents to <strong>intermediate more than $15 trillion of B2B spending by 2028</strong> (<a href="https://www.digitalcommerce360.com/2025/11/28/gartner-ai-agents-15-trillion-in-b2b-purchases-by-2028/" target="_blank" rel="noopener">Digital Commerce 360</a>). Yet Gartner also expects <strong>75% of B2B buyers to prefer human-led sales experiences in 2030</strong> (<a href="https://www.destinationcrm.com/Articles/CRM-Insights/Insight/Buyers-Are-Pushing-Back-Against-AI-171784.aspx" target="_blank" rel="noopener">DestinationCRM</a>).</p>
+<p>TD SYNNEX already has the building blocks: the PartnerFirst portal, an AI sales assistant inside Microsoft Teams, Slack and Webex (Digital Bridge), the StreamOne cloud marketplace, the Destination AI partner-enablement program and Hyve. What it does not publish is any outcome metric for AI in its own selling. Rival Ingram Micro reports <strong>about $1B a quarter of net revenue through its AI assistant</strong> (<a href="https://itchanneloxygen.com/ingram-micro-divulges-xvantage-vital-statistics-after-q2-overachievement/" target="_blank" rel="noopener">IT Channel Oxygen</a>). The core question for the meeting is how TD SYNNEX turns AI from something it sells into something that measurably changes how it sells, before partners' and buyers' own AI agents start deciding which distributor gets the order.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>At a glance</th>
+<th>Figure (date)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scale</td>
+<td>FY2025 revenue $62.5B; gross billings ~$89.4B; ~24,000 full-time staff plus ~6,000 temporary (Nov 30, 2025)</td>
+</tr>
+<tr>
+<td>Momentum</td>
+<td>Q3 FY26 revenue $21.56B (+37.7%), GAAP diluted EPS $5.18 (+89%), non-GAAP EPS $5.68 (+58.7%) (10-Q); gross billings $31.8B (+40.0%) (8-K)</td>
+</tr>
+<tr>
+<td>FY2026 trajectory</td>
+<td>Q1-Q3 revenue $58.3B (10-Q); ~$80.5B revenue and ~$118B gross billings for the year (derived: Q1-Q3 actuals plus Q4 guidance midpoint)</td>
+</tr>
+<tr>
+<td>Margins</td>
+<td>Q3 FY26 gross margin 6.61% (vs 7.22%); GAAP operating margin 2.98%; non-GAAP operating margin 3.42% of revenue (2.31% of gross billings)</td>
+</tr>
+<tr>
+<td>Mix, Q3 FY26 revenue (10-Q)</td>
+<td>Americas 47.9%, Europe 29.5%, APJ 5.0%, Hyve 17.6%; Hyve 38.8% of GAAP operating income</td>
+</tr>
+<tr>
+<td>Mix, Q3 FY26 gross billings</td>
+<td>Advanced Solutions 46%, Endpoint Solutions 32%, Hyve 22% (derived from secondary figures; not in the 10-Q)</td>
+</tr>
+<tr>
+<td>Largest vendors</td>
+<td>Apple 12% and HP Inc. 10% of FY2025 revenue; in FY2026 Apple 10% of nine-month revenue and neither above 10% in Q3 (10-Q)</td>
+</tr>
+<tr>
+<td>Largest customer</td>
+<td>11% of revenue in FY2025; no customer above 10% in Q3 or 9M FY26 (10-Q)</td>
+</tr>
+<tr>
+<td>Main rivals</td>
+<td>Ingram Micro (#2 globally), Arrow (#3); Pax8 and ALSO in cloud and MSP channels</td>
+</tr>
+<tr>
+<td>Leadership</td>
+<td>CEO Patrick Zammit (since Sept 1, 2024); CFO David Jordan (since Oct 2025); both signed the Q3 10-Q</td>
+</tr>
+<tr>
+<td>Balance sheet (Aug 31, 2026)</td>
+<td>Cash $0.75B; total borrowings $5.5B; net debt ~$4.8B (derived, vs ~$2.2B at Nov 30, 2025); inventory $15.3B (10-Q)</td>
+</tr>
+<tr>
+<td>Watch-outs</td>
+<td>Nine-month operating cash flow -$2.1B and free cash flow about -$2.2B (derived); cash conversion cycle 31 days vs 23; Hyve margin dilution on a billings basis; memory and component pricing</td>
+</tr>
+</tbody>
+</table></div></section>
+<section class="sec" id="s1"><div class="sec-no">Section 1</div><h2>A $89B billings middleman that keeps about two cents per dollar</h2><p>TD SYNNEX came out of the merger of Tech Data and SYNNEX, a deal led by former CEO Rich Hume alongside Tech Data's Apollo take-private (<a href="https://www.channelinsider.com/news-and-trends/us/td-synnex-ceo-transition/" target="_blank" rel="noopener">Channel Insider</a>). It is headquartered in <strong>Clearwater, Florida and Fremont, California</strong>, and describes itself as "a Fortune 100 corporation and a leading global distributor, solutions aggregator, and original design and contract manufacturer" (10-Q, quarter ended Aug 31, 2026, p. 8, 30). It employs <strong>about 24,000 full-time staff plus about 6,000 temporary or contract staff (Nov 30, 2025)</strong> and serves <strong>more than 150,000 reseller customers from more than 2,500 vendors in 100+ countries</strong> (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026003598/snx-20251130.htm" target="_blank" rel="noopener">FY2025 10-K</a>). The 10-K describes an "edge-to-cloud" portfolio: cloud, cybersecurity, data and analytics, AI, IoT, mobility and everything-as-a-service. It adds systems design and integration of data center servers and networking built for customers' workloads. About <strong>48% of FY2025 revenue came from outside the US</strong>.</p>
+<p>The model is classic two-tier distribution. TD SYNNEX buys from OEMs and software publishers and sells to the resellers, managed service providers (MSPs), system integrators and retailers who serve end customers. Its profit sits in a thin spread shaped by vendor money:
+- <strong>Rebates and price protection.</strong> The 10-K says OEM incentive and rebate programs are "important determinants of the final sales price." Cost of revenue is recorded net of volume promotions, price protection and rebates.
+- <strong>Marketing reimbursements.</strong> Vendor marketing and infrastructure reimbursements offset operating expenses.
+- <strong>Short, nonexclusive contracts.</strong> Supplier agreements are usually nonexclusive, territory-specific, short-term and terminable without cause on short notice. On termination, suppliers generally buy back the inventory (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026003598/snx-20251130.htm" target="_blank" rel="noopener">FY2025 10-K</a>; <a href="https://www.sec.gov/Archives/edgar/data/1177394/000117739423000010/snx-20221130.htm" target="_blank" rel="noopener">FY2022 10-K</a>).
+- <strong>Subsidized financing.</strong> OEMs subsidize the fees of third-party floor-plan lenders, or TD SYNNEX pays them.</p>
+<p>In practice, TD SYNNEX makes money on the balance sheet (credit, inventory, logistics) and on vendor programs as much as on markup.</p>
+<figure class="viz diagram"><p class="vt">How the business works</p><p class="vs">Two-tier distribution plus a hyperscale manufacturing arm</p><svg viewBox="0 0 990 330" role="img" aria-label="How TD SYNNEX makes money: vendors sell through TD SYNNEX to partners, who serve end customers; Hyve builds for hyperscalers"><defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="dg-head"/></marker></defs><rect x="10" y="60" width="175" height="170" rx="8" class="dg-box"/><text x="22" y="82" class="dg-t">Technology vendors</text><text x="22" y="102" class="dg-s">~2,500 OEMs, software</text><text x="22" y="118" class="dg-s">and cloud publishers</text><text x="22" y="134" class="dg-s">Apple, HP, Cisco, Dell,</text><text x="22" y="150" class="dg-s">HPE, Lenovo, Microsoft,</text><text x="22" y="166" class="dg-s">NVIDIA, AWS, Google</text><text x="22" y="220" class="dg-m">REBATES · MDF · TERMS</text><rect x="255" y="16" width="320" height="300" rx="10" class="dg-core"/><text x="271" y="40" class="dg-t">TD SYNNEX</text><text x="271" y="57" class="dg-m">FY2025 · $89.4B BILLINGS · ~2¢ PROFIT PER $1</text><rect x="271" y="70" width="288" height="128" rx="8" class="dg-box"/><text x="283" y="92" class="dg-t">Distribution (Americas, Europe, APJ)</text><text x="283" y="112" class="dg-s">Endpoint: PCs, phones, print, peripherals</text><text x="283" y="128" class="dg-s">Advanced: servers, storage, networking,</text><text x="283" y="144" class="dg-s">software, security, cloud</text><text x="283" y="160" class="dg-s">Credit, logistics, marketplaces, enablement</text><rect x="271" y="212" width="288" height="90" rx="8" class="dg-box"/><text x="283" y="234" class="dg-t">Hyve Solutions</text><text x="283" y="254" class="dg-s">Designs and builds servers and racks</text><text x="283" y="270" class="dg-s">for hyperscalers and AI clouds</text><text x="283" y="292" class="dg-m">Q3 FY26 · 39% OF GAAP OP. INCOME</text><rect x="675" y="40" width="165" height="160" rx="8" class="dg-box"/><text x="687" y="62" class="dg-t">150,000+ partners</text><text x="687" y="82" class="dg-s">VARs, MSPs, system</text><text x="687" y="98" class="dg-s">integrators, retailers,</text><text x="687" y="114" class="dg-s">public sector resellers,</text><text x="687" y="130" class="dg-s">cloud providers</text><rect x="865" y="70" width="118" height="100" rx="8" class="dg-box"/><text x="877" y="92" class="dg-t">End customers</text><text x="877" y="112" class="dg-s">Businesses,</text><text x="877" y="128" class="dg-s">government,</text><text x="877" y="144" class="dg-s">consumers</text><rect x="675" y="230" width="308" height="70" rx="8" class="dg-box"/><text x="687" y="252" class="dg-t">Hyperscalers and GPU clouds</text><text x="687" y="272" class="dg-s">All five top US hyperscalers; Amazon warrant</text><path d="M187,145L253,145" class="dg-arrow" marker-end="url(#ah)"/><text x="220" y="136" text-anchor="middle" class="dg-m">SUPPLY</text><path d="M561,125L673,125" class="dg-arrow" marker-end="url(#ah)"/><text x="617" y="116" text-anchor="middle" class="dg-m">CREDIT · STOCK</text><path d="M840,120L863,120" class="dg-arrow" marker-end="url(#ah)"/><path d="M561,262L673,262" class="dg-arrow" marker-end="url(#ah)"/><text x="617" y="253" text-anchor="middle" class="dg-m">BUILT TO SPEC</text></svg><figcaption>Sources: FY2025 10-K; 10-Q, quarter ended Aug 31, 2026. Operating profit per dollar billed is derived from FY2025 non-GAAP operating income and gross billings.</figcaption></figure><p><strong>Billings vs revenue.</strong> The gap between gross billings and GAAP revenue is the first thing a newcomer needs to understand. Software, cloud subscriptions and some Hyve programs are booked "net", meaning only the margin counts as revenue. In FY2025, <strong>revenue was $62.5B against gross billings of about $89.4B, a gap of about 30%</strong> (derived), and net presentation cut reported revenue growth by <strong>about $2.8B, or 5 points</strong> (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026003598/snx-20251130.htm" target="_blank" rel="noopener">FY2025 10-K</a>; <a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026001271/ex991-fy25q4pressrelease.htm" target="_blank" rel="noopener">Q4 FY25 release</a>). As more of the mix becomes software, revenue understates the business. Billings are the better gauge of scale, and revenue is the base for margin percentages.</p>
+<p>The 10-Q lists what is booked net: in distribution, supplier service contracts, post-contract software support, cloud and SaaS, certain fulfillment contracts and extended warranties; in Hyve, "certain systems design and integration solutions and supply chain services arrangements" (10-Q, quarter ended Aug 31, 2026, p. 11). The netting effect now cuts both ways by segment. In Q3 FY26, more net presentation in Hyve <strong>reduced Hyve's revenue growth by about 66 percentage points</strong>, while more gross presentation in the Americas <strong>added about 12 points</strong> to Americas revenue growth. Consolidated, netting cut revenue growth by about 2 points in Q3 and 4 points over nine months (p. 35-36). This is why Hyve billings grew 117% while Hyve revenue grew 52%.</p>
+<p><strong>Earnings beyond product margin.</strong> TD SYNNEX Capital offers:
+- Amplify, short-term credit with 45-, 60-, 75- or 90-day terms (<a href="https://www.businesswire.com/news/home/20230928640010/en/TD-SYNNEX-Capital-Introduces-New-Short-Term-Credit-Program-to-Empower-Partner-Growth" target="_blank" rel="noopener">Business Wire</a>).
+- 12-to-60-month payment plans on any IT product or service.
+- In the UK, a Tech-as-a-Service product that funds the full term up front and takes credit risk off the partner (<a href="https://channelweb.co.uk/news/4112793/td-synnex-capital-aims-eliminate-credit-risk-partners-flexible-finance-solutions" target="_blank" rel="noopener">ChannelWeb UK</a>).</p>
+<p>Lifecycle services run through Shyft Global Services and Renew, which expanded in Europe with Cordon Group in July 2025 for trade-in, data wiping, IT asset disposal and refurbishment (<a href="https://pcr-online.biz/2025/07/07/td-synnex-lifecycle-with-cordon-group/" target="_blank" rel="noopener">PCR</a>). The company does not disclose the size of any of these.</p>
+<p><strong>Hyve Solutions is a different kind of business.</strong> It "partners with leading technology companies to design, manufacture, and deliver traditional and accelerated compute, cloud, and connected infrastructure worldwide" (<a href="https://www.businesswire.com/news/home/20260303756016/en/TD-SYNNEX-to-Announce-First-Quarter-Fiscal-2026-Results-on-March-31-2026-Announces-Updated-Reportable-Segments" target="_blank" rel="noopener">Business Wire, Mar 2026</a>). The 10-Q splits it into two offerings: <strong>Manufacturing</strong> (original design and contract manufacturing) and <strong>Supply Chain Services</strong> (data center support, supply continuity and integrated supply chain orchestration) (10-Q, quarter ended Aug 31, 2026, p. 31). Its cost structure is unlike distribution's: Hyve's Q3 FY26 operating expenses were only about $26M against $276M of gross profit, with $15M of payroll (p. 26, derived). In August 2026 the company filed forms for a separate Hyve Solutions performance-based RSU award (p. 48). It runs at least one program with each of the <strong>top five US hyperscalers</strong>. It is adding <strong>more than 1 million square feet</strong> of US manufacturing space, is an NVIDIA HGX design partner, and expects liquid-cooled networking racks in production in the first half of FY2027 (<a href="https://distributionstrategy.com/2026/06/td-synnex-doubles-down-on-ai-hyperscalers-and-global-partnerships/" target="_blank" rel="noopener">Distribution Strategy, June 2026</a>). One secondary source claims TD SYNNEX sold Hyve in 2022. That is wrong: 2026 insider filings still list Dennis Polk as Chair of Hyve Solutions (<a href="https://www.investing.com/news/insider-trading-news/td-synnexs-dennis-polk-hyve-solutions-chair-sells-268m-in-stock-93CH-4771504" target="_blank" rel="noopener">Investing.com</a>).</p>
+<p><strong>Ownership.</strong> Apollo exited fully through three secondary offerings between January and April 2024: about 26.2M shares for roughly <strong>$2.8B</strong> (derived). TD SYNNEX bought back shares alongside two of the offerings (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000117739425000016/fy24proxystatement.htm" target="_blank" rel="noopener">FY2025 proxy</a>).</p></section>
+<section class="sec" id="s2"><div class="sec-no">Section 2</div><h2>FY2026 billings are on track for roughly +32% as Hyve doubles</h2><p><strong>FY2024 and FY2025 were modest.</strong> FY2024 revenue was flat (+1.6%). FY2025 revenue grew 6.9% and billings grew about 12%. Management said the business excluding Hyve grew billings "in the high single digits" in FY2025 (<a href="https://finance.yahoo.com/news/td-synnex-q4-earnings-call-154000551.html" target="_blank" rel="noopener">Q4 FY25 call summary</a>).</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>FY2024 (ended Nov 30, 2024)</th>
+<th>FY2025 (ended Nov 30, 2025)</th>
+<th>Source / confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Revenue (GAAP)</td>
+<td>$58.45B (+1.6%)</td>
+<td>$62.51B (+6.9%; +6.1% constant currency)</td>
+<td><a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026003598/snx-20251130.htm" target="_blank" rel="noopener">FY2025 10-K</a>; high. FY2025 confirmed: nine months $45.13B plus Q4 $17.38B = $62.51B (10-Q, quarter ended Aug 31, 2026, p. 4, 43; derived)</td>
+</tr>
+<tr>
+<td>Non-GAAP gross billings</td>
+<td>$80.1B</td>
+<td>$89.4B (+11.7%)</td>
+<td><a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026001271/ex991-fy25q4pressrelease.htm" target="_blank" rel="noopener">Q4 FY25 release</a>; medium-high (search excerpt). Not in the 10-Q</td>
+</tr>
+<tr>
+<td>Gross margin</td>
+<td>not retrieved</td>
+<td>6.99%</td>
+<td>High: derived from 10-Q nine-month FY25 gross profit ($3.17B) plus Q4 FY25 gross profit ($1.19B) (p. 4, 43)</td>
+</tr>
+<tr>
+<td>Non-GAAP operating income</td>
+<td>~$1.63B (2.78% of revenue)</td>
+<td>~$1.78B (+9.7%; 2.86%)</td>
+<td>10-K via search excerpt; medium-high for FY2025 (nine-month FY25 $1.29B per 10-Q p. 38, plus Q4 $497M, = $1.78B)</td>
+</tr>
+<tr>
+<td>GAAP net income</td>
+<td>$689.1M</td>
+<td>$827.7M (+20.1%)</td>
+<td><a href="https://www.sec.gov/Archives/edgar/data/1177394/000117739425000002/ex991-fy24q4pressrelease.htm" target="_blank" rel="noopener">FY24 8-K</a>; 10-K</td>
+</tr>
+<tr>
+<td>GAAP diluted EPS</td>
+<td>$7.95</td>
+<td>$9.95</td>
+<td>FY25 from aggregator <a href="https://www.stocktitan.net/financials/SNX/" target="_blank" rel="noopener">StockTitan</a>; medium (consistent with nine-month $6.92 per 10-Q plus Q4 $3.04)</td>
+</tr>
+<tr>
+<td>Non-GAAP diluted EPS</td>
+<td>$11.68 (likely, unconfirmed)</td>
+<td>~$13.20 (derived sum of quarters; not company-reported)</td>
+<td>Medium for FY2025 (nine-month $9.37 per 10-Q p. 42, plus Q4 $3.83)</td>
+</tr>
+<tr>
+<td>Revenue by region</td>
+<td>not retrieved</td>
+<td>Americas $36.18B (+4.0%); Europe $21.70B (+10.5%); APJ $4.64B (+15.2%)</td>
+<td>10-K; high</td>
+</tr>
+<tr>
+<td>Gross billings by region</td>
+<td>Americas $49.66B; Europe $25.40B; APJ $5.00B</td>
+<td>Americas $54.08B; Europe $29.01B; APJ $6.34B</td>
+<td>Q4 FY25 release reconciliation; medium-high</td>
+</tr>
+<tr>
+<td>Shareholder returns</td>
+<td>not retrieved</td>
+<td>$742M</td>
+<td>Call summary; medium</td>
+</tr>
+</tbody>
+</table></div>
+<p><em>Regional figures for FY2024 and FY2025 use the old three-segment basis, with Hyve inside Americas. They are not comparable with FY2026 regional figures, which exclude Hyve.</em></p>
+<p><strong>FY2026 accelerated sharply.</strong> The company beat the high end of its own guidance in every quarter. Q3 FY26 guidance was about <strong>$27.7B of billings and $4.50 of non-GAAP EPS. Actual results were $31.8B and $5.68</strong> (<a href="https://www.alphaspread.com/security/nyse/snx/investor-relations/earnings-call/q2-2026" target="_blank" rel="noopener">Alpha Spread</a>; <a href="https://www.sec.gov/Archives/edgar/data/0001177394/000162828026063314/ex991-fy26q3pressrelease.htm" target="_blank" rel="noopener">Q3 FY26 8-K</a>).</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Q4 FY25 (ended Nov 30, 2025)</th>
+<th>Q1 FY26 (ended Feb 28, 2026)</th>
+<th>Q2 FY26 (ended May 31, 2026)</th>
+<th>Q3 FY26 (ended Aug 31, 2026)</th>
+<th>Q4 FY26 guidance (ends Nov 30, 2026)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reported</td>
+<td>Jan 8, 2026</td>
+<td>Mar 31, 2026</td>
+<td>Jun 25, 2026</td>
+<td>Sep 24, 2026</td>
+<td>~Jan 2027</td>
+</tr>
+<tr>
+<td>Revenue</td>
+<td>$17.38B (+9.7%) (10-Q p. 43)</td>
+<td>~$17.16B (+18.1%) (derived: 10-Q nine months less Q2 and Q3)</td>
+<td>$19.58B (+31.0%)</td>
+<td>$21.56B (+37.7%) (10-Q)</td>
+<td>$21.8-22.6B</td>
+</tr>
+<tr>
+<td>Non-GAAP gross billings</td>
+<td>$24.3B (+14.7%)</td>
+<td>$25.8B (+24.4%)</td>
+<td>$28.9B (+33.4%)</td>
+<td>$31.8B (+40.0%)</td>
+<td>$31.4-32.4B</td>
+</tr>
+<tr>
+<td>Gross margin</td>
+<td>6.87% (confirmed, 10-Q p. 43 derived)</td>
+<td>~7.3% (derived; depends on secondary Q2 figure)</td>
+<td>6.84% (vs 7.00%)</td>
+<td>6.61% (vs 7.22%) (10-Q)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>GAAP operating income</td>
+<td>not retrieved</td>
+<td>~$490M (derived)</td>
+<td>$519M (+58.3%)</td>
+<td>$643M (+67.6%) (10-Q)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Non-GAAP operating income</td>
+<td>$497M (+17.9%)</td>
+<td>~$590M (derived; confirmed by 10-Q nine-month total of $1,941M)</td>
+<td>$615M (+48.5%)</td>
+<td>$736M (+55.1%) (10-Q)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>GAAP diluted EPS</td>
+<td>$3.04</td>
+<td>$4.04</td>
+<td>$4.15</td>
+<td>$5.18 (+89.1%) (10-Q)</td>
+<td>$4.58-5.08</td>
+</tr>
+<tr>
+<td>Non-GAAP diluted EPS</td>
+<td>$3.83 (+24.0%)</td>
+<td>$4.73 (+68.9%)</td>
+<td>$4.85 (+62.2%)</td>
+<td>$5.68 (+58.7%) (10-Q)</td>
+<td>$5.65-6.15</td>
+</tr>
+<tr>
+<td>Hyve revenue (10-Q)</td>
+<td>not in 10-Q</td>
+<td>not in 10-Q</td>
+<td>not in 10-Q</td>
+<td>$3.80B (+51.7%)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Hyve gross billings</td>
+<td>$3.68B (&gt;+50%)</td>
+<td>$3.82B (+95%)</td>
+<td>$5.46B (+117%)</td>
+<td>$7.01B (+117%)</td>
+<td>Guided up sequentially</td>
+</tr>
+<tr>
+<td>Distribution gross billings</td>
+<td>~$20.6B (derived)</td>
+<td>$22.0B (+17%)</td>
+<td>$23.4B (+22%)</td>
+<td>$24.8B (+27%)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Free cash flow</td>
+<td>+$1.4B</td>
+<td>~-$0.9B (implied by 10-Q nine-month total if the Q2 and Q3 figures are right)</td>
+<td>~-$330M (AI-generated summary, unverified)</td>
+<td>~-$1.0B (-$975.6M per secondary source)</td>
+<td>Mgmt expects improvement</td>
+</tr>
+<tr>
+<td>Free cash flow, nine months (10-Q)</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+<td><strong>-$2.24B</strong> (operating cash flow -$2.08B less capex $0.16B; derived, p. 7)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Capital returned</td>
+<td>$209M</td>
+<td>~$118M (derived: nine-month total less Q2 and Q3)</td>
+<td>$151M</td>
+<td>$139M ($100.3M buybacks + $38.4M dividends; 10-Q p. 6, 46)</td>
+<td>Dividend $0.48/qtr (+9%)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Sources: <a href="https://s21.q4cdn.com/109490932/files/doc_financials/2025/q4/TD-SYNNEX-Q4-FY25-Press-Release-vFinal.pdf" target="_blank" rel="noopener">Q4 FY25 release</a>; <a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026022204/ex991-fy26q1pressrelease.htm" target="_blank" rel="noopener">Q1 FY26 8-K</a>; <a href="https://www.sec.gov/Archives/edgar/data/0001177394/000162828026045349/ex991-fy26q2pressrelease.htm" target="_blank" rel="noopener">Q2 FY26 8-K</a>; <a href="https://www.sec.gov/Archives/edgar/data/0001177394/000162828026063314/ex991-fy26q3pressrelease.htm" target="_blank" rel="noopener">Q3 FY26 8-K</a>; <a href="https://s21.q4cdn.com/109490932/files/doc_financials/2026/q2/FQ2-26-SNX-Supplemental-Financial-vFinal.pdf" target="_blank" rel="noopener">Q2 FY26 supplemental</a>; <a href="https://finance.yahoo.com/markets/stocks/articles/td-synnex-q3-earnings-call-150335018.html" target="_blank" rel="noopener">Q3 FY26 call highlights</a>; <a href="https://marketchameleon.com/articles/b/2026/9/24/snx-record-fiscal-2026-q3-results-revenue-eps-outlook-dividend" target="_blank" rel="noopener">MarketChameleon</a>; <a href="https://www.sec.gov/Archives/edgar/data/0001177394/000162828026064256/snx-20260831.htm" target="_blank" rel="noopener">Q3 FY26 10-Q</a> (quarter ended Aug 31, 2026, p. 4, 7, 38, 42, 43). The 10-Q's nine-month totals reconcile with the quarterly series: GAAP EPS $4.04 + $4.15 + $5.18 = $13.37 and non-GAAP EPS $4.73 + $4.85 + $5.68 ≈ $15.25, both as reported for the nine months (p. 42).</p>
+<figure class="viz" id="c-quarterly"><p class="vt">Revenue and gross billings by quarter</p><p class="vs">USD billions, fiscal quarters (FY ends Nov 30). Q4 FY26 is the guidance midpoint.</p><div class="viz-body"></div><figcaption>Revenue: 10-Q for Q3 FY25 and Q3 FY26; Q4 FY25 from the 10-Q cash conversion table; Q1 FY26 and FY25 quarters derived or from earnings releases. Gross billings: earnings releases (not in the 10-Q). Faded bars are guidance.</figcaption></figure><p><strong>FY2026 run rate.</strong> Revenue for Q1-Q3 FY26 totals <strong>$58.29B</strong> (10-Q, quarter ended Aug 31, 2026, p. 4), already close to all of FY2025. With the Q4 guidance midpoint, FY2026 implies about <strong>$80.5B of revenue and about $118B of gross billings, roughly 32% billings growth</strong> (derived). Nine-month net income was $1.08B (+86%) and GAAP operating income $1.65B (+62.5%) (p. 4). The April 2025 investor-day aspiration was <strong>about 5% annual billings growth</strong> (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000117739425000033/ex991tdsynnexhosts2025inve.htm" target="_blank" rel="noopener">2025 Investor Day 8-K</a>). The Q4 guidance midpoint ($31.9B) is flat against Q3. That implies either a plateau or conservative guidance.</p>
+<p><strong>Margins.</strong> Gross margin keeps falling (7.22% to 6.61% year over year in Q3). The 10-Q attributes the Q3 decline "primarily" to "product mix in Hyve Solutions and in our Advanced Solutions portfolio, partially offset by improved margins in our Endpoint Solutions portfolio" (10-Q, quarter ended Aug 31, 2026, p. 37). Segment arithmetic sharpens this. On a revenue basis Hyve's gross margin (7.25%, down from 7.49%) is actually higher than Distribution's (6.47%), because so much Hyve business is booked net. Almost all of the 61 basis-point decline, about 57 bp, came from the <strong>Americas distribution segment, whose gross margin fell from 7.57% to 6.37%</strong>, consistent with call commentary about large, lower-margin North American infrastructure deals and with more Americas sales being booked gross (p. 26-27, 36; derived). Hyve dilutes margins on a billings basis (non-GAAP operating margin about 3.6% of billings vs 5.0% a year earlier, derived from secondary billings), not on a revenue basis. Management attributes the trend to mix, not price erosion. Operating margin is rising anyway (GAAP 2.98% vs 2.45%) because SG&amp;A grew only 4.9% against 26% gross-profit growth; adjusted SG&amp;A fell to 48.3% of gross profit from 58.0% (p. 37-38). Within that, the 10-Q flags "higher personnel costs and higher credit costs" (p. 37); the bad-debt provision was $32.6M for the nine months vs $21.7M (p. 7).</p>
+<figure class="viz" id="c-gm"><p class="vt">Gross margin is drifting down as mix shifts</p><p class="vs">Gross profit as % of GAAP revenue, by quarter</p><div class="viz-body"></div><figcaption>Q3 FY25 and Q3 FY26: 10-Q. Other quarters derived from 10-Q totals or earnings releases. The y-axis starts at 6.4% to make the change visible.</figcaption></figure><p><strong>A reporting conflict to know about.</strong> Company-sourced summaries put the Q3 non-GAAP operating margin at <strong>3.42%</strong>, while one Investing.com article said 2.31%. Both are arithmetically right. $736M is 3.41% of revenue and 2.31% of gross billings. Use the revenue basis when comparing with company targets (<a href="https://www.tradingview.com/news/tradingview:1edf60b61b7ea:0-td-synnex-reports-record-q3-fiscal-2026-revenue-21-6b-non-gaap-eps-5-68/" target="_blank" rel="noopener">TradingView</a>; <a href="https://in.investing.com/news/stock-market-news/td-synnex-q3-2026-slides-record-results-mask-margin-cash-concerns-93CH-5605270" target="_blank" rel="noopener">Investing.com</a>).</p>
+<p><strong>Cash is the pressure point.</strong> Secondary sources put Q3 FY26 free cash flow at about <strong>-$1B</strong> (<a href="https://finance.yahoo.com/markets/stocks/articles/td-synnex-q3-earnings-call-150335018.html" target="_blank" rel="noopener">Q3 call highlights</a>). The 10-Q gives only nine-month cash flows, and they are larger: <strong>operating cash flow of -$2.08B and capital expenditure of $159M, so nine-month free cash flow of about -$2.24B</strong> (derived), against -$33M a year earlier (10-Q, quarter ended Aug 31, 2026, p. 7). The drivers were a <strong>$5.78B increase in inventories</strong> and a $3.28B increase in receivables, partly funded by a $4.80B increase in payables (p. 7). Management says the inventory build was "primarily to support growth in our Hyve Solutions business" (p. 44).</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Working capital and liquidity (10-Q)</th>
+<th>Aug 31, 2026</th>
+<th>Nov 30, 2025</th>
+<th>Aug 31, 2025</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cash and equivalents</td>
+<td>$749M</td>
+<td>$2,435M</td>
+<td>$874M</td>
+</tr>
+<tr>
+<td>Accounts receivable, net</td>
+<td>$14.95B</td>
+<td>$11.71B</td>
+<td>$10.93B</td>
+</tr>
+<tr>
+<td>Inventories</td>
+<td>$15.29B</td>
+<td>$9.50B</td>
+<td>$9.14B</td>
+</tr>
+<tr>
+<td>Accounts payable</td>
+<td>$22.44B</td>
+<td>$17.62B</td>
+<td>$15.65B</td>
+</tr>
+<tr>
+<td>Trade working capital (AR + inventory - AP; derived)</td>
+<td>$7.80B</td>
+<td>$3.59B</td>
+<td>$4.41B</td>
+</tr>
+<tr>
+<td>Days sales outstanding / inventory / payables</td>
+<td>64 / 70 / 103</td>
+<td>61 / 53 / 98</td>
+<td>64 / 58 / 99</td>
+</tr>
+<tr>
+<td><strong>Cash conversion cycle</strong></td>
+<td><strong>31 days</strong></td>
+<td><strong>16 days</strong></td>
+<td><strong>23 days</strong></td>
+</tr>
+<tr>
+<td>Total borrowings</td>
+<td>$5.52B</td>
+<td>$4.61B</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Net debt (derived)</td>
+<td>~$4.77B</td>
+<td>~$2.18B</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>Source: 10-Q, quarter ended Aug 31, 2026, p. 3, 7, 43.</p>
+<figure class="viz" id="c-wc"><p class="vt">Hyve's build-out shows up in inventory</p><p class="vs">Balance sheet items, USD billions</p><div class="viz-body"></div><figcaption>Source: 10-Q, quarter ended Aug 31, 2026, p. 3 and 43. Cash conversion cycle: 23 days, 16 days and 31 days at the three dates. Net debt rose from about $2.2B to about $4.8B between November and August (derived).</figcaption></figure><p>The cash conversion cycle lengthened <strong>8 days year over year and 15 days since fiscal year-end</strong>, not the 6 days cited in the call summary (p. 43). A call summary's "net working capital of $6.5B" cannot be reproduced from the 10-Q balance sheet, where receivables plus inventory minus payables is $7.8B; the company's definition is not given. Two financing levers also sit outside reported debt: <strong>$2.1B of receivables sold without recourse</strong> (up from $1.8B; discount fees $28.6M in Q3) and <strong>$3.5B of supplier-finance obligations</strong> inside accounts payable (p. 10, 25, 45). Interest expense and finance charges rose 32% in Q3 to $121M on higher short-term borrowings and more receivable sales (p. 41).</p>
+<p><strong>Debt and funding.</strong> Total borrowings were $5.5B at Aug 31, 2026, up from $4.6B (p. 44). The company drew its full <strong>$1.5B U.S. receivables securitization</strong> (4.69%), repaid <strong>$700M of 1.75% senior notes</strong> at maturity in August 2026, and left its <strong>$3.5B revolver undrawn</strong>. It opened a <strong>€650M European receivables securitization</strong> with BNP Paribas on June 26, 2026 (undrawn at quarter-end), and on <strong>September 25, 2026 doubled the U.S. securitization to $3.0B</strong>, extending it to September 2028. Remaining debt: $2.85B of senior notes maturing 2028-2035, a $750M term loan due September 1, 2027 (5.04%), and $426M of other short-term lines at 6.50%. The company was in compliance with its debt/EBITDA and interest-coverage covenants (p. 22-25, 44-45). Leverage ratios are not disclosed.</p>
+<p><strong>Capital returns slowed but continued.</strong> Buybacks were $100.3M in Q3 FY26 against $173.8M in Q3 FY25, and $292.4M over nine months against $423.1M; <strong>$0.9B of the $2.0B March 2024 authorization remains</strong> (p. 46-47). Dividends rose to $0.48 a quarter from $0.44, and another $0.48 was declared on September 24, 2026, payable October 30 (p. 6, 15). Diluted share count fell 3.0% year over year to 79.4M (p. 4). Management still holds its long-term target of converting <strong>95% of non-GAAP net income into free cash flow</strong>. The stock fell after the Q3 beat, which one outlet attributed to cash and margin concerns (<a href="https://www.investing.com/news/transcripts/earnings-call-transcript-td-synnex-tops-q3-2026-forecasts-but-shares-fall-93CH-4915629" target="_blank" rel="noopener">Investing.com</a>).</p></section>
+<section class="sec" id="s3"><div class="sec-no">Section 3</div><h2>Three businesses with very different economics: Endpoint, Advanced and Hyve</h2><p><strong>Segment reporting.</strong> Since Q1 FY26, TD SYNNEX reports four segments: <strong>Americas, Europe and APJ (together, "Distribution"), plus Hyve Solutions</strong> as a global segment. There are five operating segments; Americas aggregates North America and Latin America. The CEO is the chief operating decision-maker and judges segments on operating income. Prior periods are recast, so FY2025 comparisons below exclude Hyve from the Americas (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026023123/snx-20260228.htm" target="_blank" rel="noopener">Q1 FY26 10-Q</a>; 10-Q, quarter ended Aug 31, 2026, p. 26). Inside Distribution, the company groups its offerings into two portfolios (p. 31):
+- <strong>Endpoint Solutions:</strong> "primarily includes personal computing devices and peripherals, mobile phones and accessories, printers and supplies."
+- <strong>Advanced Solutions:</strong> "primarily includes data center technologies such as hybrid cloud, security, storage, networking, servers, software, and converged and hyper-converged infrastructure."</p>
+<p>The 10-Q disaggregates revenue only by reportable segment; it gives <strong>no Endpoint or Advanced dollar figures</strong> (p. 10).</p>
+<p>Through FY2025, Hyve sat inside Advanced Solutions (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000117739425000009/snx-20241130.htm" target="_blank" rel="noopener">FY2024 10-K</a>). As a result, <strong>FY2026 Advanced Solutions growth rates are not comparable with FY2025's</strong>. The like-for-like FY2025 comparison is Advanced excluding Hyve, which grew 8% in Q4 FY25 and 10% in Q2 FY25.</p>
+<p><strong>Reported segment economics, Q3 FY26 (quarter ended Aug 31, 2026). Confidence: high (10-Q, quarter ended Aug 31, 2026, p. 26-27, 35-40), except gross billings (call and supplemental, secondary).</strong></p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Revenue (y/y)</th>
+<th>Share of revenue</th>
+<th>Gross margin (vs Q3 FY25)</th>
+<th>GAAP op. income (y/y)</th>
+<th>GAAP op. margin (vs Q3 FY25)</th>
+<th>Non-GAAP op. income (y/y)</th>
+<th>Non-GAAP op. margin (vs Q3 FY25)</th>
+<th>Share of GAAP / non-GAAP op. income</th>
+<th>Gross billings (secondary)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Americas</td>
+<td>$10.32B (+39.9%)</td>
+<td>47.9%</td>
+<td>6.37% (7.57%)</td>
+<td>$255.4M (+47.9%)</td>
+<td>2.48% (2.34%)</td>
+<td>$305.6M (+36.2%)</td>
+<td>2.96% (3.04%)</td>
+<td>40% / 41%</td>
+<td>not retrieved</td>
+</tr>
+<tr>
+<td>Europe</td>
+<td>$6.37B (+30.2%)</td>
+<td>29.5%</td>
+<td>6.51% (6.45%)</td>
+<td>$117.5M (+237%)</td>
+<td>1.84% (0.71%)</td>
+<td>$155.3M (+116.4%)</td>
+<td>2.44% (1.47%)</td>
+<td>18% / 21%</td>
+<td>not retrieved</td>
+</tr>
+<tr>
+<td>APJ</td>
+<td>$1.07B (+21.7%; +27.7% cc)</td>
+<td>5.0%</td>
+<td>7.21% (7.74%)</td>
+<td>$20.6M (+41.3%)</td>
+<td>1.92% (1.66%)</td>
+<td>$22.6M (+37.5%)</td>
+<td>2.11% (1.87%)</td>
+<td>3% / 3%</td>
+<td>not retrieved</td>
+</tr>
+<tr>
+<td><strong>Distribution subtotal</strong></td>
+<td>$17.76B (+35.1%)</td>
+<td>82.4%</td>
+<td>6.47% (7.17%)</td>
+<td>$393.4M (+77%)</td>
+<td>2.22% (1.69%)</td>
+<td>$483.5M (+54.7%)</td>
+<td>2.72% (2.38%)</td>
+<td>61% / 66%</td>
+<td>$24.8B (+27%)</td>
+</tr>
+<tr>
+<td><strong>Hyve Solutions</strong></td>
+<td>$3.80B (+51.7%)</td>
+<td>17.6%</td>
+<td>7.25% (7.49%)</td>
+<td>$249.4M (+54.5%)</td>
+<td>6.56% (6.44%)</td>
+<td>$253.0M (+55.8%)</td>
+<td>6.65% (6.48%)</td>
+<td>39% / 34%</td>
+<td>$7.01B (+117%)</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td>$21.56B (+37.7%)</td>
+<td>100%</td>
+<td>6.61% (7.22%)</td>
+<td>$642.9M (+67.6%)</td>
+<td>2.98% (2.45%)</td>
+<td>$736.4M (+55.1%)</td>
+<td>3.42% (3.03%)</td>
+<td>100%</td>
+<td>$31.8B (+40%)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Margins, shares and the Distribution subtotal are derived from 10-Q dollars. Sources: <a href="https://www.sec.gov/Archives/edgar/data/0001177394/000162828026064256/snx-20260831.htm" target="_blank" rel="noopener">Q3 FY26 10-Q</a>; <a href="https://finance.yahoo.com/markets/stocks/articles/td-synnex-q3-earnings-beat-112300659.html" target="_blank" rel="noopener">Yahoo Finance</a>; <a href="https://www.fool.com/earnings/call-transcripts/2026/09/24/td-synnex-snx-q3-2026-earnings-call-transcript/" target="_blank" rel="noopener">Motley Fool transcript</a>. A third-party analysis put Hyve at 38.8% of operating profit while the original version of this report derived 34%; the 10-Q shows both are right: <strong>38.8% of GAAP operating income and 34.3% of non-GAAP operating income</strong> (Hyve carries no intangible amortization) (<a href="https://beancount.io/pt/blog/2026/10/05/td-synnex-fy2026-q3-earnings-analysis" target="_blank" rel="noopener">Beancount</a>).</p>
+<figure class="viz" id="c-segshare"><p class="vt">Hyve is 18% of revenue but 39% of operating income</p><p class="vs">Share of Q3 FY26 total, by segment (GAAP)</p><div class="viz-body"></div><figcaption>Source: 10-Q, quarter ended Aug 31, 2026, p. 26-27. Q3 FY26 GAAP operating income: Hyve $249M vs Americas $255M.</figcaption></figure><figure class="viz" id="c-segrev"><p class="vt">Every segment grew, Hyve and the Americas fastest</p><p class="vs">Segment revenue, USD billions, Q3 FY25 vs Q3 FY26</p><div class="viz-body"></div><figcaption>Source: 10-Q, quarter ended Aug 31, 2026, p. 26-27. Prior year recast to the four-segment structure. Hyve revenue is much lower than its billings because many Hyve programs are booked net.</figcaption></figure><p><strong>Nine months ended Aug 31, 2026 (10-Q, p. 27-28, 38-40).</strong></p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Segment</th>
+<th>Revenue 9M FY26 (y/y)</th>
+<th>GAAP op. income (y/y)</th>
+<th>GAAP op. margin 9M FY26 / 9M FY25</th>
+<th>Non-GAAP op. income (y/y)</th>
+<th>Non-GAAP op. margin 9M FY26 / 9M FY25</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Americas</td>
+<td>$27.64B (+26.0%)</td>
+<td>$694.8M (+42.4%)</td>
+<td>2.51% / 2.22%</td>
+<td>$853.2M (+33.4%)</td>
+<td>3.09% / 2.92%</td>
+</tr>
+<tr>
+<td>Europe</td>
+<td>$18.65B (+28.4%; +22.1% cc)</td>
+<td>$297.5M (+119.2%)</td>
+<td>1.60% / 0.93%</td>
+<td>$412.7M (+68.0%)</td>
+<td>2.21% / 1.69%</td>
+</tr>
+<tr>
+<td>APJ</td>
+<td>$3.09B (+26.4%)</td>
+<td>$75.6M (+76.4%)</td>
+<td>2.45% / 1.75%</td>
+<td>$82.2M (+68.8%)</td>
+<td>2.66% / 1.99%</td>
+</tr>
+<tr>
+<td>Hyve Solutions</td>
+<td>$8.92B (+43.2%)</td>
+<td>$583.7M (+66.8%)</td>
+<td>6.54% / 5.62%</td>
+<td>$592.9M (+67.5%)</td>
+<td>6.65% / 5.68%</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td>$58.29B (+29.2%)</td>
+<td>$1,651.6M (+62.5%)</td>
+<td>2.83% / 2.25%</td>
+<td>$1,941.0M (+50.7%)</td>
+<td>3.33% / 2.85%</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>What the 10-Q says drove each segment</strong> (p. 35-40):
+- <strong>Americas:</strong> growth in both Advanced and Endpoint, plus more sales booked gross (adding ~12 points to Q3 revenue growth); operating income up despite "higher personnel costs and higher credit costs" and a lower gross margin. Non-GAAP operating margin slipped to 2.96% from 3.04% because the extra gross-booked revenue diluted the percentage by ~28 bp.
+- <strong>Europe:</strong> the standout for profit improvement. Endpoint gross margin rose while Advanced gross margin fell; operating leverage more than doubled non-GAAP operating income. Nine-month growth was flattered by a stronger euro (22.1% in constant currency vs 28.4% reported).
+- <strong>APJ:</strong> growth in both portfolios, a lower Q3 gross margin, and a weaker rupee and yen (constant-currency Q3 growth 27.7%).
+- <strong>Hyve:</strong> "strong revenue growth in Manufacturing as well as Supply Chain Services." Operating margin rose mainly because more revenue is booked net, which the 10-Q says lifted Hyve's operating margin by about 2 points, "partially offset by a decline in gross margin."</p>
+<p><strong>Portfolio mix by gross billings.</strong> TD SYNNEX does not publish full-year Endpoint and Advanced totals in anything the research could access, and the Q3 FY26 10-Q does not give them either. The FY2025 figures below are therefore <strong>estimates</strong> rebuilt from quarterly disclosures. They reconcile to the reported Q3 FY25 total of $22.7B, which validates the method. The Q3 FY26 "reported" column comes from the earnings call and supplemental deck via secondary sources, not the 10-Q.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Bucket</th>
+<th>FY2025 estimate</th>
+<th>Share FY2025</th>
+<th>Q3 FY26 reported</th>
+<th>Share Q3 FY26</th>
+<th>Q3 FY26 growth</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Endpoint Solutions</td>
+<td>~$35-36B</td>
+<td>~40%</td>
+<td>$10.3B</td>
+<td>32%</td>
+<td>+16%</td>
+<td>FY25 medium; Q3 high</td>
+</tr>
+<tr>
+<td>Advanced Solutions excl. Hyve</td>
+<td>~$42-43B</td>
+<td>~47-48%</td>
+<td>$14.5B</td>
+<td>46%</td>
+<td>+37%</td>
+<td>FY25 medium; Q3 high</td>
+</tr>
+<tr>
+<td>Hyve Solutions</td>
+<td>~$11.4B (sum of reported quarters)</td>
+<td>~12.7%</td>
+<td>$7.0B</td>
+<td>22%</td>
+<td>+117%</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Total</td>
+<td>~$89.4B</td>
+<td>100%</td>
+<td>$31.8B</td>
+<td>100%</td>
+<td>+40%</td>
+<td>High</td>
+</tr>
+</tbody>
+</table></div>
+<p>On a <strong>revenue</strong> basis, the picture flips, because software in Advanced Solutions is booked net. The original research estimated Hyve at ~10% of FY2025 revenue, but the 10-Q's recast segment data show <strong>Hyve was 13.8% of nine-month FY2025 revenue ($6.23B of $45.13B)</strong> (10-Q, quarter ended Aug 31, 2026, p. 28), so Hyve was roughly 14% for the year. That leaves about 86% for Distribution, which the research splits roughly <strong>50-54% Endpoint and 32-36% Advanced excluding Hyve</strong> (estimate; confidence low to medium). In Q3 FY26 Hyve was 17.6% of revenue (p. 26). Sources for the estimate: (<a href="https://www.fool.com/earnings/call-transcripts/2026/09/24/td-synnex-snx-q3-2026-earnings-call-transcript/" target="_blank" rel="noopener">Motley Fool</a>; <a href="https://ca.investing.com/news/company-news/td-synnex-q2-2025-slides-12-gross-billings-growth-despite-eps-challenges-93CH-4075943" target="_blank" rel="noopener">Investing.com Q2 FY25</a>).</p>
+<figure class="viz" id="c-mix"><p class="vt">Gross billings mix: Hyve more than doubled</p><p class="vs">Non-GAAP gross billings by portfolio, USD billions</p><div class="viz-body"></div><figcaption>Source: earnings release and call commentary (secondary; billings are not in the 10-Q). Q3 FY25 Endpoint and Advanced are back-calculated from reported growth rates. Growth: Endpoint +16%, Advanced +37%, Hyve +117%.</figcaption></figure><p><strong>Product categories below the bucket level are not disclosed at all.</strong> The research found no company, broker or analyst split. The table below is the research team's own triangulation, anchored only on Apple (~$7.5B) and HP (~$6.3B) FY2025 revenue. It is a rough sizing, not a reportable fact.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Category (FY2025 gross billings, ESTIMATE)</th>
+<th>Est. billings</th>
+<th>Est. share</th>
+<th>Confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PCs (notebooks, desktops, Mac, Chromebooks)</td>
+<td>~$18-21B</td>
+<td>20-23%</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Mobile (phones, tablets)</td>
+<td>~$5-7B</td>
+<td>6-8%</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Peripherals, printers, supplies, accessories, consumer electronics, endpoint software</td>
+<td>~$8-10B</td>
+<td>9-11%</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>Software, SaaS, cloud marketplaces, security software</td>
+<td>~$15-22B</td>
+<td>17-25%</td>
+<td>Very low</td>
+</tr>
+<tr>
+<td>Servers, storage, networking, converged infrastructure (non-Hyve)</td>
+<td>~$20-27B</td>
+<td>22-30%</td>
+<td>Very low</td>
+</tr>
+<tr>
+<td>Hyve (hyperscale ODM/AI racks; ~2/3 manufacturing, ~1/3 supply-chain services in Q3 FY26)</td>
+<td>~$11.4B</td>
+<td>~12.7%</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Stand-alone services</td>
+<td>Not separable</td>
+<td>n/a</td>
+<td>n/a</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="viz" id="c-cats"><p class="vt">Estimated FY2025 product mix</p><p class="vs">Gross billings by category, USD billions. Bars show the estimated range; the tick is the midpoint.</p><div class="viz-body"></div><figcaption>These are research-team estimates, not company disclosures. Only Hyve is reported. TD SYNNEX publishes no category split below Endpoint, Advanced and Hyve. FY2025 gross billings were about $89.4B.</figcaption></figure><p><strong>Where growth is coming from.</strong>
+- <strong>AI infrastructure leads.</strong> Hyve billings grew more than 50% in Q4 FY25, 95% in Q1 FY26 and 117% in both Q2 and Q3 FY26. The matching +117% figures are not an error: $5.46B vs $2.52B and $7.01B vs $3.22B (<a href="https://s21.q4cdn.com/109490932/files/content_files/FQ326-SNX-Supplemental-Financial-vFinal.pdf" target="_blank" rel="noopener">Q3 FY26 supplemental</a>).
+- <strong>Advanced Solutions is next,</strong> up 37% in Q3 FY26 on "infrastructure, software, and AI-related technologies." The quarter included a deal with VAR Mark III Systems (some sources spell it "Mach3") for an <strong>NVIDIA AI factory on Vera Rubin NVL72</strong> systems. The CEO called it one of the largest enterprise AI factory deployments expected through the channel. TD SYNNEX supplies design, integration, deployment, co-administration, financing and supply chain (<a href="https://www.channeldive.com/news/td-synnex-mark-3-systems-nvidia-ai-factory/831399/" target="_blank" rel="noopener">Channel Dive</a>).
+- <strong>Endpoint is growing on price, not units:</strong> +16% in Q3 with "higher average selling prices and a modest decline in units." The 10-Q adds that Endpoint gross margins improved in Q3, partly offsetting mix pressure elsewhere (10-Q, quarter ended Aug 31, 2026, p. 37). It also names memory explicitly: "As AI applications and related data center investments continue to increase demand for memory-intensive configurations, the resulting changes in memory pricing may impact supply chains, product mix and pricing trends across certain technology products" (p. 32). <strong>AI PCs are close to 50% of personal-computing revenue</strong> (<a href="https://www.gurufocus.com/news/9096085/td-synnex-corp-snx-q3-2026-earnings-call-highlights-record-billings-surge-40-as-ai-infrastructure-demand-accelerates" target="_blank" rel="noopener">GuruFocus</a>). The CFO estimated that about <strong>two points of Q1 FY26 billings growth came from higher prices and pull-forward</strong>, as OEMs passed through memory costs (<a href="https://www.channeldive.com/news/td-synnex-q1-2026-revenue-growth-component-price-hikes/816275/" target="_blank" rel="noopener">Channel Dive</a>).
+- <strong>Category outlook.</strong> CEO Zammit expects PCs, cybersecurity, cloud, software and servers to grow strongly in 2026, and is more cautious on storage and networking (<a href="https://itchanneloxygen.com/td-synnex-ceo-on-european-portfolio-gaps-exertis-rightsizing-and-kit-shortages/" target="_blank" rel="noopener">IT Channel Oxygen</a>).</p>
+<p><strong>Hyve's growth comes with risks.</strong>
+- <strong>Customer concentration.</strong> Hyve is ramping three new hyperscale customers. New programs are mostly networking and described as margin neutral to accretive, but will not reach full margin until the second half of FY2027, and some contracts carry cancellation rights (<a href="https://www.marketbeat.com/instant-alerts/transcript-td-synnex-q3-earnings-call-highlights-2026-09-24/" target="_blank" rel="noopener">MarketBeat</a>). One unnamed customer was <strong>11% of FY2025 revenue</strong> (12% in FY2024). The 10-K links this to the systems design and integration line, which points to a Hyve hyperscaler, but the customer is not named. The 10-Q shows that customer at 11% of revenue in Q3 FY25 and the first nine months of FY25, but <strong>no customer above 10% of revenue in Q3 FY26 or the first nine months of FY26</strong>, and none above 10% of receivables (10-Q, quarter ended Aug 31, 2026, p. 10). Concentration has eased as Hyve adds customers, and more Hyve revenue being booked net also shrinks the largest customer's reported share. The 10-Q still flags that Hyve "is highly dependent on the demand for cloud infrastructure, and the number of key customers and suppliers in the market" (p. 32).
+- <strong>Amazon warrant (confirmed in the 10-Q).</strong> On <strong>May 30, 2026</strong> TD SYNNEX issued a warrant to <strong>Amazon.com NV Investment Holdings LLC</strong>, which the 10-Q calls "a customer," for up to <strong>3,238,066 shares</strong> (about 4% of the 79.8M shares outstanding, derived). <strong>215,871 shares vested immediately</strong> at $0.01. The other <strong>3,022,195 shares vest in tranches at a $191.10 exercise price</strong> as Amazon's "aggregate qualifying payments" for purchases of products and services pass specified thresholds, which are not disclosed. The warrant expires May 30, 2033. The value is booked as a reduction of revenue as qualifying sales occur: <strong>$14.5M in Q3 FY26</strong>. Grant-date fair value was $246.19 per immediately vested share and $116.15 per performance share, which implies roughly $350M of further contra-revenue over the life of the warrant if every tranche vests (derived). The company early-adopted the new accounting standard ASU 2025-04 for this transaction (p. 11, 14, 16, 47). The secondary source (<a href="https://www.webull.com/news/15634357347550208" target="_blank" rel="noopener">Webull</a>) tied the warrant to Hyve; <strong>the 10-Q does not say which business the qualifying purchases run through.</strong></p>
+<p><strong>Regional growth.</strong> Europe outgrew the Americas in FY2025 (revenue +10.5%) and Q1 FY26 (billings +25%), but on the recast basis the Americas grew revenue faster in Q3 FY26 (+39.9% vs +30.2%), helped by more gross-booked sales. Europe's story is profit: Q3 FY26 non-GAAP operating income +116% and nine-month GAAP operating income +119% (10-Q, quarter ended Aug 31, 2026, p. 35, 39). APJ is small (~5% of revenue) but growing fast (+27.7% in constant currency in Q3).</p></section>
+<section class="sec" id="s4"><div class="sec-no">Section 4</div><h2>Strategy has narrowed to AI infrastructure, digital channels and specialization</h2><p><strong>Leadership.</strong> Patrick Zammit became CEO <strong>effective September 1, 2024</strong>. He succeeded Rich Hume after serving as COO from January 2024 (<a href="https://www.businesswire.com/news/home/20240619892207/en" target="_blank" rel="noopener">Business Wire</a>; <a href="https://www.channelinsider.com/news-and-trends/us/td-synnex-ceo-transition/" target="_blank" rel="noopener">Channel Insider</a>). He started his career at Avnet, ran Europe from 2017 and added APJ in 2021. One research note initially carried a September 2025 start date. The verification pass found 2024 consistent across multiple sources, so treat 2024 as correct. Other leaders:
+- <strong>David Jordan</strong> became EVP and CFO in October 2025, replacing Marshall Witt. He was previously Americas CFO and head of investor relations (<a href="https://www.businesswire.com/news/home/20251002799791/en/TD-SYNNEX-Announces-CFO-Transition" target="_blank" rel="noopener">Business Wire</a>).
+- <strong>Reyna Thompson</strong> became President, North America on Dec 1, 2024. She previously led North America Advanced Solutions, which serves "over 12,000 channel partners" (<a href="https://s21.q4cdn.com/109490932/files/doc_news/2024/09/1/TD-SYNNEX-to-Appoint-Reyna-Thompson-President-North-America-2024.pdf" target="_blank" rel="noopener">TD SYNNEX release</a>). Her updated employment agreement, dated July 10, 2026, is filed with the Q3 10-Q and confirms the title.
+- <strong>Alim Dhanji</strong> is Chief Human Resources Officer and EVP Corporate Affairs, also covering brand and communications, ESG, corporate security and real estate (updated agreement July 10, 2026, filed with the 10-Q). An offer letter with <strong>David Vetter</strong>, also dated July 10, 2026, is incorporated by reference; the 10-Q does not state his role (10-Q, quarter ended Aug 31, 2026, p. 48 and exhibits). Zammit (President and CEO) and Jordan (CFO) signed the 10-Q on October 1, 2026 (p. 50).
+- <strong>Wendy Welch</strong> became SVP Public Sector Sales in May 2026, covering Federal, state and local government and education, including DLT Solutions (<a href="https://www.businesswire.com/news/home/20260512914047/en/TD-SYNNEX-Accelerates-Investment-in-U.S.-Public-Sector-Business-at-Annual-Red-White-You-Event" target="_blank" rel="noopener">Business Wire</a>).
+- <strong>Sergio Farache</strong> is chief strategy and technology officer (<a href="https://www.channelweb.co.uk/news-network/2026/hpe-taps-td-synnex-ingram-micro-as-global-distribution-backbone-in-post-juniper-acquisition-channel-reset" target="_blank" rel="noopener">ChannelWeb UK</a>).
+- <strong>Douglas Britt</strong> joined the board in June 2026, expanding it from ten to eleven members (<a href="https://www.sec.gov/Archives/edgar/data/0001177394/000162828026044641/snx-20260617.htm" target="_blank" rel="noopener">SEC 8-K</a>).</p>
+<p><strong>Formal targets: the record conflicts on which investor day is the latest.</strong> The March 2022 investor day set four pillars: strengthen the end-to-end portfolio, invest in high-growth technologies, digitally transform the business, expand the global footprint. It framed TD SYNNEX as a "solutions orchestrator." Medium-term targets were <strong>6-7% revenue CAGR, ~3% non-GAAP operating margin and 15-20% total shareholder return</strong> (<a href="https://www.businesswire.com/news/home/20220329005663/en/TD-SYNNEX-Hosts-2022-Virtual-Investor-Day-and-Outlines-Key-Strategic-Growth-Initiatives-and-Medium-Term-Outlook/" target="_blank" rel="noopener">Business Wire</a>). The strategy research found no later investor day. The go-to-market research, however, cites an <strong>April 10, 2025 investor day</strong> 8-K with newer medium-term aspirations: <strong>~5% gross-billings CAGR, 10-12%+ EPS CAGR and 95% free-cash-flow conversion</strong>. Its listed initiatives included marketplace and digital sales, financing and everything-as-a-service, cloud/IaaS, SMB/MSP/CSP and data/AI (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000117739425000033/ex991tdsynnexhosts2025inve.htm" target="_blank" rel="noopener">8-K</a>). The 2025 document is primary and more recent, so treat its targets as current. The 95% FCF figure management repeated in June 2026 matches it. FY2026 is far ahead of the growth target and far behind the cash target.</p>
+<p><strong>The strategy as stated in the 10-Q.</strong> The Q3 FY26 10-Q states the vision as "to be the vital solutions aggregator and orchestrator that connects the IT ecosystem" and lists five strategic imperatives (10-Q, quarter ended Aug 31, 2026, p. 31):
+- <strong>Unify reach</strong> by expanding the portfolio in mature and developing markets.
+- <strong>Target new customers</strong> through "our specialist go-to-market and trusted advisor approach."
+- <strong>Expand the addressable market</strong> through the vendor value proposition, "capitalizing on end-to-end capabilities to support business currently operated by vendors."
+- <strong>Diversify offerings</strong>, "including providing design, manufacturing and supply chain services to hyperscale computing customers."
+- <strong>Expand and attach services</strong> to engage earlier in the customer lifecycle, support complex deployments and drive renewals.</p>
+<p>The catalog explicitly includes "artificial intelligence ("AI") and hyperscale computing infrastructure" (p. 31). The 10-Q reports no material change to risk factors since the FY2025 10-K and no material change in market risk (p. 46-47). It describes the macro backdrop as persistent inflation, elevated interest rates, market volatility, tariff uncertainty and geopolitical developments, and says tariffs are generally passed through to customers in the sales price (p. 32).</p>
+<p><strong>Zammit's operating priorities</strong>, pieced together from earnings calls and interviews rather than a single strategy document, fall into three groups.</p>
+<p><em>Commercial model.</em> On the Q2 FY26 call he described three commercial pillars (<a href="https://www.benzinga.com/news/26/06/60099131/td-synnex-q2-2026-earnings-call-transcript" target="_blank" rel="noopener">Benzinga</a>):
+- <strong>Omnichannel engagement:</strong> digital self-serve "when they want speed" and humans "when they want expertise," enabled by PartnerFirst and machine-learning, generative and agentic AI.
+- <strong>Specialization:</strong> "we segment our commercial teams in groups of specialists," tier the customer base strategically and "in some cases we reallocate resources monthly."
+- <strong>Investment in enablement.</strong></p>
+<p>He also said SMB customers are growing "well above market." A Q1 transcript summary referred to "four strategic pillars," so the framing varies by call.</p>
+<p><em>Market view</em> (<a href="https://www.computerweekly.com/microscope/news/366651273/TD-Synnex-boss-talks-of-widening-AI-impact" target="_blank" rel="noopener">Computer Weekly</a>):
+- Enterprises are moving from AI experiments to production "AI factory" deployments.
+- AI creates new security, governance and compliance needs, and financial operations and security operations will grow in importance.
+- Vendors increasingly want partners that can reach customers, activate demand and execute globally, which raises distribution's strategic value.</p>
+<p><em>Admitted weak spots</em> (<a href="https://itchanneloxygen.com/td-synnex-ceo-on-european-portfolio-gaps-exertis-rightsizing-and-kit-shortages/" target="_blank" rel="noopener">IT Channel Oxygen</a>):
+- TD SYNNEX is missing "some important cybersecurity vendors" in Europe.
+- Memory shortages will create "a lot of tensions" with vendors, partners and end users.</p>
+<p><strong>M&amp;A is small and platform-focused:</strong>
+- <strong>Apptium</strong>, the cloud-commerce engine behind StreamOne, acquired July 1, 2025 for about <strong>$105.1M</strong> (<a href="https://news.tdsynnex.com/featured/td-synnex-acquires-apptium-to-accelerate-innovation-breadth-of-cloud-and-everything-as-a-service-offerings/" target="_blank" rel="noopener">TD SYNNEX news</a>).
+- <strong>Gateway Computer</strong> in Japan, October 2025 (<a href="https://s21.q4cdn.com/109490932/files/doc_news/TD-SYNNEX-Completes-Share-Acquisition-of-Gateway-Computer-Corporation-a-Japanese-IT-Solutions-and-Services-Provider-2025.pdf" target="_blank" rel="noopener">TD SYNNEX release</a>).
+- <strong>Exclusive Networks Poland's</strong> AV/unified-communications and gaming units, around January 2026 (<a href="https://www.installation-international.com/business/acquisitions/td-synnex-completes-polish-av-uc-acquisition" target="_blank" rel="noopener">Installation International</a>).</p>
+<p>The 10-Q names none of these deals. It shows <strong>just $7.8M of cash spent on acquisitions in the first nine months of FY2026</strong> (vs $77.5M a year earlier) and $2.8M of goodwill added, all in Europe, which fits a small European deal such as the Polish units (10-Q, quarter ended Aug 31, 2026, p. 7, 17). Capital went to working capital and capacity instead: capital expenditure rose to $159M from $104M, "primarily reflecting investments in facilities to support the Company's growth" (p. 44). The 10-Q does not quantify the Hyve manufacturing expansion.</p>
+<p>The newest partnership is a <strong>global distribution agreement with Siemens, signed Oct 5, 2026</strong>, covering industrial automation, software and AI, cybersecurity and electrification (<a href="https://distributionstrategy.com/2026/10/td-synnex-siemens-launch-global-distribution-partnership-for-industrial-ai/" target="_blank" rel="noopener">Distribution Strategy</a>). It extends TD SYNNEX into operational technology.</p>
+<p><strong>Sustainability.</strong> TD SYNNEX has Science Based Targets initiative (SBTi) approved climate targets. It met its 2030 Scope 1+2 goal early, with emissions <strong>down nearly 43% since 2022</strong> (<a href="https://www.channelweb.co.uk/news/2025/td-synnex-achieves-2030-climate-targets-ahead-of-schedule" target="_blank" rel="noopener">ChannelWeb UK</a>).</p></section>
+<section class="sec" id="s5"><div class="sec-no">Section 5</div><h2>Reaching 150,000 partners through specialists, portals and marketplaces</h2><p><strong>Who TD SYNNEX sells to.</strong> It reaches end customers almost entirely indirectly, through VARs, ISVs, system integrators, MSPs, retailers and public-sector specialists. The exception is Hyve, which sells directly to hyperscalers.</p>
+<p><strong>How the commercial organization is structured.</strong> Regional presidents lead North America, Europe, APJ and Latin America and the Caribbean. In North America, Advanced Solutions acts as a specialist overlay with named practices: CloudSolv, CyberSolv, Public Sector and Destination AI (<a href="https://channeldrive.in/people/td-synnex-to-appoint-reyna-thompson-as-president-north-america/" target="_blank" rel="noopener">Channel Drive</a>). No public source describes the split between inside and field sales, vendor business units or headcount by role. The "specialists plus tiers plus monthly reallocation" language is the best public description of the coverage model.</p>
+<p><strong>How partners transact.</strong> There are four main routes:
+- <strong>PartnerFirst</strong>, a unified portal launched in North America in September 2025 and in Europe in July 2026, where it consolidated the InTouch and Software Store portals (<a href="https://www.businesswire.com/news/home/20250925575232/en/Introducing-TD-SYNNEX-PartnerFirst-a-Unified-Digital-Portal-for-Enhanced-Partner-Experience" target="_blank" rel="noopener">Business Wire</a>; <a href="https://itsocial.fr/tech-digital/tech-digital-actualites/distribution-it-td-synnex-deploie-partnerfirst-son-guichet-numerique-unifie-pour-les-revendeurs-europeens/" target="_blank" rel="noopener">IT Social</a>).
+- <strong>Legacy EC Express</strong> and real-time XML/API integrations used by quoting and PSA tools.
+- <strong>Digital Bridge</strong>, an integration layer launched in January 2025. Its AI assistant started in Microsoft Teams, then Slack and Webex. It pulls live pricing, stock and documentation, and turns pasted SKU lists into quotes. Connectors for Salesforce and QuickBooks Online went live in August 2026 (<a href="https://www.tdsynnex.com/na/us/digital-bridge/ai-agent/" target="_blank" rel="noopener">Digital Bridge AI agent page</a>; <a href="https://distributionstrategy.com/2026/08/td-synnex-expands-digital-commerce-platform-with-ai-and-sales-automation/" target="_blank" rel="noopener">Distribution Strategy</a>).
+- <strong>Human reps.</strong></p>
+<p>On the January 2026 call, management said a new AI assistant lets customers transact in self-service mode 24/7 inside PartnerFirst. In 2026, PartnerFirst added two capabilities: campaign tools for nurturing resellers and end users, and <strong>lifecycle-stage analysis (close, renewal, upsell, churn) for Microsoft and Cisco</strong> (<a href="https://www.channelinsider.com/channel-business/td-synnex-partnerfirst-ai-lifecycle-tools/" target="_blank" rel="noopener">Channel Insider</a>). The company is "building machine learning, generative AI and agentic AI into PartnerFirst" to recommend products and flag opportunities (<a href="https://distributionstrategy.com/2026/06/td-synnex-doubles-down-on-ai-hyperscalers-and-global-partnerships/" target="_blank" rel="noopener">Distribution Strategy</a>). It discloses no share of orders by channel (digital vs rep) and no outcome metrics for Digital Bridge.</p>
+<figure class="viz"><p class="vt">Four ways partners buy from TD SYNNEX</p><p class="vs">From fully digital to fully human</p><div class="routes"><div class="route"><span class="route-k">Digital</span><b>PartnerFirst portal</b><span>Unified digital portal; North America Sept 2025, Europe July 2026. AI assistant for 24/7 self-service.</span></div><div class="route"><span class="route-k">Digital</span><b>APIs and integrations</b><span>EC Express, real-time XML/API feeds, Digital Bridge connectors to Teams, Slack, Webex, Salesforce, QuickBooks.</span></div><div class="route"><span class="route-k">Digital</span><b>StreamOne Ion marketplace</b><span>Cloud and MSP motion: PSA connectors, headless commerce API, white-label storefronts, AWS seller of record.</span></div><div class="route"><span class="route-k">Human</span><b>Specialists and reps</b><span>Sales specialists by technology and customer tier, inside sales, PartnerLINK communities, Destination AI.</span></div></div><figcaption>Source: section 5 of this report; company releases and trade press, 2024-2026.</figcaption></figure><p><strong>The cloud and MSP motion runs through StreamOne.</strong>
+- <strong>The platform.</strong> StreamOne Ion is the current-generation cloud marketplace. It offers PSA connectors for ConnectWise and Autotask, a headless commerce API and white-label storefronts, which reached the UK and Ireland in May 2026 (<a href="https://www.businesswire.com/news/home/20241112213300/en/TD-SYNNEX-Elevates-StreamOne-with-New-Commerce-and-Security-Capabilities" target="_blank" rel="noopener">Business Wire Nov 2024</a>; <a href="https://pcr-online.biz/2026/05/18/td-synnex-makes-streamone-uki/" target="_blank" rel="noopener">PCR</a>).
+- <strong>Adoption figures conflict.</strong> The November 2024 release and CEO Zammit in 2025 cite <strong>30,000 active partners and 500,000 end users</strong> (<a href="https://channelweb.co.uk/news-network/2025/td-synnex-ceo-patrick-zammit-on-streamone-cloud-marketplace-growth-tariffs-and-broadcom-ceo-hock-tan-s-channel-commitment" target="_blank" rel="noopener">ChannelWeb</a>). Another executive's comments reported by CRN Asia say "20,000+ partners actively working in the platform" (<a href="https://www.crnasia.com/news-network/2025/td-synnex-to-bolster-digital-commerce" target="_blank" rel="noopener">CRN Asia</a>). The 30,000 figure is the company's headline number, but it is now about a year old. A narrower metric, 8,000+ North American resellers transacting, dates from November 2024.
+- <strong>Hyperscaler and Microsoft ties.</strong> AWS Marketplace offers are sold through StreamOne Stellr, with TD SYNNEX as Designated Seller of Record under an AWS Strategic Collaboration Agreement signed August 2025 (<a href="https://www.businesswire.com/news/home/20250827433532/en/TD-SYNNEX-Signs-Strategic-Collaboration-Agreement-with-AWS-to-Accelerate-Cloud-and-AI-Adoption-Across-the-Americas" target="_blank" rel="noopener">Business Wire</a>). TD SYNNEX earned Microsoft's new <strong>"Frontier Distributor"</strong> designation in March 2026, the second distributor to do so after Ingram Micro (<a href="https://www.crn.com.au/news/2026/distributor/tech-data-receives-microsoft-frontier-distributor-status" target="_blank" rel="noopener">CRN Australia</a>).
+- <strong>MSP program.</strong> MSP Evolve launched in May 2024 (<a href="https://www.businesswire.com/news/home/20240521971059/en/TD-SYNNEX-Introduces-MSP-Evolve-to-Empower-MSP-Growth-Strategies" target="_blank" rel="noopener">Business Wire</a>).
+- <strong>No cloud revenue figure.</strong> TD SYNNEX discloses no cloud revenue, ARR or StreamOne billings figure.</p>
+<p><strong>Communities and enablement.</strong>
+- <strong>PartnerLINK.</strong> In April 2025, North American partner communities were restructured into PartnerLINK, which replaced the legacy TechSelect, Varnex and CommunitySolv structures. It has four communities: Ascend, Advantage, Canada and a Public Sector option (<a href="https://www.businesswire.com/news/home/20250422504630/en/TD-SYNNEX-Prepares-Partners-for-Market-Evolution-With-New-Specialized-Community-Structure" target="_blank" rel="noopener">Business Wire</a>). In 2022, the legacy communities had <strong>1,200+ members with $6.3B of buying power</strong> (<a href="https://channelfutures.com/distribution/td-synnex-vp-discusses-unifying-partner-communities-post-merger" target="_blank" rel="noopener">Channel Futures</a>).
+- <strong>Partner Loyalty program.</strong> Launched May 2025, it is tiered and rewards Advanced Solutions growth with training, event travel credit, StreamOne credit and preferential financing (<a href="https://www.businesswire.com/news/home/20250513461477/en/TD-SYNNEX-Accelerates-Innovation-and-Growth-Through-New-Partner-Loyalty-Program" target="_blank" rel="noopener">Business Wire</a>).
+- <strong>Destination AI.</strong> Launched August 2023 and the main AI enablement program, it bundles reference architectures, Practice Builder training, demos and proof-of-value support, and 40+ AI vendors in the catalog (<a href="https://www.businesswire.com/news/home/20230815618891/en/TD-SYNNEX-Launches-Destination-AI-Program-to-Support-Partner-Enablement" target="_blank" rel="noopener">Business Wire</a>). The Practice Accelerator (October 2024) added six-week cohorts. A May 2025 "next phase" added the Solution Grid and Aware/Ready/Expert partner profiling (<a href="https://www.businesswire.com/news/home/20250514898978/en/TD-SYNNEX-Unveils-Next-Phase-of-Destination-AI-to-Operationalize-Partners-AI-Strategies" target="_blank" rel="noopener">Business Wire</a>). In October 2025, TD SYNNEX added GPU capacity on Nebius, and in April 2026 it reserved dedicated HGX B300 clusters there. In July 2026 it opened an <strong>AI Factory in Paris with NVIDIA and Cisco</strong> for EMEA partners (<a href="https://www.itreseller.ch/Artikel/105793/TD_Synnex_eroeffnet_KI-Factory_fuer_Kunden_in_Europa.html" target="_blank" rel="noopener">ITreseller.ch</a>).
+- <strong>No adoption figures.</strong> The company publishes no enrollment or revenue metrics for Destination AI.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Program / platform</th>
+<th>What it is</th>
+<th>Launched / latest</th>
+<th>Scale disclosed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PartnerFirst</td>
+<td>Unified digital portal: commerce, StreamOne, enablement, loyalty, campaigns, lifecycle analytics, Services Marketplace with AI search</td>
+<td>NA Sept 2025; Europe July 2026; AI features 2026</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Digital Bridge</td>
+<td>Integration layer and AI assistant in Teams, Slack, Webex; Salesforce and QuickBooks connectors</td>
+<td>Jan 2025; connectors Aug 2026</td>
+<td>"Thousands" of partners</td>
+</tr>
+<tr>
+<td>StreamOne Ion / Stellr</td>
+<td>Cloud and SaaS marketplace, PSA integration, white-label storefronts, AWS Marketplace seller-of-record</td>
+<td>Ion migration 2024-25; UK&amp;I storefronts May 2026; Apptium acquired Jul 2025</td>
+<td>30,000 partners / 500k end users (2024-25; 20,000+ per another exec)</td>
+</tr>
+<tr>
+<td>Destination AI</td>
+<td>AI enablement: Practice Builder, Practice Accelerator, Solution Grid, Innovation Centers, Nebius GPU cloud, Paris AI Factory</td>
+<td>Aug 2023; phases Oct 2024, May 2025; Paris Jul 2026</td>
+<td>40+ AI vendors; 250+ UK partners at one event</td>
+</tr>
+<tr>
+<td>PartnerLINK</td>
+<td>NA partner communities (Ascend, Advantage, Canada, Public Sector)</td>
+<td>Apr 2025</td>
+<td>Legacy communities 1,200+ members (2022)</td>
+</tr>
+<tr>
+<td>Partner Loyalty</td>
+<td>Tiered rewards favoring Advanced Solutions growth</td>
+<td>May 2025</td>
+<td>None</td>
+</tr>
+<tr>
+<td>MSP Evolve</td>
+<td>MSP tools, training, StreamOne access</td>
+<td>May 2024</td>
+<td>None</td>
+</tr>
+<tr>
+<td>CloudSolv / CyberSolv / SOC-as-a-Service</td>
+<td>NA Advanced Solutions practices</td>
+<td>Ongoing</td>
+<td>Four programs rated 5-star in CRN 2025 guide</td>
+</tr>
+<tr>
+<td>TD SYNNEX Capital / Amplify</td>
+<td>Short-term credit (45-90 days), 12-60 month financing, UK Tech-as-a-Service</td>
+<td>Amplify Sept 2023</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Public Sector / DLT</td>
+<td>Federal and SLED unit; contract vehicles (NCPA, Equalis)</td>
+<td>New SVP May 2026</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>Inspire (NA, Oct 7-9, 2026 per third-party listing; LAC ~700 leaders), Red, White &amp; You, High-Growth Conference</td>
+<td>Annual</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Partner pain points.</strong> The research found no credible partner survey on TD SYNNEX. The available signals are indirect:
+- <strong>Loyalty program skepticism.</strong> One critique questions whether the loyalty tiers improve partner profitability or just add another tier to climb (<a href="https://businessof.tech/?p=11243" target="_blank" rel="noopener">Business of Tech</a>).
+- <strong>Supply shortages.</strong> UK partners face possible "pandemic levels" of kit shortages in 2026.
+- <strong>Europe security gaps.</strong> The CEO himself acknowledged missing cybersecurity vendors in Europe.
+- <strong>Portal sprawl.</strong> The consolidation onto PartnerFirst and the StreamOne Ion migration suggest the post-merger portal landscape was fragmented.</p></section>
+<section class="sec" id="s6"><div class="sec-no">Section 6</div><h2>Vendors are consolidating around two global distributors</h2><p><strong>Vendor concentration.</strong>
+- <strong>Two vendors crossed the 10%-of-revenue threshold in FY2025:</strong> <strong>Apple at 12% of FY2025 revenue (12% in FY2024, 11% in FY2023) and HP Inc. at 10% in FY2025</strong> (below 10% earlier). That is roughly $7.5B and $6.3B (derived) (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026003598/snx-20251130.htm" target="_blank" rel="noopener">FY2025 10-K</a>).
+- <strong>Both shares are falling in FY2026.</strong> Apple was 10% of revenue for the first nine months of FY2026 (vs 12%) and below 10% in Q3 FY26 (vs 11%). HP Inc. was below 10% in both FY2026 periods (vs 10%) (10-Q, quarter ended Aug 31, 2026, p. 9). Apple at ~10% of nine-month revenue is still roughly $5.8B (derived). The dilution comes from Hyve and Advanced Solutions growing faster, not necessarily from lower Apple or HP dollars.
+- <strong>The Apple distribution case in France is closed.</strong> The French Competition Authority's fine on TD SYNNEX over Apple volume allocations, cut on appeal to €24.9M and paid by FY2022, became final when all appeals were dismissed in May 2026. A related civil suit by eBizcuss was dismissed in 2024 and is under appeal; the company sees material loss as remote (p. 29).
+- <strong>Other primary suppliers</strong> named in the filings are Cisco, Dell, HPE, IBM, Lenovo, Microsoft and Samsung (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000117739425000018/ars.pdf" target="_blank" rel="noopener">FY2024 annual report</a>). None is quantified.
+- <strong>Concentration relative to Endpoint.</strong> Measured against estimated Endpoint revenue, Apple and HP are roughly 22% and 19% (estimate). As expected, Hyve's growth is pushing both below their FY2025 shares of total revenue (see the 10-Q figures above).</p><figure class="viz" id="c-conc"><p class="vt">No single vendor or customer dominates</p><p class="vs">Share of consolidated revenue (%), as disclosed</p><div class="viz-body"></div><figcaption>Source: FY2025 10-K and 10-Q, quarter ended Aug 31, 2026, p. 9-10. The 10-Q discloses only shares of 10% or more; a zero bar means below that threshold. HP Inc. was also below 10% in FY2026 to date.</figcaption></figure>
+<p><strong>Vendors are trimming their distributor lists, and TD SYNNEX is mostly on the winning side.</strong>
+- <strong>HPE.</strong> After acquiring Juniper, HPE named <strong>Ingram Micro and TD SYNNEX as its two global distribution partners on May 14, 2026</strong> (<a href="https://www.hpe.com/us/en/newsroom/press-release/2026/05/hpe-unifies-global-distribution-with-ingram-micro-and-td-synnex.html" target="_blank" rel="noopener">HPE</a>). One Q2 call summary said "HP" chose TD SYNNEX as one of two global distributors. No HP Inc. announcement exists, and this is likely a mix-up with HPE.
+- <strong>Microsoft.</strong> The Frontier Distributor tier (March 2026) followed CSP authorization rules, effective October 1, 2025, that partner-source summaries describe as including about $30M of trailing revenue per region (<a href="https://www.pax8.com/blog/microsoft-csp-changes/" target="_blank" rel="noopener">Pax8</a>).
+- <strong>Broadcom/VMware.</strong> Broadcom culled VMware service-provider partners in 2025 but <strong>added nine European territories</strong> to TD SYNNEX's distribution agreement (<a href="https://www.channelweb.co.uk/news/4189399/vmware-adds-territories-td-synnex-distribution-agreement-amid-overall-partner-cull" target="_blank" rel="noopener">ChannelWeb UK</a>).
+- <strong>Cisco.</strong> Cisco launched its Cisco 360 partner program on February 1, 2026, consolidating incentives and trimming some rebates (<a href="https://www.sdxcentral.com/articles/cisco-deals-deadlines-for-partner-program-overhaul/2025/03/" target="_blank" rel="noopener">SDxCentral</a>).</p>
+<p>The pattern is consistent: vendors cut the long tail and keep a few scaled distributors. That helps TD SYNNEX, but it also means every major vendor relationship is now a two-horse race with Ingram.</p>
+<p><strong>AI ecosystem position.</strong>
+- <strong>NVIDIA.</strong> TD SYNNEX was NVIDIA's <strong>EMEA Distributor of the Year for 2026</strong>, its first top overall EMEA award, and Americas Distributor of the Year for 2025 for the second year running (<a href="https://www.dutchitchannel.nl/news/729796/td-synnex-is-nvidia-emea-distributeur-van-het-jaar-2026" target="_blank" rel="noopener">Dutch IT Channel</a>; <a href="https://www.businesswire.com/news/home/20250319046522/en" target="_blank" rel="noopener">Business Wire</a>).
+- <strong>HPE.</strong> TD SYNNEX expanded HPE Unleash AI solutions in June 2026.
+- <strong>Dell.</strong> It signed Dell AI Factory agreements in Asia.
+- <strong>Hyperscalers and AI clouds.</strong> Its hyperscaler relationships run through Hyve, and it reserves GPU capacity from AI-native cloud provider Nebius.
+- <strong>Software.</strong> SAS made TD SYNNEX its primary global distributor in 2023 (<a href="https://www.nasdaq.com/press-release/ai-and-analytics-leader-sas-selects-td-synnex-as-primary-global-distribution-partner" target="_blank" rel="noopener">Nasdaq</a>).
+- <strong>Gaps.</strong> No AMD, Intel-specific, Supermicro or Microsoft Copilot distribution agreements surfaced in the research. That is not proof they don't exist.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Vendor</th>
+<th>Relationship highlights (dated)</th>
+<th>Strategic significance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Apple</td>
+<td>12% of FY2025 revenue (largest vendor); 10% of 9M FY26, below 10% in Q3 FY26 (10-Q)</td>
+<td>Endpoint anchor; concentration risk easing</td>
+</tr>
+<tr>
+<td>HP Inc.</td>
+<td>10% of FY2025 revenue (first time above 10%); below 10% in FY2026 to date (10-Q)</td>
+<td>PC refresh and price-driven Endpoint growth</td>
+</tr>
+<tr>
+<td>Amazon</td>
+<td>Customer and warrantholder: warrant for up to 3.24M shares vesting on qualifying purchases (May 2026, 10-Q)</td>
+<td>Equity-linked customer commitment</td>
+</tr>
+<tr>
+<td>HPE (incl. Juniper)</td>
+<td>One of two global distributors (May 2026); 2026 Distributor of the Year NA and Central Europe; Unleash AI (Jun 2026)</td>
+<td>Vendor consolidation winner, shared with Ingram</td>
+</tr>
+<tr>
+<td>Cisco</td>
+<td>Global Distributor of the Year 2025; Cisco 360 program (Feb 2026); co-sponsor of Paris AI Factory</td>
+<td>Networking/security core; incentive rules changing</td>
+</tr>
+<tr>
+<td>Microsoft</td>
+<td>Frontier Distributor (Mar 2026); Global Device Partner of the Year 2025; CSP aggregator; lifecycle analytics in PartnerFirst</td>
+<td>Cloud/SMB and Copilot-era software flow</td>
+</tr>
+<tr>
+<td>NVIDIA</td>
+<td>EMEA Distributor of the Year 2026; Americas 2025 (second year); Vera Rubin AI factory deal (Sept 2026)</td>
+<td>AI infrastructure center of gravity</td>
+</tr>
+<tr>
+<td>Dell</td>
+<td>Distributor of the Year 2024 (EMEA, NA, APJ); AI Factory agreements (Dec 2024-Jan 2025)</td>
+<td>Server/PC; AI factory channel</td>
+</tr>
+<tr>
+<td>Lenovo</td>
+<td>2025 Distributor of the Year, US and UK&amp;I</td>
+<td>PC and infrastructure</td>
+</tr>
+<tr>
+<td>AWS</td>
+<td>Strategic Collaboration Agreement (Aug 2025); Marketplace Designated Seller of Record via StreamOne Stellr</td>
+<td>Marketplace channel to 2030</td>
+</tr>
+<tr>
+<td>Google Cloud</td>
+<td>2026 Distribution Market Reach Partner of the Year</td>
+<td>Marketplace/cloud</td>
+</tr>
+<tr>
+<td>Broadcom / VMware</td>
+<td>Nine added European territories amid partner cull; authorized training center</td>
+<td>Software concentration winner</td>
+</tr>
+<tr>
+<td>Nebius</td>
+<td>Reserved NVIDIA HGX B300 clusters (Apr 2026)</td>
+<td>New "AI cloud as supplier" model</td>
+</tr>
+<tr>
+<td>Siemens</td>
+<td>Global distribution partnership (Oct 5, 2026)</td>
+<td>Industrial AI / operational technology adjacency</td>
+</tr>
+<tr>
+<td>SAS</td>
+<td>Primary global distributor (Sept 2023)</td>
+<td>Analytics/AI software</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>How vendor economics work.</strong> Vendor funds flow through cost of revenue (volume promotions, price protection, rebates) and through operating-expense reimbursements, not through a separate services line. Volume rebates depend on sales volume and customer breadth, and growth-based rebates get harder to earn as TD SYNNEX gets bigger (<a href="https://www.sec.gov/Archives/edgar/data/1177394/000162828026003598/snx-20251130.htm" target="_blank" rel="noopener">FY2025 10-K</a>). The current memory-price inflation helps inventory values but raises availability risk and working-capital needs. No disclosure quantifies market development funds (MDF), rebates or any "data services to vendors."</p></section>
+<section class="sec" id="s7"><div class="sec-no">Section 7</div><h2>Ingram Micro&#x27;s Xvantage sets the AI benchmark TD SYNNEX will be judged against</h2><p><strong>Market position.</strong> TD SYNNEX ranks <strong>#1 in Omdia's Global Distributor 250 for 2025</strong>, ahead of Ingram Micro (#2) and Arrow (#3) (<a href="https://www.channelpartner.de/article/4206826/td-synnex-ist-weltweit-groster-distributor-vor-ingram-und-arrow.html" target="_blank" rel="noopener">ChannelPartner.de</a>). Estimates of total market size vary with definition:
+- <strong>$463B</strong> for 2024 (Canalys/Omdia), with the top 15 distributors at more than 61%.
+- <strong>$389.9B</strong> of revenue for the top 250 distributors in 2025 (Omdia), with the top 15 at 72.9%.
+- <strong>About $531B</strong> for 2025, up 15% (Omdia, as reported in trade press).</p>
+<p>Sources: <a href="https://omdia.tech.informa.com/blogs/2025/jun/next-for-technology-distribution" target="_blank" rel="noopener">Omdia</a>; <a href="https://www.channeldive.com/news/old-school-distribution-channels-dwarf-hyperscaler-marketplaces-omdia/816270/" target="_blank" rel="noopener">Channel Dive</a>; <a href="https://www.dutchitchannel.nl/research/757065/it-distributie-groeit-naar-531-miljard-dollar" target="_blank" rel="noopener">Dutch IT Channel</a>. On those bases, TD SYNNEX's share is <strong>roughly 12-16%</strong> (derived). Some analysts may not count Hyve's manufacturing sales as distribution.</p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Company (period)</th>
+<th>Latest sales</th>
+<th>Growth</th>
+<th>Margin</th>
+<th>AI / platform posture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TD SYNNEX (Q3 FY26, ended Aug 31, 2026)</td>
+<td>Revenue $21.6B; billings $31.8B</td>
+<td>+37.7% / +40.0%</td>
+<td>Gross 6.61%; non-GAAP op. 3.42%</td>
+<td>Hyve AI racks; Destination AI; PartnerFirst/Digital Bridge AI assistant; no AI revenue metric disclosed</td>
+</tr>
+<tr>
+<td>Ingram Micro (Q2 2026, ended Jun 27, 2026)</td>
+<td>Net sales $14.5B</td>
+<td>+13.6%</td>
+<td>Gross 6.60%</td>
+<td>Xvantage live in 22 countries, ~75% of revenue in live markets; AI assistant (IDA) ~$1B net revenue in the quarter; &gt;2M self-service orders/qtr (Q1); MCP server (Aug 2026); GPU sales more than doubled</td>
+</tr>
+<tr>
+<td>Arrow ECS (Q2 2026)</td>
+<td>$2.63B (billings $5.9B)</td>
+<td>+14%</td>
+<td>ECS op. income -12%</td>
+<td>ArrowSphere AI assistants (limited release); says memory shortages push demand to cloud</td>
+</tr>
+<tr>
+<td>ALSO Holding (H1 2026)</td>
+<td>EUR 8.3B</td>
+<td>+21%</td>
+<td>EBITDA 2.0%</td>
+<td>Cloud EUR 1.1B (+31%), 6M users; acquisitive</td>
+</tr>
+<tr>
+<td>Pax8 (private)</td>
+<td>Unverified (~$1B ARR in 2022; later figures conflict)</td>
+<td>n/a</td>
+<td>n/a</td>
+<td>MSP-only marketplace; Agent Store; "Managed Intelligence Provider" concept; MCP in commerce APIs</td>
+</tr>
+<tr>
+<td>Westcon-Comstor (FY ended Feb 28, 2026)</td>
+<td>Gross invoiced $5.7B</td>
+<td>+9.6%</td>
+<td>n/a</td>
+<td>Cybersecurity ~52%; recurring 68% of gross sales</td>
+</tr>
+<tr>
+<td>ScanSource (FY ended Jun 30, 2026)</td>
+<td>$3.23B</td>
+<td>+6.1%</td>
+<td>Gross 13.6%</td>
+<td>Recurring revenue 33.7% of gross profit</td>
+</tr>
+<tr>
+<td>Dicker Data (H1 2026)</td>
+<td>A$2.10B gross</td>
+<td>+14.2%</td>
+<td>Gross 9.8%</td>
+<td>APAC specialist</td>
+</tr>
+<tr>
+<td>Esprinet (H1 2026)</td>
+<td>EUR 2.09B</td>
+<td>+8%</td>
+<td>Adj. EBITDA 1.53%</td>
+<td>Southern Europe</td>
+</tr>
+<tr>
+<td>Avnet (FY ended Jun 27, 2026)</td>
+<td>$27.6B</td>
+<td>+25%</td>
+<td>Adj. op. 3.1%</td>
+<td>Components; "Ask Avnet" agent</td>
+</tr>
+<tr>
+<td>CDW / Insight (Q2 2026), customers and sometimes rivals</td>
+<td>$6.57B / $2.4B</td>
+<td>~+10% / +15%</td>
+<td>Gross 20.1% / 21.7%</td>
+<td>Buy direct on large deals</td>
+</tr>
+</tbody>
+</table><figure class="viz" id="c-margins"><p class="vt">Distributors earn about a third of a reseller's gross margin</p><p class="vs">Gross margin, latest reported period (%)</p><div class="viz-body"></div><figcaption>Sources: company releases via the research notes; TD SYNNEX from the 10-Q. Periods differ, so treat as indicative. CDW and Insight are large resellers that are both customers and, on big deals, competitors.</figcaption></figure></div>
+<p>Sources: <a href="https://www.sec.gov/Archives/edgar/data/0001897762/000162828026051043/earningsreleaseq226.htm" target="_blank" rel="noopener">Ingram Micro 8-K</a>; <a href="https://itchanneloxygen.com/ingram-micro-divulges-xvantage-vital-statistics-after-q2-overachievement/" target="_blank" rel="noopener">IT Channel Oxygen</a>; <a href="https://futurumgroup.com/insights/ingram-micro-q1-fy-2026-earnings-driven-by-xvantage-scale-and-ai-deal-mix/" target="_blank" rel="noopener">Futurum</a>; <a href="https://www.channelinsider.com/ai/ingram-micro-mcp-server-xvantage/" target="_blank" rel="noopener">Channel Insider</a>; <a href="https://www.sec.gov/Archives/edgar/data/0000007536/000000753626000127/arw-20260806xex99d1.htm" target="_blank" rel="noopener">Arrow 8-K</a>; <a href="https://www.iteuropa.com/news/also-lifts-first-half-profit-61-cloud-and-ai-demand-grows" target="_blank" rel="noopener">IT Europa (ALSO)</a>; <a href="https://www.pax8.com/en-us/news-post/pax8-unveils-transformational-agent-store/" target="_blank" rel="noopener">Pax8 Agent Store</a>; <a href="https://www.channelweb.co.uk/news/2026/westcon-comstor-fy26-results" target="_blank" rel="noopener">ChannelWeb UK (Westcon)</a>; <a href="https://scansource.com/about/press-releases/2026/scansource-delivers-strong-fourth-quarter-and-full-year-results" target="_blank" rel="noopener">ScanSource</a>; <a href="https://announcements.asx.com.au/asxpdf/20260828/pdf/073d0n9049xpjr.pdf" target="_blank" rel="noopener">ASX (Dicker)</a>; <a href="https://www.emarketstorage.it/sites/default/files/comunicati/2026-09/20260909_188933.pdf" target="_blank" rel="noopener">Esprinet</a>; <a href="https://www.sec.gov/Archives/edgar/data/0000008858/000000885826000066/avt-20260805xex99d1.htm" target="_blank" rel="noopener">Avnet 8-K</a>; <a href="https://www.sec.gov/Archives/edgar/data/0001402057/000140205726000062/cdw-2026630earningsrelease.htm" target="_blank" rel="noopener">CDW</a>. Gross margins are not strictly comparable because companies net different shares of revenue. Quarter windows differ by up to one month.</p>
+<p><strong>Size and growth.</strong> TD SYNNEX is larger and growing faster than Ingram. Its Q2 FY26 revenue was about 35% above Ingram's Q2 net sales (derived). Even its Distribution segment alone grew billings 22% against Ingram's 13.6% net-sales growth, though billings and net sales are different measures.</p>
+<p><strong>AI story.</strong> Here Ingram has the more legible narrative. It publishes AI-attributed revenue (IDA at about <strong>7% of Q2 net sales</strong>, derived), self-service order counts and engagement lifts. Xvantage users show time on platform +40%, order value +12% and revenue per customer +23%. In August 2026, Ingram launched an MCP (Model Context Protocol) server that lets partners plug their own AI agents into its catalog. Pax8 is building the same agent-facing layer for MSPs. TD SYNNEX's own distinctive assets are elsewhere: Hyve, which Ingram has no equivalent of, a broad endpoint-to-data-center portfolio, and growing AI-factory delivery capability.</p></section>
+<section class="sec" id="s8"><div class="sec-no">Section 8</div><h2>The 2030 outlook: agents, marketplaces and AI factories reshape distribution</h2><p><strong>The market is concentrating.</strong> Omdia expects the 15 largest distributors to strengthen their position as vendors streamline distributor networks. It forecasts <strong>partner-delivered IT growth of 6.7% in 2026</strong> and argues that indirect vendors "cannot go alone" (<a href="https://www.dutchitchannel.nl/research/757065/it-distributie-groeit-naar-531-miljard-dollar" target="_blank" rel="noopener">Dutch IT Channel</a>; <a href="https://omdia.tech.informa.com/blogs/2026/jan/how-will-changing-it-spending-trends-impact-global-channel-chiefs" target="_blank" rel="noopener">Omdia</a>). The research found no public forecast of total distribution revenue for 2028-2030.</p>
+<p><strong>AI infrastructure demand forecasts keep being revised up.</strong>
+- <strong>IDC:</strong> <strong>$758B of AI infrastructure spending by 2029</strong>, with accelerated servers above 95% of AI server spend.
+- <strong>Gartner (Sept 2026):</strong> <strong>$2.67 trillion</strong> of total AI spending in 2026, about $1.48 trillion of it infrastructure. Gartner expects AI-optimized server spending to triple over five years (<a href="https://campustechnology.com/articles/2026/09/21/infrastructure-accounts-for-more-than-half-of-worldwide-ai-spending.aspx" target="_blank" rel="noopener">Campus Technology</a>; <a href="https://computerweekly.com/news/366638605/Gartner-AI-and-datacentre-spending-ramps" target="_blank" rel="noopener">Computer Weekly</a>).
+- <strong>Edge computing:</strong> about $450B by 2029, also IDC (<a href="https://www.idc.com/resource-center/press-releases/edgecomputingforecast/" target="_blank" rel="noopener">IDC</a>).</p>
+<p><strong>AI PCs are mainstream, but PC volume is falling.</strong>
+- AI PCs are expected to be <strong>55% (Gartner) to 59% (Counterpoint) of 2026 shipments</strong> (<a href="https://www.crn.in/?p=72875" target="_blank" rel="noopener">CRN India</a>; <a href="https://counterpointresearch.com/ko/reports/ai-advanced-pcs-to-surpass-half-of-global-shipments-in-2026" target="_blank" rel="noopener">Counterpoint</a>).
+- IDC cut its 2026 PC unit forecast by <strong>11.3%</strong> because of memory shortages, with prices potentially <strong>up as much as 17%</strong> and the shortage possibly lasting into 2027 (<a href="https://www.3dtested.com/desktops/gaming-pcs/idc-slashes-2026-pc-shipment-forecast-amid-memory-shortages-total-pc-market-value-to-nonetheless-increase-to-usd274-billion-due-to-ongoing-price-hikes" target="_blank" rel="noopener">3DTested on IDC</a>). For distributors this means fewer devices at higher prices.</p>
+<p><strong>Marketplaces are re-routing software sales more than replacing distributors.</strong>
+- Omdia forecasts hyperscaler marketplace software sales rising from about <strong>$30B in 2024 to $163B in 2030</strong> (29.1% CAGR) (<a href="https://www.intelligentcio.com/apac/2025/10/07/omdia-forecasts-us163bn-hyperscaler-cloud-marketplace-sales-by-2030/" target="_blank" rel="noopener">Intelligent CIO</a>). One release gives the base as $16B; more sources cite $30B.
+- Channel partners' share of marketplace spend is forecast to rise from 37% in 2025 to 50% in 2027 and 59% in 2030.
+- Distribution remains about <strong>5.7 times</strong> the size of the marketplace opportunity. Analyst Jay McBain says marketplaces handle under 1% of the tech and telecom industry (<a href="https://www.channeldive.com/news/old-school-distribution-channels-dwarf-hyperscaler-marketplaces-omdia/816270/" target="_blank" rel="noopener">Channel Dive</a>).
+- Distributors take part through private-offer mechanisms: AWS Channel Partner Private Offers (CPPO), Microsoft multiparty private offers and Google channel private offers.
+- AWS's "AI Agents and Tools" marketplace category launched with 800-900+ listings that support MCP and A2A, the protocols that let AI agents call tools and other agents (<a href="https://www.channelinsider.com/ai/the-new-aws-marketplace-category-for-ai-agents-and-tools/" target="_blank" rel="noopener">Channel Insider</a>).</p><figure class="viz" id="c-mkt"><p class="vt">Hyperscaler marketplaces grow, and partners handle more of it</p><p class="vs">Omdia forecast: software sold through hyperscaler marketplaces, USD billions</p><div class="viz-body"></div><figcaption>Source: Omdia via Intelligent CIO (Oct 2025); 29.1% compound annual growth. One release gives a $16B 2024 base. Partner share of marketplace spend: 37% in 2025, 50% in 2027, 59% in 2030 (forecast). Distribution is still about 5.7 times the size of the marketplace opportunity.</figcaption></figure>
+<p><strong>Agentic buying: big forecasts, cautious buyers.</strong>
+- <strong>The bullish case.</strong> Gartner expects AI agents to <strong>intermediate more than $15 trillion of B2B spending by 2028</strong> and <strong>60% of B2B seller work to run through generative-AI conversational interfaces by 2028</strong> (<a href="https://www.destinationcrm.com/Articles/CRM-News/CRM-Featured-Articles/Gartner-60-of-Sales-to-Be-Carried-Out-by-AI-160659.aspx" target="_blank" rel="noopener">DestinationCRM</a>). A widely repeated claim that "90% of B2B purchases will be handled by AI agents by 2028" could not be traced to Gartner and should not be used.
+- <strong>The cautious case.</strong> Gartner also predicts that <strong>75% of B2B buyers will prefer human-led sales experiences by 2030</strong>, though another secondary source cites a 2026 Gartner survey in which 67% prefer a rep-free experience. These partly conflict. Gartner further expects <strong>more than 40% of agentic AI projects to be cancelled by end-2027</strong> (<a href="https://www.gartner.com/en/newsroom/press-releases/2025-06-25-gartner-predicts-over-40-percent-of-agentic-ai-projects-will-be-canceled-by-end-of-2027" target="_blank" rel="noopener">Gartner</a>).
+- <strong>Market size and pace.</strong> McKinsey sizes agentic commerce at <strong>$3-5 trillion by 2030</strong>, mostly retail. It argues B2B adoption is slower because "delegation is institutional," but scales once purchasing authority is set (<a href="https://www.digitalcommerce360.com/2025/10/20/mckinsey-forecast-5-trillion-agentic-commerce-sales-2030/" target="_blank" rel="noopener">Digital Commerce 360</a>).
+- <strong>The technical stack is forming.</strong> MCP was donated to the Linux Foundation's Agentic AI Foundation in December 2025. Google backs A2A (agent-to-agent). Payment protocols include AP2, ACP and UCP, plus Visa's Trusted Agent Protocol and Mastercard Agent Pay (<a href="https://www.digitalcommerce360.com/2025/10/16/visa-mastercard-both-launch-agentic-ai-payments-tools/" target="_blank" rel="noopener">Digital Commerce 360</a>).</p>
+<p><strong>New value pools mostly go to others.</strong>
+- Canalys/Omdia size the partner opportunity in AI and agentic-AI services at <strong>about $267B by 2030</strong> (35.3% CAGR). The report's own URL says $276B, so the exact figure is unresolved. They rate the opportunity "very high" for global system integrators, "high" for consultants and MSPs, and only <strong>"low to medium" for resellers and distributors</strong>. Notably, 47% of customers rely on partners for agentic AI (<a href="https://itchanneloxygen.com/ai-opportunity-for-resellers-and-distributors-low-to-medium-analyst/" target="_blank" rel="noopener">IT Channel Oxygen</a>).
+- Gartner calls agentic AI "catastrophic for some" IT providers (<a href="https://www.gartner.com/en/documents/8270921" target="_blank" rel="noopener">Gartner</a>).</p>
+<p><strong>Sales workforces are holding flat while coverage grows.</strong>
+- Bain finds that tech sales hiring grew 18% from 2017 to 2022 but <strong>under 1% a year since</strong>, as AI lets firms cover more accounts without adding reps (<a href="https://www.bain.com/es-mx/insights/the-new-sales-productivity-equation-b2b-growth-agenda-2026/" target="_blank" rel="noopener">Bain</a>).
+- McKinsey reports that <strong>90% of distributors have AI initiatives but only 11% have fully adopted them</strong> (<a href="https://distributionstrategy.com/2026/09/distributors-move-from-buying-ai-software-to-buying-ai-companies-technology-and-talent/" target="_blank" rel="noopener">Distribution Strategy</a>). Its 2026 B2B Pulse finds the winners rebuild workflows end to end rather than adding point tools.
+- Adjacent distributors are moving fast: Fastenal bought agentic-AI firm Rampp.ai, and Amazon Business, now at <strong>about $60B in annualized gross sales</strong>, is rolling out agentic checkout (<a href="https://www.marketscale.com/industries/software-and-technology/amazon-business-hits-60-billion-in-annualized-gross-sales-as-agentic-ai-reshapes-b2b-procurement" target="_blank" rel="noopener">MarketScale</a>).</p></section>
+<section class="sec" id="s9"><div class="sec-no">Section 9</div><h2>What the 2030 outlook implies for TD SYNNEX&#x27;s commercial organization</h2><span class="interp">Interpretation</span><p><em>This section is interpretation. It builds on the sourced facts above but is not itself sourced.</em></p>
+<p><strong>TD SYNNEX now runs two commercial organizations, and the AI vision should treat them differently.</strong> Hyve sells engineered programs to a handful of hyperscalers. It is an account-management and program-execution business, and its constraints are capital, capacity and component supply. Distribution serves 150,000 partners through a long tail of transactions, and its constraint is cost-to-serve. The "AI for the commercial organization" conversation is mostly about Distribution. The two are financially linked, though, and the 10-Q makes the link concrete. Hyve now earns nearly as much operating income as the entire Americas distribution business on about $26M of quarterly operating expense. But its inventory build drove a $2.1B operating cash outflow in nine months and roughly doubled net debt. Distribution, with its thin margins, is the cash and credit base that carries that build: receivables secure the securitization lines now funding growth. Every point of Distribution cost-to-serve, credit loss or receivable-financing cost that AI removes is effectively Hyve growth capital. That is a sharper framing than "AI efficiency." The Amazon warrant adds a second link: a customer's equity upside now depends on how much it buys, which makes account execution for a handful of hyperscale buyers a capital-markets matter as well as a sales one.</p>
+<p><strong>The first AI prize is the coverage model, not a chatbot.</strong> Zammit's description of specialist groups, tiered customers and monthly reallocation is the vocabulary of a data-driven sales operation running on a monthly cycle. By 2030, the plausible end state is continuous, AI-driven allocation of specialist time, with transactional demand handled by self-service and agents. Bain's finding that tech sales hiring has flattened while coverage grows suggests the target: hold roughly 24,000 staff roughly flat while billings scale. Inside sales, quoting, the deal desk and customer service will change first. Specialist roles in AI factories, security, public sector and Hyve programs should grow.</p>
+<p><strong>Being "agent-ready" is becoming table stakes, and it changes what wins share.</strong> Ingram's MCP server, Pax8's MCP-enabled catalog and AWS's agent marketplace all point the same way. Partners' and buyers' AI agents will query several distributors' price, availability, configuration and credit terms programmatically. Digital Bridge already lives inside Teams, Slack and Webex, which is a genuine head start. The next steps would be to publish standards-based agent endpoints and to make credit terms and allocation machine-readable. The risk is that agent-to-agent buying turns distribution into a price comparison. The defense is to compete on what agents cannot easily compare: credit, allocation during shortages, multi-vendor solution configuration and post-sale services.</p>
+<p><strong>What isn't measured won't be credited.</strong> Ingram reports AI-assisted revenue, self-service order counts and per-customer lift. TD SYNNEX reports none. A 2030 commercial vision needs a scorecard that investors and vendors can see, for example:
+- billings influenced or closed by AI;
+- digital and self-service share of orders;
+- quote turnaround time;
+- cost-to-serve per partner tier;
+- specialist capacity per partner.</p>
+<p><strong>Marketplace orchestration is the software battleground of the decade.</strong> Omdia expects $163B of marketplace spend by 2030 with 59% flowing through partners. That rewards whoever runs the multi-party private-offer and billing layer between hyperscalers, ISVs, MSPs and resellers. TD SYNNEX has much of the stack: StreamOne, Apptium, AWS seller-of-record status and Microsoft Frontier status. Yet it discloses no cloud metrics, while ALSO grows cloud 31% and Pax8 builds agent stores for MSPs. The open question is whether StreamOne becomes TD SYNNEX's "agent store" for MSPs, or whether that role goes to Pax8 or the hyperscalers.</p>
+<p><strong>The distributor's AI value pool is enabling partners, not delivering services.</strong> Analysts rate direct AI-services capture by distributors "low to medium." TD SYNNEX's strongest AI moves fit the enabler role instead:
+- the Mark III AI factory deal, where TD SYNNEX supplies design, integration, co-administration, financing and supply chain behind a VAR;
+- the Paris AI Factory;
+- reserved Nebius GPU capacity;
+- Destination AI profiling.</p>
+<p>The Mark III deal looks like a repeatable template: the distributor as general contractor for enterprise AI factories delivered by VARs. It combines Hyve-grade integration know-how with financing and partner reach that marketplaces lack.</p>
+<p><strong>Margin math makes this urgent.</strong> Gross margin is falling, mostly in Americas distribution, Hyve consumes working capital, and the stock fell on a record quarter. The 10-Q names the cost lines that are moving: credit costs and personnel costs are rising, the bad-debt provision is up 50%, interest and finance charges are up 32%, and receivable-sale discount fees are up 59% year over year. With roughly two cents of operating profit per billed dollar, small changes matter. AI that improves pricing discipline, credit decisions, collections, rebate capture and stock allocation in a memory shortage pays off directly. Allocation is also a trust issue, given the CEO's own warning about "tensions" with partners. Transparent, AI-assisted allocation could become a differentiator.</p>
+<p><strong>Partner and demand data is becoming a product for vendors.</strong> As HPE, Microsoft, Broadcom and Cisco concentrate on fewer distributors, each vendor is effectively running a contest between TD SYNNEX and Ingram. PartnerFirst's lifecycle-stage analysis for Microsoft and Cisco hints at the next thing vendors will buy from distributors: partner-level demand sensing, renewal and churn prediction, and campaign execution. This could become an explicit service line rather than an implicit benefit.</p>
+<p><strong>Humans stay where buyers want them.</strong> Gartner's 75%-prefer-humans prediction and Omdia's view that relationships remain a differentiator argue against an "agents replace sellers" narrative. The more defensible 2030 model is agents handling the routine flow, with fewer but more expert humans on complex, high-value or regulated deals. Public sector and AI factories are the obvious examples.</p></section>
+<section class="sec" id="s10"><div class="sec-no">Section 10</div><h2>Conversation starters for the 2030 discussion</h2><span class="interp">Interpretation</span><ol>
+<li><strong>"Which of your two commercial engines should AI serve first: the 150,000-partner Distribution tail or the Hyve programs?"</strong> Distribution cost-to-serve gains fund Hyve's working capital, and Hyve already earns nearly as much operating income as the Americas. How does leadership think about that trade-off?</li>
+<li><strong>"You reallocate specialists monthly today. What would it take to do it continuously, and what share of the ~24,000 workforce would look different by 2030?"</strong> This tests ambition on coverage and on the shape of the workforce.</li>
+<li><strong>"Ingram reports about $1B a quarter through its AI assistant. What would TD SYNNEX's equivalent metric be, and when would you be ready to publish it?"</strong> This tests measurement and investor storytelling.</li>
+<li><strong>"When a partner's own Copilot or agent asks three distributors for price, availability and credit, how does TD SYNNEX win the answer?"</strong> This opens the agent-readiness discussion: MCP/A2A endpoints and machine-readable credit and terms.</li>
+<li><strong>"Is the Mark III Vera Rubin AI factory deal a one-off or a product?"</strong> This explores packaging design, integration, financing and co-administration as a repeatable AI-factory offer for VARs.</li>
+<li><strong>"Omdia says partners will handle 59% of $163B in marketplace spend by 2030. What share of that does StreamOne need, and does it become an agent store for MSPs?"</strong> This brings in the Pax8 and ALSO comparison.</li>
+<li><strong>"With memory shortages straining relationships, could AI-driven, transparent allocation become a partner-loyalty advantage?"</strong> This connects operations and trust.</li>
+<li><strong>"Vendors are consolidating to two global distributors. What data and demand-generation services would make TD SYNNEX the clear first choice over Ingram?"</strong> This explores turning PartnerFirst lifecycle analytics into a vendor-facing product.</li>
+<li><strong>"The April 2025 targets were ~5% billings growth and 95% FCF conversion, and FY2026 is running at roughly +32% with about -$2.2B of free cash flow through nine months. How should the commercial organization's 2030 targets be reset?"</strong> This tests the strategy-finance link.</li>
+<li><strong>"Where do humans remain essential in 2030: public sector, AI factories, security, Europe?"</strong> This explores how specialist investment should shift as transactional work automates.</li>
+<li><strong>"The Amazon warrant ties a customer's equity upside to what it buys. Is that a one-off or a template for other hyperscale or AI-cloud customers?"</strong> This explores how the company intends to lock in its largest buyers, and what it costs in contra-revenue.</li>
+</ol></section>
+<section class="sec" id="s11"><div class="sec-no">Section 11</div><h2>Facts to verify before the meeting</h2><ul>
+<li><strong>Investor-day targets.</strong> Confirm whether the April 10, 2025 investor-day targets (~5% billings CAGR, 10-12%+ EPS CAGR, 95% FCF conversion) are the current official framework. One research note found no investor day after 2022.</li>
+<li><strong>FY2025 and FY2024 full-year figures (partly resolved).</strong> The 10-Q confirms FY2025 revenue ($62.51B) and gross margin (6.99%) by arithmetic, and its nine-month FY2025 figures are consistent with ~$1.78B of non-GAAP operating income, $9.95 GAAP EPS and ~$13.20 non-GAAP EPS. Still to check against the Q4 FY25 8-K and the 10-K: FY2025 gross billings ($89.4B), the exact reported FY2025 non-GAAP EPS, and all FY2024 figures (including the ambiguous $11.68 non-GAAP EPS).</li>
+<li><strong>Endpoint vs Advanced splits.</strong> Get full-year FY2024 and FY2025 figures from the 10-K or investor deck. The 10-Q does not disclose them. The FY2025 split and all product-category shares in this report are estimates, some of very low confidence.</li>
+<li><strong>Free cash flow (partly resolved).</strong> The 10-Q shows nine-month operating cash flow of -$2.08B and capex of $159M (free cash flow about -$2.24B), but no quarterly split. The Q2 (~-$330M) and Q3 (~-$975.6M) figures remain secondary; if both are right, Q1 was about -$0.9B. Check the Q3 8-K cash flow table.</li>
+<li><strong>Balance sheet and buybacks (resolved).</strong> The 10-Q shows total borrowings of $5.52B, cash of $749M, net debt of ~$4.77B (derived), and $0.9B left on the buyback authorization. Leverage ratios are still not disclosed; check the earnings deck.</li>
+<li><strong>Net working capital definition.</strong> A call summary cites $6.5B; the 10-Q balance sheet gives $7.8B for receivables plus inventory minus payables. Confirm the company's definition before quoting either.</li>
+<li><strong>Q3 FY26 buyback share count.</strong> The 10-Q's MD&amp;A says 972K shares were repurchased for $100.3M in Q3, but its Part II table shows 388K shares at an average $258.14. The 388K figure fits the dollars; ask investor relations or check the 8-K.</li>
+<li><strong>Customers and Hyve (partly resolved).</strong> The 10-Q shows no customer above 10% of revenue in FY2026 to date, versus 11% a year earlier, and confirms the Amazon warrant's terms (up to 3,238,066 shares; $191.10 strike on performance tranches; expires 2033). Still open: the identity of the FY2025 11% customer, Hyve's named hyperscaler customers, whether the Amazon purchases run through Hyve, and the undisclosed vesting thresholds.</li>
+<li><strong>StreamOne partner count.</strong> Current figure: 30,000 (headline, 2024-25) vs 20,000+ (another executive). Also look for any 2026 cloud, ARR or Digital Bridge adoption metrics.</li>
+<li><strong>HP vs HPE.</strong> Confirm that the Q2 call reference to "HP" choosing two global distributors means HPE.</li>
+<li><strong>CEO start date and roster (partly resolved).</strong> The 10-Q confirms Zammit as President and CEO, Jordan as CFO, Reyna Thompson as President, North America and Alim Dhanji as CHRO. Still to confirm: Zammit's effective date (September 1, 2024 per multiple sources), David Vetter's role (offer letter dated July 10, 2026), who replaced Chief Business Officer Simon Leung after his reported September 2025 retirement, and the other regional presidents.</li>
+<li><strong>Merger history and ownership.</strong> Confirm the Tech Data–SYNNEX merger closing date and whether MiTAC still holds a significant stake.</li>
+<li><strong>Analyst figures.</strong> Confirm the Canalys/Omdia partner AI-services figure ($267B vs $276B), the Omdia marketplace base year ($30B vs $16B), and the definitions behind the $390B-$531B market-size range.</li>
+<li><strong>Gartner claims.</strong> Do not use the "90% of B2B purchases by AI agents by 2028" claim unless it is found in a Gartner primary source. Check the Gartner "75% prefer human" prediction against the conflicting 67%-prefer-rep-free survey.</li>
+<li><strong>Inspire North America 2026.</strong> It runs this week (Oct 7-9, 2026 per a third-party listing). Check for any new AI, PartnerFirst or StreamOne announcements before the meeting.</li>
+</ul></section>
+<section class="sec" id="s12"><div class="sec-no">Section 12</div><h2>A 2030 blueprint: preliminary recommendations for transforming the commercial organization</h2><span class="interp">Interpretation</span><blockquote>
+<p><strong>Interpretation, not sourced fact.</strong> This section is a set of preliminary hypotheses built on the research above. It is meant to open the conversation with the leadership team, not to close it. Every target is illustrative and should be tested against TD SYNNEX's own data.</p>
+</blockquote>
+<h3>The market TD SYNNEX will sell into in 2030</h3>
+<p>Six shifts from the research shape the recommendations.</p>
+<ul>
+<li><strong>Buying moves to software and agents.</strong> Gartner expects AI agents to intermediate more than $15 trillion of B2B spend by 2028. Partners and end customers will increasingly send a procurement agent, not a person, to get a price, check stock and place an order.</li>
+<li><strong>Marketplaces become a main route for software.</strong> Omdia forecasts $163B of software sold through hyperscaler marketplaces by 2030, with channel partners involved in about 59% of it. Distributors that are not wired into those marketplaces lose the transaction.</li>
+<li><strong>Vendors are picking fewer, bigger distributors.</strong> HPE's May 2026 move to two global distributors is the template. Scale, data and coverage decide who stays on the list.</li>
+<li><strong>AI infrastructure changes the deal mix.</strong> AI factories and Hyve programs bring very large, engineered, low-margin and cash-hungry deals. Selling them needs architects and supply chain planners more than account managers.</li>
+<li><strong>Value moves to services, lifecycle, financing and data.</strong> Analysts rate resellers and distributors only "low to medium" for capturing the AI services opportunity directly. The opening for TD SYNNEX is to enable partners to capture it and to take a share of the value in platform, finance and data fees.</li>
+<li><strong>People still matter where the stakes are high.</strong> Gartner expects 75% of B2B buyers to prefer human interaction in 2030. Agents will take the routine work. Humans will be expected on complex, high-value and relationship decisions.</li>
+</ul>
+<h3>The 2030 thesis: from distributor to agent-ready orchestration platform</h3>
+<p>By 2030 the commercial organization should work as a platform that machines can transact with and people can build on. Routine buying runs touchless through partner portals, APIs and agents. Human sellers concentrate on complex solutions, AI infrastructure, new partner practices and vendor strategy. The company earns more of its gross profit from services, finance, platform and data, and less from moving boxes.</p><figure class="viz"><p class="vt">The 2030 coverage model, in three motions</p><p class="vs">One platform underneath: agent-ready catalog, price, stock, credit and order status</p><div class="tiers"><div class="tier t0"><span class="route-k">Agent-served</span><b>Long-tail partners</b><span>AI account managers recommend, quote and reorder. Partner and procurement agents buy through APIs.</span></div><div class="tier t1"><span class="route-k">Hybrid</span><b>Growth partners</b><span>A named human, backed by AI tools for pipeline, pricing and enablement.</span></div><div class="tier t2"><span class="route-k">High-touch</span><b>Strategic partners and complex deals</b><span>Specialist teams for AI factories, public sector, security and data center.</span></div></div><div class="rails">Agent-ready commerce rails · data foundation · AI governance</div><figcaption>Interpretation: a preliminary recommendation for discussion, not a company plan.</figcaption></figure>
+<h3>What changes between 2026 and 2030</h3>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Commercial activity</th>
+<th>How it largely works in 2026</th>
+<th>What it should look like in 2030</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Order capture</td>
+<td>Web portal, EDI and inside sales reps handle orders</td>
+<td>Most run-rate orders arrive through APIs and partner or procurement agents, with no human touch</td>
+</tr>
+<tr>
+<td>Quoting and configuration</td>
+<td>Reps and specialists build quotes and bills of materials by hand for complex deals</td>
+<td>A configure-price-quote agent drafts quotes and AI-factory bills of materials in minutes; specialists review and price exceptions</td>
+</tr>
+<tr>
+<td>Pricing and special bids</td>
+<td>Manual special-bid requests to vendors; rebate and price-protection claims processed in the back office</td>
+<td>Agents assemble special bids, check vendor program rules and file rebate claims automatically, recovering leaked margin</td>
+</tr>
+<tr>
+<td>Partner coverage</td>
+<td>Coverage set by tier and region, with resources reallocated by hand</td>
+<td>Coverage set dynamically by partner propensity and growth signals; long-tail partners served by AI account managers</td>
+</tr>
+<tr>
+<td>Vendor marketing</td>
+<td>Campaign execution and market development funds run program by program</td>
+<td>Vendor demand generation run as an always-on AI service, with measurable pipeline sold back to vendors</td>
+</tr>
+<tr>
+<td>Partner enablement</td>
+<td>Destination AI, Practice Builder and events</td>
+<td>"AI practice in a box" with agent templates, a services marketplace and a skills path for partners to sell AI services</td>
+</tr>
+<tr>
+<td>Credit and financing</td>
+<td>Credit decisions and terms set largely by rule and review</td>
+<td>AI-driven credit risk and embedded financing offered at the point of quote, including as-a-service and consumption terms</td>
+</tr>
+<tr>
+<td>Partner support</td>
+<td>Contact centers and account teams answer order, stock and status questions</td>
+<td>A 24/7 agent answers most order, stock, returns and status questions; humans handle escalations</td>
+</tr>
+<tr>
+<td>Seller role</td>
+<td>Many roles centered on order handling and account maintenance</td>
+<td>Fewer, more senior roles: solution architects, practice builders, vendor strategists and key account leads</td>
+</tr>
+<tr>
+<td>Main measures</td>
+<td>Gross billings, gross margin, operating margin</td>
+<td>Add touchless order share, gross profit per commercial employee, share of profit from services, finance and data, and partner AI-practice growth</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Eight moves for the 2030 commercial organization</h3>
+<ol>
+<li><strong>Make TD SYNNEX the easiest distributor for an AI agent to buy from.</strong>
+   Expose catalog, real-time price, availability, configuration rules, credit and order status as machine-readable services that partner and procurement agents can call, using emerging standards such as the Model Context Protocol and agent-to-agent protocols. Ingram Micro has already launched a server for this. Being second is acceptable. Being absent from agent-led buying is not.</li>
+<li><strong>Redesign sales coverage around three motions.</strong>
+   - <em>Digital and agent-served</em> for the long tail of the 150,000 partners, with AI account managers that recommend, quote and reorder.
+   - <em>Hybrid</em> for growth partners, with a named human backed by AI tools.
+   - <em>High-touch specialist teams</em> for strategic partners, AI factories, public sector and complex security and data center deals.
+   Release the capacity freed by automation into solution and practice building rather than taking it all as cost.</li>
+<li><strong>Build an AI-native deal desk.</strong>
+   Use agents to build quotes and AI-factory bills of materials, manage special bids against vendor program rules, and file rebate and price-protection claims. In a business that keeps about two cents of operating profit per dollar billed, a small reduction in margin leakage and quote cycle time is material.</li>
+<li><strong>Turn vendor services into data and AI products.</strong>
+   Package sell-through insight, demand sensing, partner propensity scores and AI-run demand generation as paid services to vendors. This strengthens TD SYNNEX's case when vendors consolidate distributors, because it gives vendors something only a large distributor with broad data can offer.</li>
+<li><strong>Help partners capture the AI services opportunity rather than competing with them.</strong>
+   Grow Destination AI into a full "AI practice in a box": reference architectures, agent templates, proof-of-concept environments with AI-factory capacity, a services marketplace in PartnerFirst, and financing for AI projects. Take a share of the value through platform, consumption and financing fees.</li>
+<li><strong>Run Hyve and AI factories as a distinct commercial engine.</strong>
+   Hyperscalers and new GPU clouds need key account management, capacity contracts and tight working-capital discipline. The 10-Q shows why: inventory rose $5.8B in nine months, mostly for Hyve, and nine-month free cash flow was about -$2.2B (derived). The Amazon warrant shows a customer commitment tied to equity, a model the commercial team can learn from. Create a bridge between Hyve's design and manufacturing skills and the channel's enterprise and sovereign AI-factory demand. That combination is hard for competitors to copy.</li>
+<li><strong>Make lifecycle and finance recurring.</strong>
+   Scale technology-as-a-service, consumption billing and IT asset recovery, using AI for credit risk and residual value. This shifts part of the profit pool from one-time product margin to recurring streams.</li>
+<li><strong>Build the foundations first: data, platform, governance and people.</strong>
+   - A single view of partners, vendors and transactions across regions and legacy systems.
+   - A governed AI platform, with policies on what agents can commit on price, credit and terms.
+   - A reskilling path that moves sellers from order handling to solution and practice roles.
+   - Published AI metrics. Ingram Micro reports about $1B a quarter through its AI assistant, and TD SYNNEX has no comparable public number.</li>
+</ol>
+<h3>A phased path to 2030</h3>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>Timing</th>
+<th>Focus</th>
+<th>Signals of progress</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Foundations</td>
+<td>FY2027</td>
+<td>Unified partner and transaction data; agent-callable catalog, price and stock services; deal-desk and support copilots; set the AI metrics to report</td>
+<td>Share of orders through digital and API channels; quote turnaround; first public AI metric</td>
+</tr>
+<tr>
+<td>Scale</td>
+<td>FY2028–FY2029</td>
+<td>Coverage model redesign; AI account managers for the long tail; automated special bids and rebate claims; AI practice in a box across regions</td>
+<td>Touchless order share; gross profit per commercial employee; margin leakage recovered; partner AI practices launched</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>FY2030</td>
+<td>Paid data and AI products for vendors; embedded finance and consumption models at scale; Hyve-to-channel AI factory offers</td>
+<td>Share of gross profit from services, finance, platform and data; vendor renewals as global distributor</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Illustrative 2030 ambitions to test with the leadership team</h3>
+<p>These are starting hypotheses for discussion, not forecasts.</p>
+<ul>
+<li>A majority of run-rate transactional orders placed touchless, through portals, APIs or agents.</li>
+<li>Standard quotes returned in minutes; complex AI-factory quotes in hours rather than days.</li>
+<li>Gross profit per commercial employee materially higher than in FY2025, with headcount moved toward specialist roles.</li>
+<li>A rising share of gross profit from services, financing, platform and data rather than product margin alone.</li>
+<li>A partner support model where most routine questions are answered by an agent, with human escalation where it counts.</li>
+<li>A published AI performance metric, so investors and vendors can compare TD SYNNEX with Ingram Micro.</li>
+</ul>
+<h3>Risks to manage</h3>
+<ul>
+<li><strong>Agents can disintermediate distributors as well as serve them.</strong> If vendors and hyperscalers build direct agent-to-agent buying, the distributor's role shrinks unless it provides credit, logistics, configuration and data that agents need.</li>
+<li><strong>Hyve's growth can crowd out investment.</strong> It consumes cash and management attention. Net debt rose from about $2.2B to about $4.8B in nine months (derived from the 10-Q). The commercial transformation needs protected funding.</li>
+<li><strong>Automation can damage partner relationships.</strong> Long-tail partners still value a person they can call. A clumsy agent experience would push them to competitors.</li>
+<li><strong>Pricing and credit errors by agents are costly.</strong> Clear limits on what an agent can commit, and human review on exceptions, are essential.</li>
+<li><strong>Many agentic AI projects fail.</strong> Gartner expects more than 40% to be cancelled by the end of 2027. Start with measurable, narrow use cases.</li>
+</ul>
+<h3>Questions to test the blueprint in the meeting</h3>
+<ul>
+<li>Which part of the commercial organization would you automate first if you had to show a result in 12 months?</li>
+<li>How would you want a partner's AI agent to buy from you in 2028, and what should it never be allowed to do without a person?</li>
+<li>What share of your sellers' time today goes to work an agent could do, and where would you redeploy that time?</li>
+<li>Which vendor would pay for data or AI demand-generation services first, and what would they need to see?</li>
+<li>How do you connect Hyve's AI-factory capability to the enterprise and sovereign AI demand your partners are seeing?</li>
+</ul></section>
+<section class="sec" id="conclusion"><div class="sec-no">Close</div><h2>Conclusion</h2><p>The FY2026 numbers show AI demand reaching TD SYNNEX first as capital-heavy hardware flowing through Hyve: thin on a billings basis, but now about 39% of GAAP operating income. That flatters growth and strains cash, with nine-month operating cash flow of -$2.1B. The deeper 2030 question is about the Distribution business. Hyperscaler marketplaces are increasingly running through partners, and Omdia's data suggest distributors are not about to be replaced by them. The sharper risk is that buyers' and partners' AI agents start choosing among distributors on whatever can be read by a machine. In that world, scale and vendor awards matter less than four things: callable catalog and pricing, machine-readable credit, trusted allocation, and AI-factory delivery that no marketplace offers.</p>
+<p>TD SYNNEX already has most of the parts. They include Digital Bridge inside partners' collaboration tools, StreamOne with Apptium, the Mark III-style AI-factory template, and a coverage model that already reallocates specialists monthly. What it lacks is a published scorecard and an explicit decision about which work goes to agents and which stays with experts. With roughly two cents of operating profit per billed dollar, getting that balance right is a necessity rather than an option. A 2030 conversation that starts there will feel grounded to this leadership team.</p></section>
+<section class="sec" id="review-log-changes-from-the-q"><div class="sec-no">Appendix</div><h2>Review log: changes from the 10-Q</h2><p><em>Source for every row: TD SYNNEX Form 10-Q for the quarter ended August 31, 2026, read in full on October 12, 2026. Page numbers are the 10-Q's printed pages. The full fact base is in <code>research_notes/TD SYNNEX commercial AI vision 2030/10q_q3_fy26_primary.md</code> and chart data in <code>data/q3fy26_data.json</code>.</em></p>
+<p><strong>Corrections</strong></p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Old value in report</th>
+<th>New value</th>
+<th>10-Q page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1-Q3 FY26 revenue</td>
+<td>~$58.4B</td>
+<td>$58.29B</td>
+<td>p. 4</td>
+</tr>
+<tr>
+<td>FY2026 implied revenue</td>
+<td>~$80.6B</td>
+<td>~$80.5B (derived)</td>
+<td>p. 4</td>
+</tr>
+<tr>
+<td>Cash conversion cycle change</td>
+<td>+6 days y/y (call summary)</td>
+<td>+8 days y/y (31 vs 23); +15 days vs Nov 30, 2025</td>
+<td>p. 43</td>
+</tr>
+<tr>
+<td>Free cash flow framing</td>
+<td>Q3 FY26 about -$1B, the headline watch-out</td>
+<td>Nine-month operating cash flow -$2.08B; free cash flow about -$2.24B (derived); Q3-only figure remains secondary</td>
+<td>p. 7</td>
+</tr>
+<tr>
+<td>Long-term borrowings</td>
+<td>~$3.59B "at Q2"</td>
+<td>$3.60B long-term plus $1.93B current = $5.52B total at Aug 31, 2026</td>
+<td>p. 3, 22</td>
+</tr>
+<tr>
+<td>Hyve share of FY2025 revenue (estimate)</td>
+<td>~10%</td>
+<td>~14% (Hyve was 13.8% of nine-month FY2025 revenue); Endpoint/Advanced revenue estimate rebalanced to ~50-54% / ~32-36%</td>
+<td>p. 28</td>
+</tr>
+<tr>
+<td>Largest customer</td>
+<td>11% of FY2025 revenue (only data point)</td>
+<td>11% in Q3 FY25 and 9M FY25; no customer above 10% in Q3 FY26 or 9M FY26</td>
+<td>p. 10</td>
+</tr>
+<tr>
+<td>Vendor concentration</td>
+<td>Apple 12%, HP 10% (FY2025 only)</td>
+<td>Apple 10% of 9M FY26 and below 10% in Q3 FY26; HP below 10% in both FY2026 periods</td>
+<td>p. 9</td>
+</tr>
+<tr>
+<td>Amazon warrant</td>
+<td>~3.2M shares, "vesting on revenue thresholds tied to Hyve," unverified</td>
+<td>3,238,066 shares; 215,871 vested at $0.01; 3,022,195 vest on qualifying-payment thresholds at $191.10; expires May 30, 2033; $14.5M contra-revenue in Q3; 10-Q does not tie it to Hyve</td>
+<td>p. 11, 14</td>
+</tr>
+<tr>
+<td>Gross margin explanation</td>
+<td>Diluted by low-margin AI server programs and NA infrastructure deals</td>
+<td>10-Q cites Hyve and Advanced mix, offset by better Endpoint margins; segment arithmetic puts ~57 of the 61 bp decline in Americas distribution (7.57% to 6.37%); Hyve's revenue-basis gross margin (7.25%) exceeds Distribution's (6.47%)</td>
+<td>p. 26-27, 37</td>
+</tr>
+<tr>
+<td>Hyve share of operating profit</td>
+<td>34% (derived) vs 38.8% (third party) flagged as conflict</td>
+<td>Both correct: 38.8% of GAAP and 34.3% of non-GAAP operating income</td>
+<td>p. 26, 40</td>
+</tr>
+<tr>
+<td>Regional growth claim</td>
+<td>"Europe is outgrowing the Americas"</td>
+<td>True for FY2025 and Q1 FY26; in Q3 FY26 Americas revenue grew faster (+39.9% vs +30.2%), while Europe led on profit growth</td>
+<td>p. 35</td>
+</tr>
+<tr>
+<td>Q1 FY26 revenue</td>
+<td>$17.2B</td>
+<td>~$17.16B (derived from 10-Q nine-month total less Q2 and Q3)</td>
+<td>p. 4</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Confirmations</strong></p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Report value</th>
+<th>10-Q</th>
+<th>Page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q3 FY26 revenue, GAAP EPS, non-GAAP EPS, gross margin</td>
+<td>$21.56B; $5.18; $5.68; 6.61% vs 7.22%</td>
+<td>Same</td>
+<td>p. 4, 36, 42</td>
+</tr>
+<tr>
+<td>Q3 FY26 non-GAAP operating income and margin</td>
+<td>$736M (+55.1%); 3.42%</td>
+<td>$736.4M (+55.1%); 3.42%</td>
+<td>p. 38</td>
+</tr>
+<tr>
+<td>Distribution non-GAAP operating income</td>
+<td>$483.5M (+55%)</td>
+<td>$483.5M (+54.7%, derived from segment dollars)</td>
+<td>p. 38-40</td>
+</tr>
+<tr>
+<td>Hyve non-GAAP operating income</td>
+<td>~$253M (+56%)</td>
+<td>$253.0M (+55.8%)</td>
+<td>p. 40</td>
+</tr>
+<tr>
+<td>Europe non-GAAP operating income growth</td>
+<td>+116%</td>
+<td>+116.4%</td>
+<td>p. 39</td>
+</tr>
+<tr>
+<td>FY2025 revenue and gross margin</td>
+<td>$62.51B; 6.99%</td>
+<td>$62.51B and 6.99% (derived from nine-month plus Q4 data)</td>
+<td>p. 4, 43</td>
+</tr>
+<tr>
+<td>Q4 FY25 gross margin</td>
+<td>6.87%</td>
+<td>6.87% (derived)</td>
+<td>p. 43</td>
+</tr>
+<tr>
+<td>Q1 FY26 non-GAAP operating income</td>
+<td>~$590M (derived)</td>
+<td>~$590M (nine-month $1,941M less Q2 and Q3)</td>
+<td>p. 38</td>
+</tr>
+<tr>
+<td>Q3 FY26 capital returned</td>
+<td>$139M</td>
+<td>$100.3M buybacks + $38.4M dividends</td>
+<td>p. 6, 46</td>
+</tr>
+<tr>
+<td>Dividend</td>
+<td>$0.48/qtr (+9%)</td>
+<td>$0.48 vs $0.44; next $0.48 payable Oct 30, 2026</td>
+<td>p. 6, 15</td>
+</tr>
+<tr>
+<td>Segment structure</td>
+<td>Four reportable segments since Q1 FY26</td>
+<td>Four reportable, five operating segments; CEO is CODM</td>
+<td>p. 26</td>
+</tr>
+<tr>
+<td>Leadership</td>
+<td>Zammit CEO; Jordan CFO; Thompson President NA</td>
+<td>Confirmed by signatures and exhibits</td>
+<td>p. 48, 50</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Additions</strong></p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Addition</th>
+<th>Where in report</th>
+<th>10-Q page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full segment table for Q3 and nine months: revenue, gross margin, GAAP and non-GAAP operating income and margins for Americas, Europe, APJ and Hyve</td>
+<td>Section 3</td>
+<td>p. 26-28, 38-40</td>
+</tr>
+<tr>
+<td>Management's stated drivers by segment</td>
+<td>Section 3</td>
+<td>p. 35-40</td>
+</tr>
+<tr>
+<td>Gross vs net presentation effects by segment (Hyve -66 pts, Americas +12 pts of Q3 revenue growth) and list of net-booked arrangements</td>
+<td>Sections 1 and 3</td>
+<td>p. 11, 35-36</td>
+</tr>
+<tr>
+<td>Hyve offerings (Manufacturing; Supply Chain Services), cost structure, Hyve-specific PSU awards</td>
+<td>Section 1</td>
+<td>p. 26, 31, 48</td>
+</tr>
+<tr>
+<td>Working capital table: cash, AR, inventory, AP, DSO/DIO/DPO, cash conversion cycle</td>
+<td>Section 2</td>
+<td>p. 3, 43</td>
+</tr>
+<tr>
+<td>Nine-month cash flow drivers (inventory -$5.78B, AR -$3.28B, AP +$4.80B)</td>
+<td>Section 2</td>
+<td>p. 7, 44</td>
+</tr>
+<tr>
+<td>Receivables sold ($2.1B) and supplier-finance obligations ($3.5B)</td>
+<td>Section 2</td>
+<td>p. 10, 25, 45</td>
+</tr>
+<tr>
+<td>Debt detail: U.S. AR securitization drawn $1.5B and upsized to $3.0B on Sept 25, 2026; new €650M Europe securitization; $700M notes repaid; $3.5B revolver undrawn; $750M term loan due Sept 2027</td>
+<td>Section 2</td>
+<td>p. 22-25, 44-45</td>
+</tr>
+<tr>
+<td>Interest expense +32%; credit costs and bad-debt provision up</td>
+<td>Sections 2 and 9</td>
+<td>p. 7, 37, 41</td>
+</tr>
+<tr>
+<td>Buybacks, remaining $0.9B authorization, diluted share count</td>
+<td>Section 2</td>
+<td>p. 4, 46-47</td>
+</tr>
+<tr>
+<td>Amazon warrant terms and accounting</td>
+<td>Section 3</td>
+<td>p. 11, 14, 16</td>
+</tr>
+<tr>
+<td>Acquisition spending ($7.8M in 9M FY26) and capex ($159M)</td>
+<td>Section 4</td>
+<td>p. 7, 17, 44</td>
+</tr>
+<tr>
+<td>Vision statement and five strategic imperatives; macro and tariff commentary; no change to risk factors</td>
+<td>Section 4</td>
+<td>p. 31-32, 47</td>
+</tr>
+<tr>
+<td>Memory-pricing language in MD&amp;A</td>
+<td>Section 3</td>
+<td>p. 32</td>
+</tr>
+<tr>
+<td>Endpoint margin improvement</td>
+<td>Section 3</td>
+<td>p. 37</td>
+</tr>
+<tr>
+<td>French Apple competition case final (May 2026)</td>
+<td>Section 6</td>
+<td>p. 29</td>
+</tr>
+<tr>
+<td>CHRO Alim Dhanji; David Vetter offer letter</td>
+<td>Section 4</td>
+<td>p. 48</td>
+</tr>
+<tr>
+<td>Amazon row in vendor/customer table; conversation starter 11</td>
+<td>Sections 6 and 10</td>
+<td>p. 14</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Unresolved after the 10-Q</strong></p>
+<div class="tbl-wrap"><table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Issue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Net working capital</td>
+<td>Call summary $6.5B vs $7.8B (AR + inventory - AP) from the 10-Q balance sheet; definition unknown</td>
+</tr>
+<tr>
+<td>Q3 FY26 buyback shares</td>
+<td>10-Q MD&amp;A says 972K shares; Part II table says 388K at $258.14 for the same ~$100M</td>
+</tr>
+<tr>
+<td>Amazon warrant timing</td>
+<td>Note 2 says issued in Q2; the equity statement records the full $65.7M paid-in-capital increase in Q3</td>
+</tr>
+<tr>
+<td>Quarterly free cash flow</td>
+<td>10-Q gives nine months only; Q2 and Q3 values remain secondary</td>
+</tr>
+<tr>
+<td>Gross billings and Endpoint/Advanced splits</td>
+<td>Not in the 10-Q; remain secondary</td>
+</tr>
+</tbody>
+</table></div></section>
+  <footer class="foot">Prepared for an executive meeting with TD SYNNEX leadership. Sources are linked inline; page numbers refer to the Form 10-Q for the quarter ended Aug 31, 2026. Sections marked Interpretation are the authors' analysis, not company statements.</footer>
+  </article></main>
+</div>
+<script>window.CHARTS=[{"id": "c-quarterly", "type": "columns", "spec": {"categories": ["Q1 FY25", "Q2 FY25", "Q3 FY25", "Q4 FY25", "Q1 FY26", "Q2 FY26", "Q3 FY26", "Q4 FY26e"], "unit": "$B", "height": 300, "labelLast": true, "series": [{"name": "Revenue (GAAP)", "values": [14.54, 14.94, 15.65, 17.38, 17.16, 19.57, 21.56, 22.2], "est": [0, 0, 0, 0, 0, 0, 0, 1], "note": [null, null, null, null, null, null, null, "Guidance midpoint ($21.8\u201322.6B)"]}, {"name": "Gross billings (non-GAAP)", "label": true, "values": [20.7, 21.6, 22.7, 24.3, 25.8, 28.9, 31.8, 31.9], "est": [0, 0, 0, 0, 0, 0, 0, 1], "note": [null, null, null, null, null, null, null, "Guidance midpoint ($31.4\u201332.4B)"]}]}}, {"id": "c-gm", "type": "line", "spec": {"categories": ["Q2 FY25", "Q3 FY25", "Q4 FY25", "Q1 FY26", "Q2 FY26", "Q3 FY26"], "unit": "%", "min": 6.4, "max": 7.4, "ticks": [6.4, 6.6, 6.8, 7.0, 7.2, 7.4], "series": [{"name": "Gross margin", "values": [7.0, 7.22, 6.87, 7.3, 6.84, 6.61]}], "labelIdx": [1]}}, {"id": "c-wc", "type": "columns", "spec": {"categories": ["Aug 31, 2025", "Nov 30, 2025", "Aug 31, 2026"], "unit": "$B", "series": [{"name": "Accounts receivable", "values": [10.93, 11.71, 14.95]}, {"name": "Inventory", "values": [9.14, 9.5, 15.29]}, {"name": "Accounts payable", "values": [15.65, 17.62, 22.44]}]}}, {"id": "c-segshare", "type": "stack", "spec": {"names": ["Americas", "Europe", "APJ", "Hyve"], "unit": "%", "pct": true, "max": 100, "labelW": 150, "rows": [{"label": "Revenue", "parts": [47.9, 29.5, 5.0, 17.6]}, {"label": "Operating income", "parts": [39.7, 18.3, 3.2, 38.8]}]}}, {"id": "c-segrev", "type": "columns", "spec": {"categories": ["Americas", "Europe", "APJ", "Hyve"], "unit": "$B", "labelAll": true, "series": [{"name": "Q3 FY25", "values": [7.38, 4.89, 0.88, 2.51]}, {"name": "Q3 FY26", "values": [10.32, 6.37, 1.07, 3.8]}]}}, {"id": "c-mix", "type": "stack", "spec": {"names": ["Endpoint Solutions", "Advanced Solutions (ex-Hyve)", "Hyve"], "unit": "$B", "labelW": 90, "rows": [{"label": "Q3 FY25", "parts": [8.88, 10.58, 3.22]}, {"label": "Q3 FY26", "parts": [10.3, 14.5, 7.01]}]}}, {"id": "c-cats", "type": "bars", "spec": {"rows": [{"label": "PCs", "value": 19.5, "lo": 18.0, "hi": 21.0, "hl": false, "note": "Confidence: low"}, {"label": "Mobile phones, tablets", "value": 6.0, "lo": 5.0, "hi": 7.0, "hl": false, "note": "Confidence: low"}, {"label": "Peripherals, print, CE", "value": 9.0, "lo": 8.0, "hi": 10.0, "hl": false, "note": "Confidence: low"}, {"label": "Software, cloud, security", "value": 18.5, "lo": 15.0, "hi": 22.0, "hl": false, "note": "Confidence: very low"}, {"label": "Servers, storage, network", "value": 23.5, "lo": 20.0, "hi": 27.0, "hl": false, "note": "Confidence: very low"}, {"label": "Hyve (reported)", "value": 11.4, "hl": true, "note": "Confidence: high (sum of reported quarterly billings)"}], "unit": "$B", "labelW": 170, "max": 30, "valueName": "Estimated range"}}, {"id": "c-conc", "type": "bars", "spec": {"rows": [{"label": "Apple, FY2025", "value": 12, "hl": true}, {"label": "Apple, 9M FY26", "value": 10, "hl": true}, {"label": "HP Inc., FY2025", "value": 10}, {"label": "Largest customer, FY2025", "value": 11}, {"label": "Largest customer, 9M FY26", "value": 0, "text": "under 10%", "note": "Below the 10% disclosure threshold"}], "unit": "%", "max": 14, "labelW": 190}}, {"id": "c-margins", "type": "bars", "spec": {"rows": [{"label": "TD SYNNEX (Q3 FY26)", "value": 6.61, "hl": true}, {"label": "Ingram Micro (Q2 2026)", "value": 6.6}, {"label": "Dicker Data (H1 2026)", "value": 9.8}, {"label": "ScanSource (FY2026)", "value": 13.6}, {"label": "CDW (Q2 2026)", "value": 20.1}, {"label": "Insight (Q2 2026)", "value": 21.7}], "unit": "%", "max": 24, "labelW": 190}}, {"id": "c-mkt", "type": "columns", "spec": {"categories": ["2024", "2030 (forecast)"], "unit": "$B", "labelAll": true, "height": 240, "series": [{"name": "Marketplace software sales", "values": [30, 163]}]}}];</script>
+<script>/* Small SVG chart kit for the TD SYNNEX briefing. Colors come from CSS tokens so both themes work. */
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const S=['var(--s1)','var(--s2)','var(--s3)','var(--s4)'];
+  const el=(tag,attrs={},parent)=>{const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e;};
+  const fmt=(v,u)=>{ if(v==null||isNaN(v))return '—';
+    if(u==='$B') return '$'+(+v).toFixed(v>=100?0:1)+'B';
+    if(u==='$M') return '$'+Math.round(v).toLocaleString()+'M';
+    if(u==='%') return (+v).toFixed(v<10?2:1).replace(/\.?0+$/,m=>m.startsWith('.')?'':m)+'%';
+    if(u==='x') return (+v).toFixed(1)+'×';
+    return (+v).toLocaleString(); };
+  const nice=(max)=>{const p=Math.pow(10,Math.floor(Math.log10(max)));const n=[1,2,2.5,5,10].map(m=>m*p).find(m=>m>=max/4);return n;};
+  const ticks=(max)=>{const st=nice(max);const out=[];for(let v=0;v<=max+st*0.001;v+=st)out.push(+v.toFixed(6));if(out[out.length-1]<max)out.push(out[out.length-1]+st);return out;};
+
+  const width=host=>Math.round(Math.max(320,Math.min(640,(host&&host.clientWidth)||640)));
+  let tip;
+  function tipShow(evt,html){ if(!tip){tip=document.createElement('div');tip.className='viz-tip';document.body.appendChild(tip);}
+    tip.innerHTML=html;tip.hidden=false;const r=tip.getBoundingClientRect();
+    let x=evt.clientX+14,y=evt.clientY+14; if(x+r.width>innerWidth-8)x=evt.clientX-r.width-14; if(y+r.height>innerHeight-8)y=evt.clientY-r.height-14;
+    tip.style.left=x+'px';tip.style.top=y+'px'; }
+  function tipHide(){ if(tip)tip.hidden=true; }
+  function bindTip(node,html){ node.addEventListener('pointermove',e=>tipShow(e,html)); node.addEventListener('pointerleave',tipHide);
+    node.setAttribute('tabindex','0'); node.addEventListener('focus',()=>{const b=node.getBoundingClientRect();tipShow({clientX:b.right,clientY:b.top},html)}); node.addEventListener('blur',tipHide); }
+
+  function legend(host,names){ if(names.length<2)return; const lg=document.createElement('div');lg.className='viz-legend';
+    names.forEach((n,i)=>{const s=document.createElement('span');s.innerHTML=`<i style="background:${S[i]}"></i>${n}`;lg.appendChild(s);}); host.appendChild(lg); }
+
+  function table(host,cols,rows){ const d=document.createElement('details');d.className='viz-table';
+    d.innerHTML='<summary>Show the numbers</summary>'; const w=document.createElement('div');w.className='tbl-wrap';
+    let h='<table><thead><tr>'+cols.map(c=>`<th>${c}</th>`).join('')+'</tr></thead><tbody>';
+    rows.forEach(r=>{h+='<tr>'+r.map((c,i)=>`<td${i?' class="num"':''}>${c}</td>`).join('')+'</tr>';}); h+='</tbody></table>';
+    w.innerHTML=h; d.appendChild(w); host.appendChild(d); }
+
+  /* Vertical grouped columns. spec: {categories, series:[{name,values}], unit, height, labelLast} */
+  function columns(host,spec){
+    const W=width(host),narrow=W<520,H=(spec.height||280)+(narrow?10:0),m={t:24,r:8,b:narrow?44:34,l:44};const iw=W-m.l-m.r,ih=H-m.t-m.b;
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':spec.aria||''},null);
+    const max=Math.max(...spec.series.flatMap(s=>s.values.filter(v=>v!=null)));const tk=ticks(max);const top=tk[tk.length-1];
+    const y=v=>m.t+ih-(v/top)*ih;
+    tk.forEach(t=>{el('line',{x1:m.l,x2:W-m.r,y1:y(t),y2:y(t),class:t?'grid':'base'},svg);const tx=el('text',{x:m.l-8,y:y(t)+4,'text-anchor':'end',class:'tick'},svg);tx.textContent=fmt(t,spec.unit);});
+    const n=spec.categories.length,band=iw/n,k=spec.series.length;const bw=Math.min(24,(band*0.7-(k-1)*2)/k);const gw=k*bw+(k-1)*2;
+    spec.categories.forEach((c,i)=>{const cx=m.l+band*i+band/2;
+      const lab=el('text',{x:cx,y:H-m.b+18,'text-anchor':'middle',class:'tick'+(spec.highlight===i?' strong':'')},svg);if(band<60&&c.includes(' ')){const ps=c.split(' ');ps.forEach((pt,pi)=>{const ts=el('tspan',{x:cx,dy:pi?14:0},lab);ts.textContent=pt;});}else lab.textContent=c;
+      spec.series.forEach((s,j)=>{const v=s.values[i];if(v==null)return;const x=cx-gw/2+j*(bw+2);const h=ih*(v/top);
+        const r=Math.min(4,bw/2,h);const p=`M${x},${y(0)}V${y(v)+r}Q${x},${y(v)} ${x+r},${y(v)}H${x+bw-r}Q${x+bw},${y(v)} ${x+bw},${y(v)+r}V${y(0)}Z`;
+        const path=el('path',{d:p,style:`fill:${S[j]}`,class:'mark'+(s.est&&s.est[i]?' est':'')},svg);
+        const hit=el('rect',{x:x-2,y:m.t,width:bw+4,height:ih,class:'hit'},svg);
+        bindTip(hit,`<b>${c}</b><br>${s.name}: ${fmt(v,spec.unit)}${s.note&&s.note[i]?'<br><small>'+s.note[i]+'</small>':''}`);
+        const lblOn=spec.series.some(q=>q.label)?s.label:true; if(lblOn&&((spec.labelLast&&i===n-1)||(spec.labelAll))){const t=el('text',{x:x+bw/2,y:y(v)-6,'text-anchor':'middle',class:'vlabel'},svg);t.textContent=fmt(v,spec.unit);}
+      });});
+    host.appendChild(svg); legend(host,spec.series.map(s=>s.name));
+    table(host,['',...spec.series.map(s=>s.name)],spec.categories.map((c,i)=>[c,...spec.series.map(s=>fmt(s.values[i],spec.unit))]));
+  }
+
+  /* Line chart (single axis). spec: {categories, series:[{name,values}], unit, min, max} */
+  function line(host,spec){
+    const W=width(host),H=(spec.height||240)+(W<520?10:0),m={t:20,r:52,b:W<520?44:34,l:44};const iw=W-m.l-m.r,ih=H-m.t-m.b;
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':spec.aria||''});
+    const lo=spec.min,hi=spec.max;const y=v=>m.t+ih-((v-lo)/(hi-lo))*ih;const n=spec.categories.length;const x=i=>m.l+(n===1?iw/2:i*iw/(n-1));
+    (spec.ticks||[lo,hi]).forEach(t=>{el('line',{x1:m.l,x2:W-m.r,y1:y(t),y2:y(t),class:t===lo?'base':'grid'},svg);const tx=el('text',{x:m.l-8,y:y(t)+4,'text-anchor':'end',class:'tick'},svg);tx.textContent=spec.unit==='%'?(+t).toFixed(1)+'%':fmt(t,spec.unit);});
+    spec.categories.forEach((c,i)=>{const t=el('text',{x:x(i),y:H-m.b+18,'text-anchor':'middle',class:'tick'},svg);if(W<520&&c.includes(' ')){c.split(' ').forEach((pt,pi)=>{const ts=el('tspan',{x:x(i),dy:pi?14:0},t);ts.textContent=pt;});}else t.textContent=c;});
+    spec.series.forEach((s,j)=>{const pts=s.values.map((v,i)=>v==null?null:[x(i),y(v)]);
+      let d='';pts.forEach((p,i)=>{if(!p)return;d+=(d&&pts[i-1]?'L':'M')+p[0]+','+p[1];});
+      el('path',{d,class:'ln',style:`stroke:${S[j]}`},svg);
+      pts.forEach((p,i)=>{if(!p)return;const last=i===pts.length-1;el('circle',{cx:p[0],cy:p[1],r:last?5:3.5,class:'dot',style:`fill:${S[j]}`},svg);
+        const hit=el('circle',{cx:p[0],cy:p[1],r:14,class:'hit'},svg);bindTip(hit,`<b>${spec.categories[i]}</b><br>${s.name}: ${fmt(s.values[i],spec.unit)}`);
+        if(last||(spec.labelIdx||[]).includes(i)){const t=el('text',{x:last?p[0]+10:p[0],y:last?p[1]+4:p[1]-10,'text-anchor':last?'start':'middle',class:'vlabel'},svg);t.textContent=fmt(s.values[i],spec.unit);}});
+    });
+    host.appendChild(svg); legend(host,spec.series.map(s=>s.name));
+    table(host,['',...spec.series.map(s=>s.name)],spec.categories.map((c,i)=>[c,...spec.series.map(s=>fmt(s.values[i],spec.unit))]));
+  }
+
+  /* Horizontal stacked bars (absolute). spec: {rows:[{label, parts:[values]}], names, unit} */
+  function stack(host,spec){
+    const W=width(host),cmp=W<520,rowH=30,lh=cmp?20:0,gap=cmp?18:26,m={t:8,r:spec.pct?8:64,b:8,l:cmp?0:(spec.labelW||92)};const H=m.t+m.b+spec.rows.length*(rowH+gap+lh)-gap+10;const iw=W-m.l-m.r;
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':spec.aria||''});
+    const max=spec.max||Math.max(...spec.rows.map(r=>r.parts.reduce((a,b)=>a+(b||0),0)));
+    spec.rows.forEach((r,ri)=>{const yy=m.t+ri*(rowH+gap+lh)+lh;const tl=el('text',cmp?{x:0,y:yy-7,class:'tick strong'}:{x:m.l-10,y:yy+rowH/2+4,'text-anchor':'end',class:'tick strong'},svg);tl.textContent=r.label;
+      let x0=m.l;const tot=r.parts.reduce((a,b)=>a+(b||0),0);
+      r.parts.forEach((v,j)=>{if(!v)return;const w=(v/max)*iw;const wd=Math.max(0,w-2);
+        const rect=el('rect',{x:x0,y:yy,width:wd,height:rowH,rx:j===r.parts.length-1?4:0,style:`fill:${S[j]}`,class:'mark'},svg);
+        bindTip(rect,`<b>${r.label}</b><br>${spec.names[j]}: ${fmt(v,spec.unit)} (${Math.round(v/tot*100)}%)`);
+        if(wd>(spec.pct?34:64)){const t=el('text',{x:x0+8,y:yy+rowH/2+4,class:'inlabel'+(j===2||j===3?' dark':'')},svg);t.textContent=spec.pct?Math.round(v/tot*100)+'%':fmt(v,spec.unit);}
+        x0+=w;});
+      if(!spec.pct){const tt=el('text',{x:x0+6,y:yy+rowH/2+4,class:'vlabel'},svg);tt.textContent=fmt(tot,spec.unit);}
+    });
+    host.appendChild(svg); legend(host,spec.names);
+    table(host,['',...spec.names,'Total'],spec.rows.map(r=>[r.label,...r.parts.map(v=>fmt(v,spec.unit)),fmt(r.parts.reduce((a,b)=>a+(b||0),0),spec.unit)]));
+  }
+
+  /* Horizontal bars, optional ranges [lo,hi] and highlight. spec: {rows:[{label,value,lo,hi,hl,note}], unit, max} */
+  function bars(host,spec){
+    const W=width(host),cmp=W<520,rowH=spec.rowH||22,lh=cmp?18:0,gap=spec.gap||12,m={t:6+lh,r:cmp?100:96,b:6,l:cmp?0:(spec.labelW||150)};const H=m.t+m.b+spec.rows.length*(rowH+gap+lh)-gap-lh;const iw=W-m.l-m.r;
+    const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,role:'img','aria-label':spec.aria||''});
+    const max=spec.max||Math.max(...spec.rows.map(r=>r.hi!=null?r.hi:r.value));const x=v=>m.l+(v/max)*iw;
+    if(!cmp)el('line',{x1:m.l,x2:m.l,y1:0,y2:H,class:'base'},svg);
+    spec.rows.forEach((r,i)=>{const yy=m.t+i*(rowH+gap+lh);const lab=el('text',cmp?{x:0,y:yy-6,class:'tick'+(r.hl?' strong':'')}:{x:m.l-10,y:yy+rowH/2+4,'text-anchor':'end',class:'tick'+(r.hl?' strong':'')},svg);lab.textContent=r.label;
+      const col=r.hl?S[0]:'var(--muted-mark)';
+      if(r.lo!=null){ el('rect',{x:x(r.lo),y:yy+rowH*0.2,width:Math.max(2,x(r.hi)-x(r.lo)),height:rowH*0.6,rx:3,style:`fill:${col};opacity:.35`},svg);
+        el('rect',{x:x(r.value)-1.5,y:yy,width:3,height:rowH,rx:1,style:`fill:${col}`},svg);}
+      else { const w=Math.max(2,x(r.value)-m.l);const rr=Math.min(4,w);el('path',{d:`M${m.l},${yy}H${m.l+w-rr}Q${m.l+w},${yy} ${m.l+w},${yy+rr}V${yy+rowH-rr}Q${m.l+w},${yy+rowH} ${m.l+w-rr},${yy+rowH}H${m.l}Z`,style:`fill:${col}`,class:'mark'},svg);}
+      const vt=el('text',{x:x(r.hi!=null?r.hi:r.value)+8,y:yy+rowH/2+4,class:'vlabel'},svg);vt.textContent=r.text?r.text:r.lo!=null?`${fmt(r.lo,spec.unit)}–${fmt(r.hi,spec.unit)}`:fmt(r.value,spec.unit);
+      const hit=el('rect',{x:0,y:yy-gap/2-lh,width:W,height:rowH+gap+lh,class:'hit'},svg);
+      bindTip(hit,`<b>${r.label}</b><br>${r.text?r.text:r.lo!=null?'Range '+fmt(r.lo,spec.unit)+'–'+fmt(r.hi,spec.unit)+', midpoint '+fmt(r.value,spec.unit):fmt(r.value,spec.unit)}${r.note?'<br><small>'+r.note+'</small>':''}`);
+    });
+    host.appendChild(svg);
+    table(host,['',spec.valueName||'Value',...(spec.rows.some(r=>r.note)?['Note']:[])],spec.rows.map(r=>[r.label,r.text?r.text:r.lo!=null?`${fmt(r.lo,spec.unit)}–${fmt(r.hi,spec.unit)}`:fmt(r.value,spec.unit),...(spec.rows.some(q=>q.note)?[r.note||'']:[])]));
+  }
+
+  window.Viz={columns,line,stack,bars};
+  document.addEventListener('DOMContentLoaded',()=>{ (window.CHARTS||[]).forEach(c=>{const host=document.getElementById(c.id);if(host)Viz[c.type](host.querySelector('.viz-body'),c.spec);}); });
+})();
+</script>
+<script>
+(function(){
+  const btn=document.getElementById('toc-btn'),toc=document.getElementById('toc');
+  btn.addEventListener('click',()=>{const o=toc.classList.toggle('open');btn.setAttribute('aria-expanded',o);});
+  toc.addEventListener('click',e=>{if(e.target.tagName==='A'){toc.classList.remove('open');btn.setAttribute('aria-expanded','false');}});
+  const links=[...toc.querySelectorAll('a')];const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+  if('IntersectionObserver' in window){const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('on'));const a=map.get(e.target.id);if(a)a.classList.add('on');}});},{rootMargin:'-20% 0px -70% 0px'});
+  document.querySelectorAll('section.sec').forEach(s=>io.observe(s));}
+})();
+</script>

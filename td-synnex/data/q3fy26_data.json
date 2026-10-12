@@ -1,0 +1,788 @@
+{
+  "meta": {
+    "company": "TD SYNNEX Corporation (NYSE: SNX)",
+    "fiscal_year_end": "November 30",
+    "as_of": "2026-10-12",
+    "primary_source": "Form 10-Q for the quarter ended Aug 31, 2026 (filed/signed Oct 1, 2026); page numbers refer to printed 10-Q pages",
+    "units": "USD millions unless noted; percentages as numbers (6.61 = 6.61%); EPS in USD per share",
+    "source_labels": {
+      "10-Q": "read directly from the Q3 FY26 10-Q",
+      "10-Q derived": "arithmetic on 10-Q figures only",
+      "derived (10-Q + report/secondary)": "arithmetic mixing 10-Q figures with figures carried from the report/research notes",
+      "report/secondary": "carried from the existing report and research notes (search-excerpt or secondary sourcing, not verified against a filing)"
+    }
+  },
+  "quarterly": {
+    "notes": "Quarterly P&L, Q1 FY25 to Q3 FY26. Q3 FY25 and Q3 FY26 GAAP lines are from the 10-Q income statement (p. 4) and non-GAAP reconciliation (p. 38, 42). Q4 FY25 revenue and cost of revenue are from the 10-Q cash conversion cycle table (p. 43). Q1 FY26 GAAP lines are derived as 10-Q nine-month totals less Q3 (10-Q) less Q2 (report/secondary). Q1/Q2 FY25 revenue is derived from 10-Q H1 FY25 revenue ($29,478.0M) and the secondary Q2 FY26 growth rate (+31.0%). Gross billings (non-GAAP) never appear in the 10-Q; all billings values are report/secondary (8-K and supplemental via search excerpts). gross_margin_pct = gross_profit / revenue. Field 'source' names the dominant source; 'source_detail' lists exceptions.",
+    "data": [
+      {
+        "period": "Q1 FY25",
+        "period_end": "2025-02-28",
+        "revenue": 14535.3,
+        "gross_profit": null,
+        "gross_margin_pct": null,
+        "operating_income_gaap": null,
+        "operating_income_nongaap": null,
+        "net_income": null,
+        "diluted_eps_gaap": null,
+        "gross_billings_nongaap": 20700,
+        "nongaap_eps": 2.8,
+        "source": "report/secondary",
+        "source_detail": "revenue derived (10-Q H1 FY25 less derived Q2 FY25); billings and non-GAAP EPS from report/notes"
+      },
+      {
+        "period": "Q2 FY25",
+        "period_end": "2025-05-31",
+        "revenue": 14942.7,
+        "gross_profit": 1046.0,
+        "gross_margin_pct": 7.0,
+        "operating_income_gaap": null,
+        "operating_income_nongaap": null,
+        "net_income": null,
+        "diluted_eps_gaap": null,
+        "gross_billings_nongaap": 21600,
+        "nongaap_eps": 2.99,
+        "source": "report/secondary",
+        "source_detail": "revenue derived from Q2 FY26 revenue $19,575M / 1.31 (secondary growth rate); gross margin 7.00% from report; gross profit derived"
+      },
+      {
+        "period": "Q3 FY25",
+        "period_end": "2025-08-31",
+        "revenue": 15650.9,
+        "gross_profit": 1129.9,
+        "gross_margin_pct": 7.22,
+        "operating_income_gaap": 383.7,
+        "operating_income_nongaap": 474.9,
+        "net_income": 226.8,
+        "diluted_eps_gaap": 2.74,
+        "gross_billings_nongaap": 22700,
+        "nongaap_eps": 3.58,
+        "source": "10-Q",
+        "source_detail": "all GAAP and non-GAAP lines 10-Q p. 4, 38, 42; gross billings report/secondary"
+      },
+      {
+        "period": "Q4 FY25",
+        "period_end": "2025-11-30",
+        "revenue": 17379.1,
+        "gross_profit": 1194.8,
+        "gross_margin_pct": 6.87,
+        "operating_income_gaap": null,
+        "operating_income_nongaap": 497,
+        "net_income": 248.4,
+        "diluted_eps_gaap": 3.04,
+        "gross_billings_nongaap": 24300,
+        "nongaap_eps": 3.83,
+        "source": "10-Q (revenue, gross profit) + report/secondary",
+        "source_detail": "revenue and cost of revenue from 10-Q p. 43; net income derived as FY25 $827.7M (report/secondary) less 10-Q 9M FY25 $579.3M; EPS, non-GAAP OI and billings report/secondary"
+      },
+      {
+        "period": "Q1 FY26",
+        "period_end": "2026-02-28",
+        "revenue": 17161.0,
+        "gross_profit": 1252.7,
+        "gross_margin_pct": 7.3,
+        "operating_income_gaap": 489.7,
+        "operating_income_nongaap": 589.6,
+        "net_income": 327.0,
+        "diluted_eps_gaap": 4.04,
+        "gross_billings_nongaap": 25800,
+        "nongaap_eps": 4.73,
+        "source": "derived (10-Q + report/secondary)",
+        "source_detail": "10-Q 9M FY26 less 10-Q Q3 FY26 less Q2 FY26 report values; gross profit uses Q2 GM 6.84% (secondary) so Q1 GM is low-confidence; EPS and billings report/secondary (EPS sum reconciles to 10-Q 9M EPS)"
+      },
+      {
+        "period": "Q2 FY26",
+        "period_end": "2026-05-31",
+        "revenue": 19575,
+        "gross_profit": 1339.0,
+        "gross_margin_pct": 6.84,
+        "operating_income_gaap": 519,
+        "operating_income_nongaap": 615,
+        "net_income": 334,
+        "diluted_eps_gaap": 4.15,
+        "gross_billings_nongaap": 28900,
+        "nongaap_eps": 4.85,
+        "source": "report/secondary",
+        "source_detail": "Q2 FY26 8-K via search excerpts; gross profit derived from 6.84% margin; H1 totals reconcile to 10-Q 9M less Q3"
+      },
+      {
+        "period": "Q3 FY26",
+        "period_end": "2026-08-31",
+        "revenue": 21558.4,
+        "gross_profit": 1425.4,
+        "gross_margin_pct": 6.61,
+        "operating_income_gaap": 642.9,
+        "operating_income_nongaap": 736.4,
+        "net_income": 416.2,
+        "diluted_eps_gaap": 5.18,
+        "gross_billings_nongaap": 31800,
+        "nongaap_eps": 5.68,
+        "source": "10-Q",
+        "source_detail": "10-Q p. 4, 38, 42; gross billings report/secondary (8-K)"
+      }
+    ]
+  },
+  "half_year_derived": {
+    "notes": "10-Q derived: nine-month totals (p. 4, 38) less Q3 (p. 4, 38). Useful to check quarterly carry-overs.",
+    "H1_FY26": {
+      "revenue": 36736.0,
+      "gross_profit": 2591.6,
+      "operating_income_gaap": 1008.7,
+      "operating_income_nongaap": 1204.6,
+      "net_income": 661.0
+    },
+    "H1_FY25": {
+      "revenue": 29478.0,
+      "gross_profit": 2044.4,
+      "operating_income_gaap": 632.6,
+      "operating_income_nongaap": 812.8,
+      "net_income": 352.5
+    }
+  },
+  "annual": {
+    "notes": "FY2024 values are report/secondary (10-K and Q4 FY24/FY25 releases via search excerpts). FY2025 revenue is confirmed by 10-Q arithmetic (9M FY25 $45,128.9M + Q4 FY25 $17,379.1M from p. 4 and p. 43) and gross margin 6.99% likewise; FY2025 gross billings and non-GAAP operating income are report/secondary (non-GAAP OI is consistent with 10-Q 9M FY25 $1,287.8M + Q4 $497M = $1,784.8M). FY2026 implied = Q1-Q3 plus Q4 guidance midpoint (guidance from report/secondary).",
+    "data": [
+      {
+        "fiscal_year": "FY2024",
+        "period_end": "2024-11-30",
+        "revenue": 58452.4,
+        "gross_billings_nongaap": 80065.0,
+        "operating_income_nongaap": 1630,
+        "gross_margin_pct": null,
+        "source": "report/secondary"
+      },
+      {
+        "fiscal_year": "FY2025",
+        "period_end": "2025-11-30",
+        "revenue": 62508.1,
+        "gross_billings_nongaap": 89423.9,
+        "operating_income_nongaap": 1780,
+        "operating_income_nongaap_10q_consistent_derived": 1784.8,
+        "gross_margin_pct": 6.99,
+        "nongaap_eps_derived_sum": 13.2,
+        "source": "10-Q derived (revenue, gross margin); report/secondary (billings, non-GAAP OI)"
+      },
+      {
+        "fiscal_year": "FY2026 implied",
+        "period_end": "2026-11-30",
+        "revenue": 80494,
+        "gross_billings_nongaap": 118400,
+        "operating_income_nongaap": null,
+        "gross_margin_pct": null,
+        "source": "derived (10-Q + report/secondary)",
+        "source_detail": "revenue = 10-Q 9M $58,294M + Q4 guidance midpoint $22,200M; billings = 25.8+28.9+31.8+31.9 (guide midpoint), all secondary"
+      }
+    ]
+  },
+  "segments_q3": {
+    "notes": "Source: 10-Q Note 11 (p. 26-27) and MD&A non-GAAP reconciliations (p. 38-40). Three months ended Aug 31. Margins are % of segment revenue (GAAP revenue, not billings). Non-GAAP operating income excludes acquisition/integration/restructuring costs, amortization of intangibles and share-based compensation. Prior period recast to the FY26 four-segment structure (Hyve no longer inside Americas). Distribution subtotal is 10-Q derived.",
+    "Q3_FY26": {
+      "Americas": {
+        "revenue": 10319.4,
+        "gross_profit": 657.8,
+        "gross_margin_pct": 6.37,
+        "operating_income_gaap": 255.4,
+        "operating_margin_gaap_pct": 2.47,
+        "operating_income_nongaap": 305.6,
+        "operating_margin_nongaap_pct": 2.96
+      },
+      "Europe": {
+        "revenue": 6366.0,
+        "gross_profit": 414.7,
+        "gross_margin_pct": 6.51,
+        "operating_income_gaap": 117.5,
+        "operating_margin_gaap_pct": 1.85,
+        "operating_income_nongaap": 155.3,
+        "operating_margin_nongaap_pct": 2.44
+      },
+      "APJ": {
+        "revenue": 1071.0,
+        "gross_profit": 77.2,
+        "gross_margin_pct": 7.21,
+        "operating_income_gaap": 20.6,
+        "operating_margin_gaap_pct": 1.92,
+        "operating_income_nongaap": 22.6,
+        "operating_margin_nongaap_pct": 2.11
+      },
+      "Hyve": {
+        "revenue": 3802.0,
+        "gross_profit": 275.7,
+        "gross_margin_pct": 7.25,
+        "operating_income_gaap": 249.4,
+        "operating_margin_gaap_pct": 6.56,
+        "operating_income_nongaap": 253.0,
+        "operating_margin_nongaap_pct": 6.65
+      },
+      "Total": {
+        "revenue": 21558.4,
+        "gross_profit": 1425.4,
+        "gross_margin_pct": 6.61,
+        "operating_income_gaap": 642.9,
+        "operating_margin_gaap_pct": 2.98,
+        "operating_income_nongaap": 736.4,
+        "operating_margin_nongaap_pct": 3.42
+      },
+      "Distribution_subtotal_derived": {
+        "revenue": 17756.4,
+        "gross_profit": 1149.7,
+        "gross_margin_pct": 6.47,
+        "operating_income_gaap": 393.5,
+        "operating_margin_gaap_pct": 2.22,
+        "operating_income_nongaap": 483.5,
+        "operating_margin_nongaap_pct": 2.72
+      }
+    },
+    "Q3_FY25": {
+      "Americas": {
+        "revenue": 7376.5,
+        "gross_profit": 558.6,
+        "gross_margin_pct": 7.57,
+        "operating_income_gaap": 172.7,
+        "operating_margin_gaap_pct": 2.34,
+        "operating_income_nongaap": 224.4,
+        "operating_margin_nongaap_pct": 3.04
+      },
+      "Europe": {
+        "revenue": 4888.6,
+        "gross_profit": 315.5,
+        "gross_margin_pct": 6.45,
+        "operating_income_gaap": 34.9,
+        "operating_margin_gaap_pct": 0.71,
+        "operating_income_nongaap": 71.8,
+        "operating_margin_nongaap_pct": 1.47
+      },
+      "APJ": {
+        "revenue": 880.4,
+        "gross_profit": 68.1,
+        "gross_margin_pct": 7.74,
+        "operating_income_gaap": 14.6,
+        "operating_margin_gaap_pct": 1.66,
+        "operating_income_nongaap": 16.4,
+        "operating_margin_nongaap_pct": 1.86
+      },
+      "Hyve": {
+        "revenue": 2505.5,
+        "gross_profit": 187.6,
+        "gross_margin_pct": 7.49,
+        "operating_income_gaap": 161.5,
+        "operating_margin_gaap_pct": 6.45,
+        "operating_income_nongaap": 162.3,
+        "operating_margin_nongaap_pct": 6.48
+      },
+      "Total": {
+        "revenue": 15650.9,
+        "gross_profit": 1129.9,
+        "gross_margin_pct": 7.22,
+        "operating_income_gaap": 383.7,
+        "operating_margin_gaap_pct": 2.45,
+        "operating_income_nongaap": 474.9,
+        "operating_margin_nongaap_pct": 3.03
+      },
+      "Distribution_subtotal_derived": {
+        "revenue": 13145.5,
+        "gross_profit": 942.2,
+        "gross_margin_pct": 7.17,
+        "operating_income_gaap": 222.2,
+        "operating_margin_gaap_pct": 1.69,
+        "operating_income_nongaap": 312.6,
+        "operating_margin_nongaap_pct": 2.38
+      }
+    }
+  },
+  "segments_9m": {
+    "notes": "Source: 10-Q Note 11 (p. 27-28) and MD&A (p. 38-40). Nine months ended Aug 31. Same definitions as segments_q3.",
+    "9M_FY26": {
+      "Americas": {
+        "revenue": 27638.2,
+        "gross_profit": 1907.1,
+        "gross_margin_pct": 6.9,
+        "operating_income_gaap": 694.8,
+        "operating_margin_gaap_pct": 2.51,
+        "operating_income_nongaap": 853.2,
+        "operating_margin_nongaap_pct": 3.09
+      },
+      "Europe": {
+        "revenue": 18646.9,
+        "gross_profit": 1220.1,
+        "gross_margin_pct": 6.54,
+        "operating_income_gaap": 297.5,
+        "operating_margin_gaap_pct": 1.6,
+        "operating_income_nongaap": 412.7,
+        "operating_margin_nongaap_pct": 2.21
+      },
+      "APJ": {
+        "revenue": 3090.8,
+        "gross_profit": 241.0,
+        "gross_margin_pct": 7.8,
+        "operating_income_gaap": 75.6,
+        "operating_margin_gaap_pct": 2.45,
+        "operating_income_nongaap": 82.2,
+        "operating_margin_nongaap_pct": 2.66
+      },
+      "Hyve": {
+        "revenue": 8918.5,
+        "gross_profit": 648.9,
+        "gross_margin_pct": 7.28,
+        "operating_income_gaap": 583.7,
+        "operating_margin_gaap_pct": 6.54,
+        "operating_income_nongaap": 592.9,
+        "operating_margin_nongaap_pct": 6.65
+      },
+      "Total": {
+        "revenue": 58294.4,
+        "gross_profit": 4017.0,
+        "gross_margin_pct": 6.89,
+        "operating_income_gaap": 1651.6,
+        "operating_margin_gaap_pct": 2.83,
+        "operating_income_nongaap": 1941.0,
+        "operating_margin_nongaap_pct": 3.33
+      },
+      "Distribution_subtotal_derived": {
+        "revenue": 49375.9,
+        "gross_profit": 3368.2,
+        "gross_margin_pct": 6.82,
+        "operating_income_gaap": 1067.9,
+        "operating_margin_gaap_pct": 2.16,
+        "operating_income_nongaap": 1348.1,
+        "operating_margin_nongaap_pct": 2.73
+      }
+    },
+    "9M_FY25": {
+      "Americas": {
+        "revenue": 21933.6,
+        "gross_profit": 1610.9,
+        "gross_margin_pct": 7.34,
+        "operating_income_gaap": 487.8,
+        "operating_margin_gaap_pct": 2.22,
+        "operating_income_nongaap": 639.4,
+        "operating_margin_nongaap_pct": 2.92
+      },
+      "Europe": {
+        "revenue": 14523.4,
+        "gross_profit": 953.2,
+        "gross_margin_pct": 6.56,
+        "operating_income_gaap": 135.7,
+        "operating_margin_gaap_pct": 0.93,
+        "operating_income_nongaap": 245.7,
+        "operating_margin_nongaap_pct": 1.69
+      },
+      "APJ": {
+        "revenue": 2444.4,
+        "gross_profit": 190.3,
+        "gross_margin_pct": 7.79,
+        "operating_income_gaap": 42.9,
+        "operating_margin_gaap_pct": 1.76,
+        "operating_income_nongaap": 48.7,
+        "operating_margin_nongaap_pct": 1.99
+      },
+      "Hyve": {
+        "revenue": 6227.6,
+        "gross_profit": 419.9,
+        "gross_margin_pct": 6.74,
+        "operating_income_gaap": 349.9,
+        "operating_margin_gaap_pct": 5.62,
+        "operating_income_nongaap": 354.0,
+        "operating_margin_nongaap_pct": 5.68
+      },
+      "Total": {
+        "revenue": 45128.9,
+        "gross_profit": 3174.2,
+        "gross_margin_pct": 7.03,
+        "operating_income_gaap": 1016.3,
+        "operating_margin_gaap_pct": 2.25,
+        "operating_income_nongaap": 1287.8,
+        "operating_margin_nongaap_pct": 2.85
+      },
+      "Distribution_subtotal_derived": {
+        "revenue": 38901.4,
+        "gross_profit": 2754.4,
+        "gross_margin_pct": 7.08,
+        "operating_income_gaap": 666.4,
+        "operating_margin_gaap_pct": 1.71,
+        "operating_income_nongaap": 933.8,
+        "operating_margin_nongaap_pct": 2.4
+      }
+    }
+  },
+  "product_mix": {
+    "notes": "The 10-Q does NOT disclose Endpoint Solutions or Advanced Solutions revenue or billings in dollars, in total or by segment (it disaggregates revenue only by reportable segment, p. 10). Endpoint/Advanced values below are report/secondary (Q3 FY26 company supplemental/call via search excerpts; Q3 FY25 back-calculated from reported growth rates). Hyve revenue and Distribution revenue are 10-Q. Hyve gross billings are report/secondary (supplemental tables via search excerpts). Advanced Solutions excludes Hyve throughout. By-segment portfolio split: not disclosed (null).",
+    "Q3_FY26": {
+      "revenue": {
+        "endpoint": null,
+        "advanced_ex_hyve": null,
+        "distribution_total": 17756.4,
+        "hyve": 3802.0,
+        "source": "10-Q"
+      },
+      "gross_billings": {
+        "endpoint": 10300,
+        "advanced_ex_hyve": 14500,
+        "distribution_total": 24800,
+        "hyve": 7008.2,
+        "total": 31800,
+        "source": "report/secondary"
+      },
+      "hyve_revenue_to_billings_pct": 54.3,
+      "growth_billings_pct": {
+        "endpoint": 16,
+        "advanced_ex_hyve": 37,
+        "hyve": 117.5,
+        "total": 40.0
+      }
+    },
+    "Q3_FY25": {
+      "revenue": {
+        "endpoint": null,
+        "advanced_ex_hyve": null,
+        "distribution_total": 13145.5,
+        "hyve": 2505.5,
+        "source": "10-Q"
+      },
+      "gross_billings": {
+        "endpoint": 8880,
+        "advanced_ex_hyve": 10580,
+        "distribution_total": 19460,
+        "hyve": 3222.2,
+        "total": 22700,
+        "source": "report/secondary (endpoint/advanced back-calculated)"
+      },
+      "hyve_revenue_to_billings_pct": 77.8
+    },
+    "9M_FY26": {
+      "revenue": {
+        "endpoint": null,
+        "advanced_ex_hyve": null,
+        "distribution_total": 49375.9,
+        "hyve": 8918.5,
+        "source": "10-Q"
+      },
+      "gross_billings": {
+        "endpoint": null,
+        "advanced_ex_hyve": null,
+        "distribution_total": null,
+        "hyve": 16292,
+        "total": 86500,
+        "source": "report/secondary (sum of quarters)"
+      }
+    },
+    "9M_FY25": {
+      "revenue": {
+        "endpoint": null,
+        "advanced_ex_hyve": null,
+        "distribution_total": 38901.4,
+        "hyve": 6227.6,
+        "source": "10-Q"
+      },
+      "gross_billings": {
+        "endpoint": null,
+        "advanced_ex_hyve": null,
+        "distribution_total": null,
+        "hyve": 7703,
+        "total": 65000,
+        "source": "report/secondary (sum of quarters)"
+      }
+    },
+    "net_presentation_effect_on_revenue_growth_pts": {
+      "notes": "10-Q MD&A p. 35-36: approximate percentage-point effect of gross vs net presentation on revenue growth vs prior year. Negative = more revenue presented net.",
+      "Q3_FY26": {
+        "consolidated": -2,
+        "Americas": 12,
+        "Europe": 4,
+        "APJ": -4,
+        "Hyve": -66
+      },
+      "9M_FY26": {
+        "consolidated": -4,
+        "Americas": 6,
+        "Europe": 4,
+        "APJ": -2,
+        "Hyve": -68
+      }
+    }
+  },
+  "cash_flow_9m": {
+    "notes": "Source: 10-Q consolidated statements of cash flows (p. 7) and MD&A (p. 44). Nine months ended Aug 31. Outflows negative. free_cash_flow is 10-Q derived (operating cash flow less purchases of property and equipment); the 10-Q does not define FCF or give quarterly cash flows. buybacks exclude tax-withholding repurchases (shown separately).",
+    "9M_FY26": {
+      "operating_cash_flow": -2078.2,
+      "capex": -158.9,
+      "free_cash_flow_derived": -2237.0,
+      "acquisitions_net_of_cash": -7.8,
+      "buybacks": -292.4,
+      "tax_withholding_repurchases": -7.5,
+      "dividends_paid": -115.6,
+      "net_borrowings_short_term": 1638.5,
+      "long_term_debt_repaid": -714.8,
+      "change_inventories": -5783.6,
+      "change_receivables": -3276.8,
+      "change_payables": 4797.8,
+      "net_change_in_cash": -1686.1
+    },
+    "9M_FY25": {
+      "operating_cash_flow": 71.3,
+      "capex": -104.0,
+      "free_cash_flow_derived": -32.7,
+      "acquisitions_net_of_cash": -77.5,
+      "buybacks": -423.1,
+      "tax_withholding_repurchases": -9.3,
+      "dividends_paid": -110.4,
+      "net_borrowings_short_term": 345.1,
+      "long_term_debt_repaid": -15.5,
+      "change_inventories": -654.5,
+      "change_receivables": -266.2,
+      "change_payables": 135.8,
+      "net_change_in_cash": -185.0
+    },
+    "Q3_FY26_secondary": {
+      "free_cash_flow": -975.6,
+      "source": "report/secondary (not verifiable from 10-Q)"
+    },
+    "Q2_FY26_secondary": {
+      "free_cash_flow": -330,
+      "source": "report/secondary, AI-generated summary (not verifiable from 10-Q)"
+    }
+  },
+  "balance_sheet": {
+    "notes": "Source: 10-Q consolidated balance sheets (p. 3), cash conversion cycle table (p. 43) for Aug 31, 2025 working-capital items, and Note 9 (p. 22). total_debt = current borrowings + long-term borrowings (carrying value). net_debt and trade_working_capital (AR + inventory - AP) are 10-Q derived.",
+    "2026-08-31": {
+      "cash": 749.3,
+      "accounts_receivable": 14953.8,
+      "receivables_from_vendors": 915.4,
+      "inventory": 15291.6,
+      "accounts_payable": 22442.9,
+      "borrowings_current": 1926.4,
+      "borrowings_long_term": 3595.3,
+      "total_debt": 5521.7,
+      "net_debt_derived": 4772.4,
+      "equity": 9301.8,
+      "total_assets": 41844.5,
+      "trade_working_capital_derived": 7802.5,
+      "receivables_sold_off_balance_sheet": 2100,
+      "supplier_finance_obligations_in_ap": 3500
+    },
+    "2025-11-30": {
+      "cash": 2435.4,
+      "accounts_receivable": 11707.6,
+      "receivables_from_vendors": 972.7,
+      "inventory": 9504.3,
+      "accounts_payable": 17624.3,
+      "borrowings_current": 1018.3,
+      "borrowings_long_term": 3592.1,
+      "total_debt": 4610.5,
+      "net_debt_derived": 2175.1,
+      "equity": 8450.4,
+      "total_assets": 34250.9,
+      "trade_working_capital_derived": 3587.7,
+      "receivables_sold_off_balance_sheet": 1800,
+      "supplier_finance_obligations_in_ap": 3700
+    },
+    "2025-08-31": {
+      "cash": 874.4,
+      "accounts_receivable": 10925.1,
+      "inventory": 9137.5,
+      "accounts_payable": 15651.3,
+      "equity": 8453.8,
+      "trade_working_capital_derived": 4411.3
+    }
+  },
+  "working_capital_days": {
+    "notes": "Source: 10-Q MD&A cash conversion cycle table (p. 43); company definition uses the last fiscal quarter's revenue/cost of revenue.",
+    "data": [
+      {
+        "date": "2025-08-31",
+        "dso": 64,
+        "dio": 58,
+        "dpo": 99,
+        "ccc": 23
+      },
+      {
+        "date": "2025-11-30",
+        "dso": 61,
+        "dio": 53,
+        "dpo": 98,
+        "ccc": 16
+      },
+      {
+        "date": "2026-08-31",
+        "dso": 64,
+        "dio": 70,
+        "dpo": 103,
+        "ccc": 31
+      }
+    ]
+  },
+  "debt_facilities_2026_08_31": {
+    "notes": "Source: 10-Q Note 9 (p. 22-25) and MD&A (p. 44-45). Amounts outstanding in USD millions; capacity as stated.",
+    "us_ar_securitization": {
+      "outstanding": 1500.0,
+      "rate_pct": 4.69,
+      "capacity": 1500,
+      "maturity": "2028-01-20",
+      "amended_2026_09_25": {
+        "capacity": 3000,
+        "maturity": "2028-09-25"
+      }
+    },
+    "europe_ar_securitization": {
+      "outstanding": 0,
+      "capacity_eur": 650,
+      "start": "2026-06-26",
+      "scheduled_amortization": "2028-06-25"
+    },
+    "revolving_credit_facility": {
+      "outstanding": 0,
+      "capacity": 3500,
+      "maturity": "2029-04-16"
+    },
+    "term_loan_2024": {
+      "outstanding": 750.0,
+      "rate_pct": 5.04,
+      "maturity": "2027-09-01"
+    },
+    "senior_notes": {
+      "outstanding": 2850.0,
+      "fair_value": 2700,
+      "repaid_aug_2026": 700.0
+    },
+    "other_short_term": {
+      "outstanding": 426.4,
+      "rate_pct": 6.5,
+      "capacity": 905.6
+    }
+  },
+  "capital_returns": {
+    "notes": "Source: 10-Q p. 6, 7, 15, 46-47. Q3 FY26 share count conflict: MD&A p. 46 says 972K shares for $100.3M; Part II table p. 47 says 388K shares at $258.14 average (~$100.2M). 388K is consistent with the dollar amount.",
+    "Q3_FY26": {
+      "buybacks": 100.3,
+      "dividends_declared": 38.4,
+      "dividend_per_share": 0.48,
+      "shares_repurchased_k_part2_table": 388,
+      "avg_price_part2_table": 258.14
+    },
+    "Q3_FY25": {
+      "buybacks": 173.8,
+      "dividends_declared": 36.3,
+      "dividend_per_share": 0.44
+    },
+    "9M_FY26": {
+      "buybacks": 292.4,
+      "shares_repurchased_k": 1484,
+      "avg_price": 197.05,
+      "dividends_paid": 115.6
+    },
+    "remaining_authorization_2026_08_31": 895.6
+  },
+  "concentration": {
+    "notes": "Source: 10-Q Note 2 (p. 9-10). Percent of consolidated revenue. null = below the 10% disclosure threshold (shown 'N/A' in the 10-Q). The customer is not named. No customer >10% of accounts receivable at Aug 31, 2026 or Nov 30, 2025. FY2025 full-year values are report/secondary (FY2025 10-K via search excerpt).",
+    "vendors": {
+      "Apple": {
+        "Q3_FY26": null,
+        "Q3_FY25": 11,
+        "9M_FY26": 10,
+        "9M_FY25": 12,
+        "FY2025_secondary": 12
+      },
+      "HP Inc.": {
+        "Q3_FY26": null,
+        "Q3_FY25": 10,
+        "9M_FY26": null,
+        "9M_FY25": 10,
+        "FY2025_secondary": 10
+      }
+    },
+    "largest_customer": {
+      "Q3_FY26": null,
+      "Q3_FY25": 11,
+      "9M_FY26": null,
+      "9M_FY25": 11,
+      "FY2025_secondary": 11
+    }
+  },
+  "amazon_warrant": {
+    "notes": "Source: 10-Q Notes 2, 3, 5 (p. 11, 14, 16) and Part II Item 2 (p. 47). Values in shares or USD as labelled (not millions unless stated).",
+    "holder": "Amazon.com NV Investment Holdings LLC",
+    "issued": "2026-05-30",
+    "expires": "2033-05-30",
+    "total_shares": 3238066,
+    "vested_immediately_shares": 215871,
+    "vested_exercise_price_usd": 0.01,
+    "performance_shares": 3022195,
+    "performance_exercise_price_usd": 191.1,
+    "fair_value_per_vested_share_usd": 246.19,
+    "fair_value_per_performance_share_usd": 116.15,
+    "revenue_reduction_q3_fy26_musd": 14.5,
+    "apic_increase_q3_fy26_musd": 65.7,
+    "potential_dilution_pct_of_outstanding_derived": 4.1
+  },
+  "estimates": {
+    "notes": "ESTIMATES ONLY, carried from the report/research notes (source: report/secondary). Research team's own triangulation of FY2025 gross billings by product category; no company, broker or analyst disclosure exists and the 10-Q does not address product categories. Ranges in USD millions; shares in % of ~$89.4B FY2025 gross billings. Hyve is the only reported anchor.",
+    "fiscal_year": "FY2025",
+    "basis": "gross billings",
+    "source": "report/secondary",
+    "categories": [
+      {
+        "category": "PCs (notebooks, desktops, Mac, Chromebooks)",
+        "low": 18000,
+        "high": 21000,
+        "share_low_pct": 20,
+        "share_high_pct": 23,
+        "confidence": "low"
+      },
+      {
+        "category": "Mobile (phones, tablets)",
+        "low": 5000,
+        "high": 7000,
+        "share_low_pct": 6,
+        "share_high_pct": 8,
+        "confidence": "low"
+      },
+      {
+        "category": "Peripherals, printers, supplies, accessories, consumer electronics, endpoint software",
+        "low": 8000,
+        "high": 10000,
+        "share_low_pct": 9,
+        "share_high_pct": 11,
+        "confidence": "low"
+      },
+      {
+        "category": "Software, SaaS, cloud marketplaces, security software",
+        "low": 15000,
+        "high": 22000,
+        "share_low_pct": 17,
+        "share_high_pct": 25,
+        "confidence": "very low"
+      },
+      {
+        "category": "Servers, storage, networking, converged infrastructure (non-Hyve)",
+        "low": 20000,
+        "high": 27000,
+        "share_low_pct": 22,
+        "share_high_pct": 30,
+        "confidence": "very low"
+      },
+      {
+        "category": "Hyve (hyperscale ODM/AI racks)",
+        "low": 11400,
+        "high": 11400,
+        "share_low_pct": 12.7,
+        "share_high_pct": 12.7,
+        "confidence": "high (sum of reported quarterly billings)"
+      }
+    ],
+    "portfolio_fy2025_billings_estimate": {
+      "endpoint": {
+        "low": 35000,
+        "high": 36000
+      },
+      "advanced_ex_hyve": {
+        "low": 42000,
+        "high": 43000
+      },
+      "hyve": 11400
+    },
+    "portfolio_fy2025_revenue_share_estimate_pct": {
+      "endpoint": "~50-54",
+      "advanced_ex_hyve": "~32-36",
+      "hyve": "~14 (corrected: Hyve was 13.8% of 9M FY25 revenue per 10-Q; earlier estimate of ~10% was too low)"
+    }
+  }
+}
