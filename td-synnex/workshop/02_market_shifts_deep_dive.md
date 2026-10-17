@@ -271,7 +271,7 @@ The same logic is moving through partner programs. Vendors are redesigning incen
 
 ### Where TD SYNNEX stands
 
-- **Assets.** Global footprint in 100+ countries; top awards from HPE, Cisco, NVIDIA, Microsoft, Dell, Lenovo and Google Cloud; a $2,000-vendor portfolio; Siemens added as a global distribution partner in October 2026.
+- **Assets.** Global footprint in 100+ countries; top awards from HPE, Cisco, NVIDIA, Microsoft, Dell, Lenovo and Google Cloud; a portfolio of more than 2,500 vendors; Siemens added as a global distribution partner in October 2026.
 - **Gaps.** No visible data or analytics product sold to vendors. The CEO has said TD SYNNEX lacks some cybersecurity vendors in Europe. Ingram has more visible platform metrics.
 
 ### What it means for sales and go-to-market
